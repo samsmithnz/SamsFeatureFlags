@@ -14,9 +14,4 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
-      run: dotnet build --configuration Release
-      projects: |
-        FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj
-        FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj
-        FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj
-      arguments: '--configuration Release'
+      run: dotnet build --configuration Release FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
