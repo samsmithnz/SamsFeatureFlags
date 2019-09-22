@@ -15,3 +15,6 @@ jobs:
         dotnet-version: 2.2.108
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
+    - name: Unit Tests
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration $(buildConfiguration) --logger trx --collect "Code coverage" --settings:$(Build.SourcesDirectory)\FeatureFlags\FeatureFlags.Tests\CodeCoverage.runsettings'
+
