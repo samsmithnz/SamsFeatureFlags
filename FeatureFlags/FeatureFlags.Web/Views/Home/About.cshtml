@@ -1,0 +1,47 @@
+﻿@using System.Reflection;
+@using  System.IO;
+@{
+    ViewData["Title"] = "About";
+
+    //OS platform
+    string osPlatform = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+
+    //.NET core version
+    string aspDotnetVersion = Assembly
+        .GetEntryAssembly()?
+        .GetCustomAttribute<System.Runtime.Versioning.TargetFrameworkAttribute>()?
+        .FrameworkName;
+
+    //Application version
+    string appVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+
+    //Application last build time
+    const int peHeaderOffset = 60;
+    const int linkerTimestampOffset = 8;
+    byte[] bytes = new byte[2048];
+    using (FileStream file = new FileStream(Assembly.GetEntryAssembly().Location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+    {
+        file.Read(bytes, 0, bytes.Length);
+    }
+    Int32 headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
+    Int32 secondsSince1970 = BitConverter.ToInt32(bytes, headerPos + linkerTimestampOffset);
+    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    DateTime dateTimeUTC = dt.AddSeconds(secondsSince1970);
+    DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(dateTimeUTC, TimeZoneInfo.Local);
+    string applicationLastBuildTime = localTime.ToString("dd-MMM-yyyy hh:mm:sstt") + " " + TimeZoneInfo.Local.Id;
+
+    //Kenny's Application last build time code
+    DateTime dateTimeUTC2 = new DateTime(File.GetLastWriteTime(Assembly.GetEntryAssembly().Location).Ticks, DateTimeKind.Unspecified);
+    DateTime localTime2 = TimeZoneInfo.ConvertTimeFromUtc(dateTimeUTC2, TimeZoneInfo.Local);
+    string applicationLastBuildTime2 = localTime2.ToString("dd-MMM-yyyy hh:mm:sstt");
+}
+<h1>@ViewData["Title"]</h1>
+
+<span><strong>OS Platform:</strong> @osPlatform</span>
+<br />
+<span><strong>ASP.NET Core version:</strong> @aspDotnetVersion</span>
+<br />
+<span><strong>Current application version:</strong> @appVersion (Last built: @applicationLastBuildTime)</span>
+<br />
+<span><strong>Kennys application version:</strong> @appVersion (Last built: @applicationLastBuildTime2)</span>
+
