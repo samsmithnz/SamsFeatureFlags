@@ -2,10 +2,15 @@ name: ASP.NET Core CI
 
 on: [push]
 
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'Any CPU'
+  buildNumber: '1.0.0.0'
+
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
     - uses: actions/checkout@v1
@@ -15,3 +20,8 @@ jobs:
         dotnet-version: 2.2.108
     - name: Build with dotnet
       run: dotnet build --configuration Release
+      projects: |
+        FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj
+        FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj
+        FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj
+      arguments: '--configuration $(buildConfiguration)'
