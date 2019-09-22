@@ -1,7 +1,5 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
-
-As part of a [series of blog posts about Feature Flags](https://samlearnsazure.blog/2019/09/13/implementing-feature-flags/), we decided to make our our custom Feature flags system. 
+As part of a [series of blog posts about Feature Flags](https://samlearnsazure.blog/2019/09/13/implementing-feature-flags/), we decided to make our own custom Feature flags system. 
 Our main application will call our feature flags service, asking for the state of particular feature flags based on their environment – for example, if we were implementing a new menu and wanted to use the feature flag in dev, the dev website will ask if the dev version of the new menu feature flag is enabled.
 
 # Getting Started
