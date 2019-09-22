@@ -8,12 +8,5 @@ Our main application will call our feature flags service, asking for the state o
 Uses dotnet core 2.2 and ms test v2. A GitHub action currently builds the code and runs the tests. 
 ![](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
-
 # Contribute
-Feel free to fork and/or add any relevant features!  
+Feel free to fork and/or add any relevant feature suggestions, bug reports, or features!  
