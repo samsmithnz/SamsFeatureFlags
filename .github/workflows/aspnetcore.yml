@@ -2,11 +2,6 @@ name: ASP.NET Core CI
 
 on: [push]
 
-variables:
-  buildConfiguration: 'Release'
-  buildPlatform: 'Any CPU'
-  buildNumber: '1.0.0.0'
-
 jobs:
   build:
 
@@ -24,4 +19,4 @@ jobs:
         FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj
         FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj
         FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj
-      arguments: '--configuration $(buildConfiguration)'
+      arguments: '--configuration Release'
