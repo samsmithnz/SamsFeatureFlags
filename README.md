@@ -1,3 +1,7 @@
+![](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg)
+![](https://github.com/samsmithnz/FeatureFlags/workflows/ASP.NET%20Core%20CI/badge.svg)
+![](https://github.com/samsmithnz/FeatureFlags/workflows/.github/workflows/aspnetcore.yml/badge.svg)
+
 # Introduction 
 TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
 
