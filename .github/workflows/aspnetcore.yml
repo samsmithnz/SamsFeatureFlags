@@ -1,4 +1,4 @@
-name: ASP.NET Core CI
+name: "Feature Flags CI/CD"
 
 on: [push]
 
@@ -16,5 +16,5 @@ jobs:
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Unit Tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration $(buildConfiguration) --logger trx --collect "Code coverage" --settings:$(Build.SourcesDirectory)\FeatureFlags\FeatureFlags.Tests\CodeCoverage.runsettings
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration $(buildConfiguration) --logger trx --collect "Code coverage" --settings:FeatureFlags\FeatureFlags.Tests\CodeCoverage.runsettings
 
