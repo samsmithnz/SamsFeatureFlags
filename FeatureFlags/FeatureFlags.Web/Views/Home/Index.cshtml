@@ -1,0 +1,107 @@
+﻿@using FeatureFlags.Models;
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<FeatureFlag>
+
+<div class="text-center">
+    <h1 class="display-4">SamLearnsAzure Feature Flags management</h1>
+</div>
+
+<br />
+@Html.ActionLink("Add feature flag", "AddFeatureFlag", "Home", null, new { @class = "btn btn-info" })
+<br />
+<br />
+
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Dev</th>
+        <th>QA</th>
+        <th>Prod</th>
+    </tr>
+    @foreach (FeatureFlag item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>
+                @Html.CheckBoxFor(x => item.DevIsEnabled, new { id = item.Name + "_dev", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
+                <span>@item.DevViewCount views</span><br />
+                @if (item.DevViewCount > 0)
+                {
+                    double totalDevDays = Math.Round((DateTime.Now - (DateTime)item.DevLastViewDate).TotalDays, 0);
+                    if (totalDevDays == 0)
+                    {
+                        <span>(last used today)</span>
+                    }
+                    else
+                    {
+                        <span>(last used @(totalDevDays.ToString("0")) days ago)</span>
+                    }
+                }
+                else
+                {
+                    <span>(never used)</span>
+                }
+            </td>
+            <td>
+                @Html.CheckBoxFor(x => item.QAIsEnabled, new { id = item.Name + "_qa", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
+                <span>@item.QAViewCount views</span><br />
+                @if (item.QAViewCount > 0)
+                {
+                    double totalQADays = Math.Round((DateTime.Now - (DateTime)item.QALastViewDate).TotalDays, 0);
+                    if (totalQADays == 0)
+                    {
+                        <span>(last used today)</span>
+                    }
+                    else
+                    {
+                        <span>(last used @(totalQADays.ToString("0")) days ago)</span>
+                    }
+                }
+                else
+                {
+                    <span>(never used)</span>
+                }
+            </td>
+            <td>
+                @Html.CheckBoxFor(x => item.ProdIsEnabled, new { id = item.Name + "_prod", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
+                <span>@item.ProdViewCount views</span><br />
+                @if (item.ProdViewCount > 0)
+                {
+                    double totalProdDays = Math.Round((DateTime.Now - (DateTime)item.ProdLastViewDate).TotalDays, 0);
+                    if (totalProdDays == 0)
+                    {
+                        <span>(last used today)</span>
+                    }
+                    else
+                    {
+                        <span>(last used @(totalProdDays.ToString("0")) days ago)</span>
+                    }
+                }
+                else
+                {
+                    <span>(never used)</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+<script type="text/javascript">
+    function updateToggle(item) {
+        //alert(item.id + ":" + item.checked);
+        var featureDetails = item.id.split('_');
+        var name = featureDetails[0];
+        var environment = featureDetails[1]
+        var isEnabled = item.checked;
+        $.ajax({
+            url: "https://featureflags-data-eu-service.azurewebsites.net/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled,
+            success: function (resultData) {
+                location.reload();
+            }
+        })
+    }
+</script>
