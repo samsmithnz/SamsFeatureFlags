@@ -1,0 +1,15 @@
+﻿@using FeatureFlags.Models;
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<FeatureFlag>
+
+<div class="text-center">
+    <h1 class="display-4">Create new Feature Flag</h1>
+</div>
+
+<form asp-controller="Home" asp-action="AddFeatureFlagPost" method="post">
+    Name: @Html.TextBox("newName", "", null)<br />
+    Description: @Html.TextBox("newDescription", "", null)<br /><br />
+    <input type="submit" value="Create new feature flag" />
+</form>

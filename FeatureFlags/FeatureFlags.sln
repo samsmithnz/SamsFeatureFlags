@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Service", "FeatureFlags.Service\FeatureFlags.Service.csproj", "{D51C3442-83BA-49F3-92EC-11402B096D31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Tests", "FeatureFlags.Tests\FeatureFlags.Tests.csproj", "{C3D05BC7-FCD1-4FD8-9FF2-CB04D1F382DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Models", "FeatureFlags.Models\FeatureFlags.Models.csproj", "{86C152D0-D616-4AA9-9583-B3DF34AD44AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build YAML", "Build YAML", "{908ABCB4-2FFB-4B8E-9CB1-668C3426F0A2}"
+	ProjectSection(SolutionItems) = preProject
+		..\azure-pipelines.yml = ..\azure-pipelines.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Web", "FeatureFlags.Web\FeatureFlags.Web.csproj", "{4765901E-91DF-450C-A4FF-24C475B4BCE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureFlags.ConsoleApp", "FeatureFlags.ConsoleApp\FeatureFlags.ConsoleApp.csproj", "{37D8465B-DF1F-4F4E-8686-85A07211DD82}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D51C3442-83BA-49F3-92EC-11402B096D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D51C3442-83BA-49F3-92EC-11402B096D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D51C3442-83BA-49F3-92EC-11402B096D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D51C3442-83BA-49F3-92EC-11402B096D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D05BC7-FCD1-4FD8-9FF2-CB04D1F382DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D05BC7-FCD1-4FD8-9FF2-CB04D1F382DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D05BC7-FCD1-4FD8-9FF2-CB04D1F382DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D05BC7-FCD1-4FD8-9FF2-CB04D1F382DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C152D0-D616-4AA9-9583-B3DF34AD44AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C152D0-D616-4AA9-9583-B3DF34AD44AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C152D0-D616-4AA9-9583-B3DF34AD44AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C152D0-D616-4AA9-9583-B3DF34AD44AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4765901E-91DF-450C-A4FF-24C475B4BCE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4765901E-91DF-450C-A4FF-24C475B4BCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4765901E-91DF-450C-A4FF-24C475B4BCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4765901E-91DF-450C-A4FF-24C475B4BCE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D8465B-DF1F-4F4E-8686-85A07211DD82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D8465B-DF1F-4F4E-8686-85A07211DD82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D8465B-DF1F-4F4E-8686-85A07211DD82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D8465B-DF1F-4F4E-8686-85A07211DD82}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {556D26D2-CAE1-49F2-810A-8A4C9EAE93EC}
+	EndGlobalSection
+EndGlobal
