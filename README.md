@@ -1,24 +1,13 @@
-![](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg)
-![](https://github.com/samsmithnz/FeatureFlags/workflows/ASP.NET%20Core%20CI/badge.svg)
-![](https://github.com/samsmithnz/FeatureFlags/workflows/.github/workflows/aspnetcore.yml/badge.svg)
-
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
-
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+# Sams Feature Flags
+As part of a [series of blog posts about Feature Flags](https://samlearnsazure.blog/2019/09/13/implementing-feature-flags/), we decided to make our own custom Feature flags system. 
+Our main application will call our feature flags service, asking for the state of particular feature flags based on their environment – for example, if we were implementing a new menu and wanted to use the feature flag in dev, the dev website will ask if the dev version of the new menu feature flag is enabled. Current features include 
+- A REST API service to retrieve the state of the feature flag
+- Tracking to record the total number of uses and last date/time the feature flag was used
+<kbd><img src="https://samlearnsazure.files.wordpress.com/2019/09/23samsappfeatureflags-2.png?w=1160" style="border: 1px solid black" /></kbd>
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Uses Dotnet Core 2.2 and MSTest v2. A GitHub action currently builds the code and runs the tests. 
+![](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg
 
 # Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Feel free to fork and/or add any relevant feature suggestions, bug reports, or features!  

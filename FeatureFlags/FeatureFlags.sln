@@ -11,12 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Models", "Feat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build YAML", "Build YAML", "{908ABCB4-2FFB-4B8E-9CB1-668C3426F0A2}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\aspnetcore.yml = ..\.github\workflows\aspnetcore.yml
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Web", "FeatureFlags.Web\FeatureFlags.Web.csproj", "{4765901E-91DF-450C-A4FF-24C475B4BCE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureFlags.ConsoleApp", "FeatureFlags.ConsoleApp\FeatureFlags.ConsoleApp.csproj", "{37D8465B-DF1F-4F4E-8686-85A07211DD82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.ConsoleApp", "FeatureFlags.ConsoleApp\FeatureFlags.ConsoleApp.csproj", "{37D8465B-DF1F-4F4E-8686-85A07211DD82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
