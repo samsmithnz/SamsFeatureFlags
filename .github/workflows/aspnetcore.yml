@@ -20,7 +20,8 @@ jobs:
       env:
         ENVIRONMENT: "[beta]"
       run: >
-        powershell -command 'Write-Host "Generating Build Number"'
+        powershell -command 'Write-Host "Generating Build Number"
+          'Write-Host "Generating Build Number line 2"'
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Unit Tests
