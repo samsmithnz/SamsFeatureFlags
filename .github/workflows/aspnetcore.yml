@@ -20,3 +20,12 @@ jobs:
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Unit Tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:%GITHUB_WORKSPACE%\FeatureFlags\FeatureFlags.Tests\CodeCoverage.runsettings
+    - name: Publish Web Service
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release 
+    #- name: Publish Web Site
+    #  run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release 
+    - name: publish build artifacts back to GitHub
+      uses: actions/upload-artifact@master
+      with:
+        name: webapp
+        path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp2.2/publish
