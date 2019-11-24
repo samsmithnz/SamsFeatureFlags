@@ -38,12 +38,13 @@ jobs:
       with:
         name: webapp
         path: FeatureFlags/FeatureFlags.Web/bin/Release/netcoreapp3.0/publish
+
   deploy:
     runs-on: windows-latest
     
-    steps:
-    - name: Azure CLI Action
-      uses: Azure/cli@v1.0.0
-      with:
-        # Specify the script here
-        inlineScript: Write-Host "Starting deployment"
+    steps:    
+    - name: Deployment
+      run: |
+        Write-Host "Starting deployment"
+        Write-Host "Continuing deployment"
+      shell: powershell
