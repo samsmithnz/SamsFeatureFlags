@@ -1,4 +1,5 @@
 ﻿using FeatureFlags.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
@@ -10,10 +11,17 @@ namespace FeatureFlags.Service.DataAccess
 {
     public class FeatureFlagsStorageTable : IFeatureFlagsStorageTable
     {
+        private readonly IConfiguration _configuration;
+
+        public FeatureFlagsStorageTable(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         private CloudTable CreateConnection()
         {
-            string name = "samsappdataeustorage";
-            string accessKey = "3/J1ajcupzZUV+OcWoNZY5VL7NbpyUVJP+aRwemu9LrGm8fNa0Oob5NOITEd27t5hHXYZT0zfrIFF/oSpHUokg==";
+            string name = _configuration["featureFlagsStorageName"]; 
+            string accessKey = _configuration["featureFlagsStorageAccessKey"];
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                     new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
 
@@ -25,7 +33,6 @@ namespace FeatureFlags.Service.DataAccess
 
             return featureFlagsTable;
         }
-
 
         public async Task<IEnumerable<FeatureFlag>> GetFeatureFlags()
         {
