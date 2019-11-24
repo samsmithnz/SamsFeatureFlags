@@ -21,28 +21,6 @@ namespace FeatureFlags.FunctionalTests.Service
         [TestMethod]
         [TestCategory("SkipWhenLiveUnitTesting")]
         [TestCategory("SmokeTest")]
-        public void GotoFeatureFlagsServiceValuesTest()
-        {
-            //Arrange
-            bool serviceLoaded;
-
-            //Act
-            string serviceURL = _serviceUrl + "api/values";
-            Console.WriteLine(serviceURL);
-            _driver.Navigate().GoToUrl(serviceURL);
-            serviceLoaded = (_driver.Url == serviceURL);
-            OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/pre");
-
-
-            //Assert
-            Assert.IsTrue(serviceLoaded);
-            Assert.IsTrue(data != null);
-            Assert.AreEqual(data.Text, "[\"value1\",\"value2\"]");
-        }
-
-        [TestMethod]
-        [TestCategory("SkipWhenLiveUnitTesting")]
-        [TestCategory("SmokeTest")]
         public void GotoFeatureFlagsServiceFeatureFlagsTest()
         {
             //Arrange
