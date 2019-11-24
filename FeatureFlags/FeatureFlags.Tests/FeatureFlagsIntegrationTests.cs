@@ -1,6 +1,7 @@
 using FeatureFlags.Models;
 using FeatureFlags.Service.Controllers;
 using FeatureFlags.Service.DataAccess;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -14,12 +15,11 @@ namespace FeatureFlags.Tests
     [TestClass]
     public class FeatureFlagsIntegrationTests : BaseIntegrationTests
     {
-
         [TestMethod]
         public async Task CheckFeatureFlagDevIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string name = "UnitTestFeatureFlag01";
             string environment = "dev";
 
@@ -34,7 +34,7 @@ namespace FeatureFlags.Tests
         public async Task CheckFeatureFlagQAIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string name = "UnitTestFeatureFlag01";
             string environment = "qa";
 
@@ -49,7 +49,7 @@ namespace FeatureFlags.Tests
         public async Task CheckFeatureFlagProdIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string name = "UnitTestFeatureFlag01";
             string environment = "prod";
 
@@ -64,7 +64,7 @@ namespace FeatureFlags.Tests
         public async Task CheckFeatureFlagExceptionIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string name = "UnitTestFeatureFlag01";
             string environment = "exception";
 
@@ -87,7 +87,7 @@ namespace FeatureFlags.Tests
         public async Task GetFeatureFlagsIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
 
             //Act
             IEnumerable<FeatureFlag> featureFlags = await da.GetFeatureFlags();
@@ -101,7 +101,7 @@ namespace FeatureFlags.Tests
         public async Task GetFeatureFlagIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string name = "UnitTestFeatureFlag01";
 
             //Act
@@ -115,7 +115,7 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string featureFlagName = "UnitTestFeatureFlag01";
             FeatureFlag featureFlag = new FeatureFlag(featureFlagName)
             {
@@ -139,7 +139,7 @@ namespace FeatureFlags.Tests
         public async Task DeleteFeatureFlagIntegrationTest()
         {
             //Arrange
-            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable();
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
             string featureFlagName = "TestFeatureFlag02";
             FeatureFlag featureFlag = new FeatureFlag(featureFlagName)
             {
