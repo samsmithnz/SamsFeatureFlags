@@ -14,12 +14,12 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
-    - name: Build application version number
-      env:
-        ENVIRONMENT: "[beta]"
-      run: >
-        powershell -command 'Write-Host "Generating Build Number"
-          'Write-Host "Generating Build Number line 2"'
+    #- name: Build application version number
+    #  env:
+    #    ENVIRONMENT: "[beta]"
+    #  run: >
+    #    powershell -command 'Write-Host "Generating Build Number"
+    #      'Write-Host "Generating Build Number line 2"'
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Unit Tests
@@ -42,8 +42,8 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - name: Build application version number
-      env:
-        ENVIRONMENT: "[beta]"
-      run: >
-        powershell -command 'Write-Host "Starting deployment"  
+    - name: Azure CLI Action
+      uses: Azure/cli@v1.0.0
+      with:
+        # Specify the script here
+        inlineScript: Write-Host "Starting deployment"
