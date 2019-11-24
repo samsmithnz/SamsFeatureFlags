@@ -8,7 +8,7 @@ Our main application will call our feature flags service, asking for the state o
 <kbd><img src="https://samlearnsazure.files.wordpress.com/2019/09/23samsappfeatureflags-2.png?w=1160" style="border: 1px solid black" /></kbd>
 
 # Build and Test
-Uses Dotnet Core 3.0 and MSTest v2. A GitHub action currently builds the code and runs the tests. 
+Uses .Net CORE 3.0 and MSTest v2. A GitHub action currently builds the code and runs the tests. 
 ![](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg
 
 # Contribute
