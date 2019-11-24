@@ -10,12 +10,10 @@ jobs:
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
-    
+
     # install dependencies, build, and test
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.2.108
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1.0.0
     - name: Build application version number
       env:
         ENVIRONMENT: "[beta]"
@@ -25,7 +23,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Unit Tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:%GITHUB_WORKSPACE%\FeatureFlags\FeatureFlags.Tests\CodeCoverage.runsettings
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
     - name: Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release 
     - name: Publish Web Site
@@ -34,9 +32,18 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: serviceapp
-        path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp2.2/publish
+        path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp3.0/publish
     - name: publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: webapp
-        path: FeatureFlags/FeatureFlags.Web/bin/Release/netcoreapp2.2/publish
+        path: FeatureFlags/FeatureFlags.Web/bin/Release/netcoreapp3.0/publish
+  deploy:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Build application version number
+      env:
+        ENVIRONMENT: "[beta]"
+      run: >
+        powershell -command 'Write-Host "Starting deployment"  
