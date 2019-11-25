@@ -82,26 +82,24 @@ jobs:
       uses: actions/download-artifact@v1.0.0
       with:
         name: serviceapp
-        # Destination path
-        #path: # optional
-        # artifact source
-        #source: # optional, default is current
+    - name: Download artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: webapp
     
-    # vNext: Deploy web service to staging slot 
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
         app-name: featureflags-data-eu-service
         package: serviceapp
         slot-name: staging     
-    # vNext: Deploy web sit to staging slot
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
         app-name: featureflags-data-eu-web
         package: webapp
         slot-name: staging 
-    # vNext: Run functional tests on staging slots
-      
+
+    # vNext: Run functional tests on staging slots      
     # vNext: Swap staging slots with prod
      
