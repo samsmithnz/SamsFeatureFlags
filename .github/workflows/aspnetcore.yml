@@ -60,7 +60,11 @@ jobs:
   deploy:
     runs-on: windows-latest
     
-    steps:    
+    steps:  
+    #Login with the secret SP details
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}  
     - name: Deployment
       run: |
         Write-Host "Starting deployment"
