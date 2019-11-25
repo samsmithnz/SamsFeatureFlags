@@ -70,3 +70,9 @@ jobs:
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
       shell: powershell
+    
+    # vNext: Deploy web service to staging slot    
+    # vNext: Deploy web sit to staging slot
+    # vNext: Run functional tests on staging slots
+    # vNext: Swap staging slots with prod
+     
