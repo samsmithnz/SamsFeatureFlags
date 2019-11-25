@@ -75,9 +75,8 @@ jobs:
     
     - name: Download artifact
       uses: actions/download-artifact@v1.0.0
-      #with:
-        # Artifact name
-        #name: # optional
+      with:
+        name: serviceapp
         # Destination path
         #path: # optional
         # artifact source
