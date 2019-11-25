@@ -60,6 +60,8 @@ jobs:
   deploy:
     runs-on: windows-latest
     
+    needs: build
+    
     steps:  
     #Login with the secret SP details
     - uses: azure/login@v1
