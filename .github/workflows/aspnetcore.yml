@@ -87,7 +87,7 @@ jobs:
       uses: Azure/webapps-deploy@v1
       with:
         # Publish profile (*.publishsettings) file contents with Web Deploy secrets
-        publish-profile: AZURE_WEBSERVICE_PROFILE
+        publish-profile: ${{ secrets.AZURE_WEBSERVICE_PROFILE }}  
         # Name of the Azure Web App
         app-name: featureflags-data-eu-service
         # Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
