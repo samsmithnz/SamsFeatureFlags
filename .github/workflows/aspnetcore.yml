@@ -38,19 +38,24 @@ jobs:
         #Writing final version number back to Azure DevOps variable
         Write-Host "##vso[task.setvariable variable=buildNumber]$finalBuildVersion"
       shell: powershell
+      
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Automated Tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
+
     - name: Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release 
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=$finalBuildVersion 
     - name: Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release 
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=$finalBuildVersion
     - name: publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: serviceapp
         path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp3.0/publish
+    - name: Publish functional tests
+      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release --output ./FunctionalTests'
+
     - name: publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
@@ -86,15 +91,17 @@ jobs:
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
-        # Publish profile (*.publishsettings) file contents with Web Deploy secrets
-        # publish-profile: ${{ secrets.AZURE_WEBSERVICE_PROFILE }}  
-        # Name of the Azure Web App
         app-name: featureflags-data-eu-service
-        # Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
         package: serviceapp
-        # Enter an existing Slot other than the Production slot
         slot-name: staging     
     # vNext: Deploy web sit to staging slot
+    - name: Azure WebApp
+      uses: Azure/webapps-deploy@v1
+      with:
+        app-name: featureflags-data-eu-web
+        package: webapp
+        slot-name: staging 
     # vNext: Run functional tests on staging slots
+      
     # vNext: Swap staging slots with prod
      
