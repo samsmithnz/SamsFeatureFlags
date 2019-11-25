@@ -91,7 +91,7 @@ jobs:
         # Name of the Azure Web App
         app-name: featureflags-data-eu-service
         # Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
-        package: serviceapp.zip
+        package: serviceapp
         # Enter an existing Slot other than the Production slot
         slot-name: staging     
     # vNext: Deploy web sit to staging slot
