@@ -42,6 +42,9 @@ jobs:
         Write-Host "##vso[task.setvariable variable=buildNumber]$finalBuildVersion"
         echo "::set-env name=buildVersion::$finalBuildVersion"
       shell: powershell
+    - name: Test build variable
+      run: Write-Host ${{ env.buildVersion }}
+      shell: powershell
       
     - name: Build with dotnet
       run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
@@ -49,9 +52,9 @@ jobs:
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     - name: Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=$finalBuildVersion 
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=${{env.buildVersion}}
     - name: Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{buildVersion}}
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
     - name: publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
