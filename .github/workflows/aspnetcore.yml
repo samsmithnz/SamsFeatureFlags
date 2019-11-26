@@ -55,7 +55,7 @@ jobs:
     - name: Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
     - name: Publish functional tests
-      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release --output ./FunctionalTests'
+      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
     
     #Publish build artifacts to GitHub
     - name: publish web service build artifacts back to GitHub
