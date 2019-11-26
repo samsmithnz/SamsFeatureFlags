@@ -17,6 +17,8 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
+    - name: test if VSTest.Console/? exists
+      run: VSTest.Console /?
     - name: Build application version number
       run: |
         Write-Host "Generating Build Number"
