@@ -7,6 +7,9 @@ jobs:
 
     runs-on: windows-latest
     
+    env:
+      buildVersion: 1.0.0.0
+    
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
@@ -37,6 +40,7 @@ jobs:
         Write-Host "Final build number: " $finalBuildVersion
         #Writing final version number back to Azure DevOps variable
         Write-Host "##vso[task.setvariable variable=buildNumber]$finalBuildVersion"
+        echo "::set-env name=buildVersion::$finalBuildVersion"
       shell: powershell
       
     - name: Build with dotnet
