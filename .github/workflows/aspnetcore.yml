@@ -120,6 +120,9 @@ jobs:
         package: webapp
         slot-name: staging 
 
-    # vNext: Run functional tests on staging slots      
+    # vNext: Run functional tests on staging slots     
+    #- name: Functional Tests
+    #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
+ 
     # vNext: Swap staging slots with prod
      
