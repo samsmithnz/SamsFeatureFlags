@@ -51,7 +51,7 @@ jobs:
     - name: Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=$finalBuildVersion 
     - name: Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=$finalBuildVersion
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{buildVersion}}
     - name: publish build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
