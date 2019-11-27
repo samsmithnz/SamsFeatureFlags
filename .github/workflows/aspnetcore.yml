@@ -17,8 +17,6 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
-    #- name: test if VSTest.Console/? exists
-    #  run: VSTest.Console /?
     - name: Custom script to create a unique application version number for this build
       run: |
         Write-Host "Generating Build Number"
@@ -52,25 +50,25 @@ jobs:
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     #Publish dotnet objects
-    - name: Publish Web Service
+    - name: .NET Publish: Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=${{env.buildVersion}}
-    - name: Publish Web Site
+    - name: .NET Publish: Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
-    - name: Publish functional tests
+    - name: .NET Publish: functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
     
     #Publish build artifacts to GitHub
-    - name: publish web service build artifacts back to GitHub
+    - name: Upload web service build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: serviceapp
         path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp3.0/publish
-    - name: publish website build artifacts back to GitHub
+    - name: Upload website build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: webapp
         path: FeatureFlags/FeatureFlags.Web/bin/Release/netcoreapp3.0/publish
-    - name: publish function test build artifacts back to GitHub
+    - name: Upload function test build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: functionaltests
