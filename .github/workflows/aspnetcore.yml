@@ -7,6 +7,9 @@ jobs:
 
     runs-on: windows-latest
     
+    env:
+      buildVersion: 1.0.0.0
+    
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
@@ -14,7 +17,7 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
-    - name: Build application version number
+    - name: Custom script to create a unique application version number for this build
       run: |
         Write-Host "Generating Build Number"
         #Get the version from the csproj file
@@ -35,38 +38,100 @@ jobs:
         $finalBuildVersion = "$($spliteVersion[0]).$($spliteVersion[1]).$($buildNumber).$($revisionNumber)"
         Write-Host "Major.Minor,Build,Revision"
         Write-Host "Final build number: " $finalBuildVersion
-        #Writing final version number back to Azure DevOps variable
-        Write-Host "##vso[task.setvariable variable=buildNumber]$finalBuildVersion"
+        #Writing final version number back to Github variable
+        Write-Host "Writing final version $finalBuildVersion back to Github variable"
+        echo "::set-env name=buildVersion::$finalBuildVersion"
       shell: powershell
-    - name: Build with dotnet
-      run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
+    
+    #Build and test service
+    #- name: Build with dotnet
+    #  run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
     - name: Automated Tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
-    - name: Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release 
-    - name: Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release 
-    - name: publish build artifacts back to GitHub
+
+    #Publish dotnet objects
+    - name: DotNET Publish Web Service
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=${{env.buildVersion}}
+    - name: DotNET Publish Web Site
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
+    - name: DotNET Publish functional tests
+      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
+    
+    #Publish build artifacts to GitHub
+    - name: Upload web service build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: serviceapp
         path: FeatureFlags/FeatureFlags.Service/bin/Release/netcoreapp3.0/publish
-    - name: publish build artifacts back to GitHub
+    - name: Upload website build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: webapp
         path: FeatureFlags/FeatureFlags.Web/bin/Release/netcoreapp3.0/publish
+    - name: Upload function test build artifacts back to GitHub
+      uses: actions/upload-artifact@master
+      with:
+        name: functionaltests
+        path: FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/publish
 
+  #Deploy the artifacts to Azure
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
+    
+    needs: build
     
     steps:  
+      
     #Login with the secret SP details
-    - uses: azure/login@v1
+    - name: Log into Azure
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }}  
     - name: Deployment
       run: |
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
-      shell: powershell
+      shell: pwsh #Because we need to use the Linux runner, this needs to change from Powershell (win) to pwsh (linux)
+    
+    #Download the artifacts from GitHub
+    - name: Download serviceapp artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: serviceapp
+    - name: Download webapp artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: webapp
+    - name: Download functionaltests artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: functionaltests
+    
+    #Deploy service and website to Azure staging slots
+    - name: Deploy web service to Azure WebApp
+      uses: Azure/webapps-deploy@v1
+      with:
+        app-name: featureflags-data-eu-service
+        package: serviceapp
+        slot-name: staging     
+    - name: Deploy website to Azure WebApp
+      uses: Azure/webapps-deploy@v1
+      with:
+        app-name: featureflags-data-eu-web
+        package: webapp
+        slot-name: staging 
+
+    # vNext: Run functional tests on staging slots     
+    #- name: Functional Tests
+    #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
+ 
+    # vNext: Swap staging slots with prod
+    - name: Swap web service staging slot to production
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-service --slot staging --target-slot production
+    - name: Swap web site staging slot to production
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-web --slot staging --target-slot production
+
