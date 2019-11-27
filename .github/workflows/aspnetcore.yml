@@ -50,11 +50,11 @@ jobs:
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     #Publish dotnet objects
-    - name: DotNET Publish: Web Service
+    - name: DotNET Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release -p:Version=${{env.buildVersion}}
-    - name: DotNET Publish: Web Site
+    - name: DotNET Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
-    - name: DotNET Publish: functional tests
+    - name: DotNET Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
     
     #Publish build artifacts to GitHub
