@@ -92,7 +92,7 @@ jobs:
       run: |
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
-      shell: powershell
+      shell: pwsh #Because we need to use the Linux runner, this needs to change from Powershell (win) to pwsh (linux)
     
     #Download the artifacts from GitHub
     - name: Download artifact
