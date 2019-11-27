@@ -8,7 +8,7 @@ jobs:
     runs-on: windows-latest
     
     env:
-      buildVersion: 1.0.0.0
+      buildVersion: 1.0.0.0 #The initial build version, but this is updated below
     
     steps:
     # checkout the repo
@@ -125,7 +125,7 @@ jobs:
     #- name: Functional Tests
     #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
  
-    # vNext: Swap staging slots with prod
+    #Swap staging slots with prod
     - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
       with:
