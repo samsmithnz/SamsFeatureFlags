@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-dotnet@v1.0.0
     #- name: test if VSTest.Console/? exists
     #  run: VSTest.Console /?
-    - name: Build application version number
+    - name: Custom script to create a unique application version number for this build
       run: |
         Write-Host "Generating Build Number"
         #Get the version from the csproj file
