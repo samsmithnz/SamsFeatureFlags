@@ -85,7 +85,8 @@ jobs:
     steps:  
       
     #Login with the secret SP details
-    - uses: azure/login@v1
+    - name: Log into Azure
+      uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }}  
     - name: Deployment
@@ -95,27 +96,27 @@ jobs:
       shell: pwsh #Because we need to use the Linux runner, this needs to change from Powershell (win) to pwsh (linux)
     
     #Download the artifacts from GitHub
-    - name: Download artifact
+    - name: Download serviceapp artifact
       uses: actions/download-artifact@v1.0.0
       with:
         name: serviceapp
-    - name: Download artifact
+    - name: Download webapp artifact
       uses: actions/download-artifact@v1.0.0
       with:
         name: webapp
-    - name: Download artifact
+    - name: Download functionaltests artifact
       uses: actions/download-artifact@v1.0.0
       with:
         name: functionaltests
     
     #Deploy service and website to Azure staging slots
-    - name: Azure WebApp
+    - name: Deploy web service to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
         app-name: featureflags-data-eu-service
         package: serviceapp
         slot-name: staging     
-    - name: Azure WebApp
+    - name: Deploy website to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
         app-name: featureflags-data-eu-web
@@ -127,11 +128,11 @@ jobs:
     #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
  
     # vNext: Swap staging slots with prod
-    - name: Azure CLI Action
+    - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-service --slot staging --target-slot production
-    - name: Azure CLI Action
+    - name: Swap web site staging slot to production
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-web --slot staging --target-slot production
