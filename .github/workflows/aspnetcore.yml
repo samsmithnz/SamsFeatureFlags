@@ -78,7 +78,7 @@ jobs:
 
   #Deploy the artifacts to Azure
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
     
     needs: build
     
