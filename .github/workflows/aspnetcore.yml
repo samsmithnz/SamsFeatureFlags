@@ -79,13 +79,7 @@ jobs:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
     
     needs: build
-    
-    #vNext: Add condition to only deploy if part of the master branch
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
-    #if: and(success(), eq(variables['GITHUB_REF'], 'refs/heads/master'))    
-    #if: github.ref == 'refs/heads/master'
-    if: github.ref == 'refs/heads/FunctionalTesting'
-    
+        
     steps:  
       
     #Login with the secret SP details
@@ -134,9 +128,13 @@ jobs:
     #Swap staging slots with prod
     - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
+      #Only deploy if running off the master branch - we don't want to deploy off feature branches
+      if: github.ref == 'refs/heads/master'
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
+      #Only deploy if running off the master branch - we don't want to deploy off feature branches
+      if: github.ref == 'refs/heads/master'
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-web --slot staging --target-slot production
