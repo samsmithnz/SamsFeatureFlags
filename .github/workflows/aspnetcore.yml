@@ -14,12 +14,12 @@ jobs:
     # checkout the repo
     - uses: actions/checkout@v1
 
-    - name: test for visual studio test runner
+    - name: search for visual studio test runner
       run: |
         $var1 = Get-Childitem -Path C: -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
         Write-Host "VS test runner: $var1"
       shell: powershell
-    - name: test for visual studio 
+    - name: search for chromedriver
       run: |
         $var2 = Get-Childitem -Path C: -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
         Write-Host "chromedriver: $var2" 
