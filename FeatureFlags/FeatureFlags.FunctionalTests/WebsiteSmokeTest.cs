@@ -70,7 +70,7 @@ namespace FeatureFlags.FunctionalTests.Website
             //Assert
             Assert.IsTrue(webLoaded);
             Assert.IsTrue(data != null);
-            Assert.IsTrue(data.Text == "About");
+            Assert.IsTrue(data.Text == "About2");
         }
 
         [TestInitialize]
