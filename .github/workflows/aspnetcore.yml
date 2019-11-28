@@ -15,10 +15,14 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: test for visual studio test runner
-      run: Get-Childitem -Path "vstest.console.exe" -Recurse 
+      run: |
+        $var1 = Get-Childitem -Path "vstest.console.exe" -Recurse 
+        Write-Host "VS test runner $var1"
       shell: powershell
     - name: test for visual studio 
-      run: Get-Childitem -Path "chromedriver.exe" -Recurse 
+      run: |
+        $var2 = Get-Childitem -Path "chromedriver.exe" -Recurse 
+        Write-Host "chromedriver $var2" 
       shell: powershell
       
     # install dependencies, build, and test
