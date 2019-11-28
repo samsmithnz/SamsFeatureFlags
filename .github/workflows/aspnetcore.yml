@@ -46,7 +46,7 @@ jobs:
     #Build and test service
     #- name: Build with dotnet
     #  run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
-    - name: Automated Tests
+    - name: Run automated unit and integration tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     #Publish dotnet objects
@@ -80,6 +80,10 @@ jobs:
     
     needs: build
     
+    #vNext: Add condition to only deploy if part of the master branch
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
+    #if: 
+
     steps:  
       
     #Login with the secret SP details
@@ -87,7 +91,7 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }}  
-    - name: Deployment
+    - name: Deployment setup PowerShell script
       run: |
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
