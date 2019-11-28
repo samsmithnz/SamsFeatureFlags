@@ -84,7 +84,7 @@ jobs:
     #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
     #if: and(success(), eq(variables['GITHUB_REF'], 'refs/heads/master'))    
     #if: github.ref == 'refs/heads/master'
-    if: github.ref == 'refs/heads/master'FunctionalTesting
+    if: github.ref == 'refs/heads/FunctionalTesting'
     
     steps:  
       
