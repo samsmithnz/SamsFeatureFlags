@@ -82,7 +82,8 @@ jobs:
     
     #vNext: Add condition to only deploy if part of the master branch
     #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))    
-    #if: 
+    #if: and(success(), eq(variables['GITHUB_REF'], 'refs/heads/master'))    
+    if: github.ref == 'refs/heads/master'
 
     steps:  
       
