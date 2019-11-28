@@ -16,13 +16,13 @@ jobs:
 
     - name: test for visual studio test runner
       run: |
-        $var1 = Get-Childitem -Path "vstest.console.exe" -Recurse | select -ExpandProperty FullName
-        Write-Host "VS test runner $var1"
+        $var1 = Get-Childitem -Path C: -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
+        Write-Host "VS test runner: $var1"
       shell: powershell
     - name: test for visual studio 
       run: |
-        $var2 = Get-Childitem -Path "chromedriver.exe" -Recurse | select -ExpandProperty FullName
-        Write-Host "chromedriver $var2" 
+        $var2 = Get-Childitem -Path C: -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
+        Write-Host "chromedriver: $var2" 
       shell: powershell
       
     # install dependencies, build, and test
