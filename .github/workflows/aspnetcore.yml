@@ -13,18 +13,7 @@ jobs:
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
-
-    #- name: search for visual studio test runner
-    #  run: |
-    #    $var1 = Get-Childitem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
-    #    Write-Host "VS test runner: $var1"
-    #  shell: powershell
-    #- name: search for chromedriver
-      #run: |
-      #  $var2 = Get-Childitem -Path "${{ ChromeWebDriver }}" -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
-      #  Write-Host "chromedriver: $var2" 
-      #shell: powershell
-      
+     
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
@@ -135,7 +124,7 @@ jobs:
         package: webapp
         slot-name: staging 
 
-    # vNext: Run functional tests on staging slots     
+    # Run functional tests on staging slots     
     - name: Functional Tests
       run: |
         Start-Process -FilePath "${{ env.testConsoleLocation }}" -ArgumentList "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll /Settings: functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
