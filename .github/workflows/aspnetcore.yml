@@ -138,7 +138,7 @@ jobs:
     # vNext: Run functional tests on staging slots     
     - name: Functional Tests
       run: |
-        ${{ env.testConsoleLocation }} functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
+        "${{ env.testConsoleLocation }}" functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
         /Settings: functionaltests/FeatureFlags.FunctionalTests/test.runsettings
       shell: powershell
   
