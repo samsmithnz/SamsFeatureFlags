@@ -9,8 +9,7 @@ jobs:
     
     env:
       buildVersion: 1.0.0.0 #The initial build version, but this is updated below
-      testConsoleLocation: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe" 
-    
+   
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
@@ -89,7 +88,10 @@ jobs:
   #Deploy the artifacts to Azure
   deploy:
     runs-on: windows-latest
-    
+
+    env:
+      testConsoleLocation: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe" 
+
     needs: build
         
     steps:  
