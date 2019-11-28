@@ -103,7 +103,7 @@ jobs:
       run: |
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
-      shell: pwsh #Because we need to use the Linux runner, this needs to change from Powershell (win) to pwsh (linux)
+      shell: powershell
     
     #Download the artifacts from GitHub
     - name: Download serviceapp artifact
@@ -136,8 +136,9 @@ jobs:
     # vNext: Run functional tests on staging slots     
     - name: Functional Tests
       run: |
-        ${{ env.testConsoleLocation }} "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll"
-        /Settings: "functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
+        ${{ env.testConsoleLocation }} functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
+        /Settings: functionaltests/FeatureFlags.FunctionalTests/test.runsettings
+      shell: powershell
   
   #Deploy the artifacts to Azure
   deploy2:
