@@ -19,11 +19,11 @@ jobs:
         $var1 = Get-Childitem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
         Write-Host "VS test runner: $var1"
       shell: powershell
-    - name: search for chromedriver
-      run: |
-        $var2 = Get-Childitem -Path "${{ ChromeWebDriver }}" -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
-        Write-Host "chromedriver: $var2" 
-      shell: powershell
+    #- name: search for chromedriver
+      #run: |
+      #  $var2 = Get-Childitem -Path "${{ ChromeWebDriver }}" -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
+      #  Write-Host "chromedriver: $var2" 
+      #shell: powershell
       
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
