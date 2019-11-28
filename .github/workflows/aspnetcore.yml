@@ -9,16 +9,17 @@ jobs:
     
     env:
       buildVersion: 1.0.0.0 #The initial build version, but this is updated below
+      testConsoleLocation: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe" 
     
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
 
-    - name: search for visual studio test runner
-      run: |
-        $var1 = Get-Childitem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
-        Write-Host "VS test runner: $var1"
-      shell: powershell
+    #- name: search for visual studio test runner
+    #  run: |
+    #    $var1 = Get-Childitem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | select -ExpandProperty FullName
+    #    Write-Host "VS test runner: $var1"
+    #  shell: powershell
     #- name: search for chromedriver
       #run: |
       #  $var2 = Get-Childitem -Path "${{ ChromeWebDriver }}" -Filter "chromedriver.exe" -Recurse | select -ExpandProperty FullName
@@ -87,7 +88,7 @@ jobs:
 
   #Deploy the artifacts to Azure
   deploy:
-    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
+    runs-on: windows-latest
     
     needs: build
         
@@ -133,19 +134,26 @@ jobs:
         slot-name: staging 
 
     # vNext: Run functional tests on staging slots     
-    #- name: Functional Tests
-    #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
- 
-    #Swap staging slots with prod
+    - name: Functional Tests
+      run: |
+        ${{ env.testConsoleLocation }} "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll"
+        /Settings: "functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
+  
+  #Deploy the artifacts to Azure
+  deploy2:
+    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
+    
+    needs: [build, deploy]
+    #Only deploy if running off the master branch - we don't want to deploy off feature branches
+    if: github.ref == 'refs/heads/master'
+        
+    steps:   
+      #Swap staging slots with prod
     - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
-      #Only deploy if running off the master branch - we don't want to deploy off feature branches
-      if: github.ref == 'refs/heads/master'
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
-      #Only deploy if running off the master branch - we don't want to deploy off feature branches
-      if: github.ref == 'refs/heads/master'
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-web --slot staging --target-slot production
