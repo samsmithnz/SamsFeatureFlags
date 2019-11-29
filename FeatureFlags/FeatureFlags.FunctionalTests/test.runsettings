@@ -8,7 +8,7 @@
     <Parameter name="KeyVaultURL" value="https://samsapp-data-eu-keyvault.vault.azure.net/" />
     <Parameter name="KeyVaultClientId" value="2553a023-5f98-4331-a3ad-ed45f1d74ec9" />
     <Parameter name="KeyVaultClientSecret" value="cr+Z1yjLGtYAe+G/3arFyTrE6TlW/MmaHA3nYRUro+E=" />
-    <Parameter name="TestEnvironment" value="data" />
+    <Parameter name="TestEnvironment" value="" />
   </TestRunParameters>
 
 </RunSettings>

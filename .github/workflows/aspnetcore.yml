@@ -8,12 +8,12 @@ jobs:
     runs-on: windows-latest
     
     env:
-      buildVersion: 1.0.0.0
-    
+      buildVersion: 1.0.0.0 #The initial build version, but this is updated below
+   
     steps:
     # checkout the repo
     - uses: actions/checkout@v1
-
+     
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
@@ -43,10 +43,8 @@ jobs:
         echo "::set-env name=buildVersion::$finalBuildVersion"
       shell: powershell
     
-    #Build and test service
-    #- name: Build with dotnet
-    #  run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
-    - name: Automated Tests
+    #Build and test service   
+    - name: Run automated unit and integration tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     #Publish dotnet objects
@@ -56,6 +54,9 @@ jobs:
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
     - name: DotNET Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
+    - name: Copy chromedriver for functional test
+      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/publish"
+      shell: powershell
     
     #Publish build artifacts to GitHub
     - name: Upload web service build artifacts back to GitHub
@@ -76,22 +77,21 @@ jobs:
 
   #Deploy the artifacts to Azure
   deploy:
-    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
-    
+    runs-on: windows-latest
+
     needs: build
-    
-    steps:  
-      
-    #Login with the secret SP details
+        
+    steps:        
+    # Login with the secret SP details
     - name: Log into Azure
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }}  
-    - name: Deployment
+    - name: Deployment setup PowerShell script
       run: |
         Write-Host "Starting deployment"
         Write-Host "Continuing deployment"
-      shell: pwsh #Because we need to use the Linux runner, this needs to change from Powershell (win) to pwsh (linux)
+      shell: powershell
     
     #Download the artifacts from GitHub
     - name: Download serviceapp artifact
@@ -121,11 +121,29 @@ jobs:
         package: webapp
         slot-name: staging 
 
-    # vNext: Run functional tests on staging slots     
-    #- name: Functional Tests
-    #  run: dotnet test functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll
- 
-    # vNext: Swap staging slots with prod
+    # Run functional tests on staging slots     
+    - name: Functional Tests
+      run: |
+        $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
+        $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests.dll"
+        $testRunSettings = "/Settings:`"functionaltests\test.runsettings`" "
+        $parameters = " -- TestEnvironment=""Beta123""  ServiceUrl=""https://featureflags-data-eu-service-staging.azurewebsites.net/"" WebsiteUrl=""https://featureflags-data-eu-web-staging.azurewebsites.net/"" "
+        #Note that the `" is an escape character to quote strings, and the `& is needed to start the command
+        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings $parameters " 
+        Write-Host "$command"
+        Invoke-Expression $command
+      shell: powershell
+  
+  #Deploy the artifacts to Azure
+  deploy2:
+    runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
+    
+    needs: [build, deploy]
+    #Only deploy if running off the master branch - we don't want to deploy off feature branches
+    if: github.ref == 'refs/heads/master'
+        
+    steps:   
+      #Swap staging slots with prod
     - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
       with:
