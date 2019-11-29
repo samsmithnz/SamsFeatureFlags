@@ -48,7 +48,8 @@ namespace FeatureFlags.FunctionalTests.Website
             //Assert
             Assert.IsTrue(webLoaded);
             Assert.IsTrue(data != null);
-            Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management: " + _environment);
+            //Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management: " + _environment);
+            Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management");
         }
 
         [TestMethod]
