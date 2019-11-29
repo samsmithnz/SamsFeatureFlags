@@ -29,11 +29,6 @@
     DateTime dateTimeUTC = dt.AddSeconds(secondsSince1970);
     DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(dateTimeUTC, TimeZoneInfo.Local);
     string applicationLastBuildTime = localTime.ToString("dd-MMM-yyyy hh:mm:sstt") + " " + TimeZoneInfo.Local.Id;
-
-    //Kenny's Application last build time code
-    DateTime dateTimeUTC2 = new DateTime(File.GetLastWriteTime(Assembly.GetEntryAssembly().Location).Ticks, DateTimeKind.Unspecified);
-    DateTime localTime2 = TimeZoneInfo.ConvertTimeFromUtc(dateTimeUTC2, TimeZoneInfo.Local);
-    string applicationLastBuildTime2 = localTime2.ToString("dd-MMM-yyyy hh:mm:sstt");
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -43,5 +38,4 @@
 <br />
 <span><strong>Current application version:</strong> @appVersion (Last built: @applicationLastBuildTime)</span>
 <br />
-<span><strong>Kennys application version:</strong> @appVersion (Last built: @applicationLastBuildTime2)</span>
 
