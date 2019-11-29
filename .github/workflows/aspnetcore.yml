@@ -140,7 +140,7 @@ jobs:
     
     needs: [build, preDeploy]
     #Only deploy if running off the master branch - we don't want to deploy off feature branches
-    #if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
         
     steps:
     # Login with the secret SP details
