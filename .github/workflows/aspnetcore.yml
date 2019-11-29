@@ -56,6 +56,15 @@ jobs:
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration Release -p:Version=${{env.buildVersion}}
     - name: DotNET Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration Release
+    - name: Copy chromedriver for functional test
+      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/publish"
+      shell: powershell
+    #- task: CopyFiles@2
+    #  displayName: 'Copy Selenium Files to: $(build.artifactstagingdirectory)/FunctionalTests/FeatureFlags.FunctionalTests'
+    #  inputs:
+    #    SourceFolder: 'FeatureFlags/FeatureFlags.FunctionalTests/bin/$(buildConfiguration)/netcoreapp3.0'
+    #    Contents: '*chromedriver.exe*'
+    #    TargetFolder: '$(build.artifactstagingdirectory)/FunctionalTests/FeatureFlags.FunctionalTests'
     
     #Publish build artifacts to GitHub
     - name: Upload web service build artifacts back to GitHub
