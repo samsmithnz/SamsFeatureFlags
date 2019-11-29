@@ -76,7 +76,7 @@ jobs:
         path: FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/publish
 
   #Deploy the artifacts to Azure
-  deploy:
+  preDeploy:
     runs-on: windows-latest
 
     needs: build
@@ -135,14 +135,19 @@ jobs:
       shell: powershell
   
   #Deploy the artifacts to Azure
-  deploy2:
+  deploySwapSlots:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
     
-    needs: [build, deploy]
+    needs: [build, preDeploy]
     #Only deploy if running off the master branch - we don't want to deploy off feature branches
-    if: github.ref == 'refs/heads/master'
+    #if: github.ref == 'refs/heads/master'
         
-    steps:   
+    steps:
+    # Login with the secret SP details
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}     
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
       uses: Azure/cli@v1.0.0
