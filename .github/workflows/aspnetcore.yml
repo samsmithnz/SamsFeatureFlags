@@ -128,13 +128,12 @@ jobs:
         #"${{ env.testConsoleLocation }}" "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll"
         #/Settings: "functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
         $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
-        $targetTestDll = "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll"
-        $testRunSettings = "/Settings:`"functionaltests/FeatureFlags.FunctionalTests/test.runsettings`" "
-        $testResultsPath = " /resultsDirectory:c:\users\[user]\desktop"
+        $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests\FeatureFlags.FunctionalTests.dll"
+        $testRunSettings = "/Settings:`"functionaltests\FeatureFlags.FunctionalTests\test.runsettings`" "
         #Note that the `" is an escape character to quote strings, and the `& is needed to start the command
-        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings "# $testResultsPath" 
-        write-host "$command"
-        invoke-expression $command
+        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings " 
+        Write-Host "$command"
+        Invoke-Expression $command
       shell: powershell
   
   #Deploy the artifacts to Azure
