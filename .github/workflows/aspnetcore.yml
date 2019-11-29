@@ -43,9 +43,7 @@ jobs:
         echo "::set-env name=buildVersion::$finalBuildVersion"
       shell: powershell
     
-    #Build and test service
-    #- name: Build with dotnet
-    #  run: dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration Release      
+    #Build and test service   
     - name: Run automated unit and integration tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration Release --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
@@ -59,12 +57,6 @@ jobs:
     - name: Copy chromedriver for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/Release/netcoreapp3.0/publish"
       shell: powershell
-    #- task: CopyFiles@2
-    #  displayName: 'Copy Selenium Files to: $(build.artifactstagingdirectory)/FunctionalTests/FeatureFlags.FunctionalTests'
-    #  inputs:
-    #    SourceFolder: 'FeatureFlags/FeatureFlags.FunctionalTests/bin/$(buildConfiguration)/netcoreapp3.0'
-    #    Contents: '*chromedriver.exe*'
-    #    TargetFolder: '$(build.artifactstagingdirectory)/FunctionalTests/FeatureFlags.FunctionalTests'
     
     #Publish build artifacts to GitHub
     - name: Upload web service build artifacts back to GitHub
@@ -89,9 +81,8 @@ jobs:
 
     needs: build
         
-    steps:  
-      
-    #Login with the secret SP details
+    steps:        
+    # Login with the secret SP details
     - name: Log into Azure
       uses: azure/login@v1
       with:
@@ -133,14 +124,12 @@ jobs:
     # Run functional tests on staging slots     
     - name: Functional Tests
       run: |
-        #Start-Process -FilePath "${{ env.testConsoleLocation }}" -ArgumentList "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll /Settings:functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
-        #"${{ env.testConsoleLocation }}" "functionaltests/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.dll"
-        #/Settings: "functionaltests/FeatureFlags.FunctionalTests/test.runsettings"
         $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
         $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests.dll"
         $testRunSettings = "/Settings:`"functionaltests\test.runsettings`" "
+        $parameters = " -- TestEnvironment=""Beta123""  ServiceUrl=""https://featureflags-data-eu-service-staging.azurewebsites.net/"" WebsiteUrl=""https://featureflags-data-eu-web-staging.azurewebsites.net/"" "
         #Note that the `" is an escape character to quote strings, and the `& is needed to start the command
-        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings " 
+        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings $parameters " 
         Write-Host "$command"
         Invoke-Expression $command
       shell: powershell
