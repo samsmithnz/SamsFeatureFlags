@@ -11,5 +11,5 @@ jobs:
       myJobVariable: data
     steps:
     - uses: actions/checkout@v1
-    - name: dotnet build $myJobVariable
+    - name: dotnet build ${{ env.myJobVariable }}
       run: dotnet build FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration $buildConfiguration
