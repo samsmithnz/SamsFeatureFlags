@@ -5,6 +5,7 @@ env:
   vmImage: ubuntu-latest
 jobs:
   Build:
-    runs-on: ${{ env.vmImage }}
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+      name: test ${{ env.vmImage }}
