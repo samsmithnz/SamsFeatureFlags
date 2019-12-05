@@ -1,15 +1,10 @@
 name: test action
-on: [push]
 
+on: [push]
 env:
-  buildConfiguration: Release
+  vmImage: ubuntu-latest
 jobs:
   Build:
-    name: Build job
-    runs-on: ubuntu-latest
-    env:
-      myJobVariable: data
+    runs-on: ${{ env.vmImage }}
     steps:
     - uses: actions/checkout@v1
-    - name: dotnet build ${{ env.myJobVariable }}
-      run: dotnet build FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration $buildConfiguration
