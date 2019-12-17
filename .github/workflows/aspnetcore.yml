@@ -9,8 +9,8 @@ jobs:
     
     env:
       buildVersion: 1.0.0.0 #The initial build version, but this is updated below
-      dotnetVersion: "netcoreapp3.1"
-      configuration: "Release"
+      dotNetVersion: netcoreapp3.1
+      dotNetConfiguration: Release
    
     steps:
     # checkout the repo
@@ -47,17 +47,17 @@ jobs:
     
     #Build and test service   
     - name: Run automated unit and integration tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration {{ env.configuration }} --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration {{ env.dotNetConfiguration }} --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
     #Publish dotnet objects
     - name: DotNET Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration {{ env.configuration }} -p:Version=${{env.buildVersion}}
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration {{ env.dotNetConfiguration }} -p:Version=${{env.buildVersion}}
     - name: DotNET Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration {{ env.configuration }} -p:Version=${{env.buildVersion}}
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration {{ env.dotNetConfiguration }} -p:Version=${{env.buildVersion}}
     - name: DotNET Publish functional tests
-      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration {{ env.configuration }}
+      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration {{ env.dotNetConfiguration }}
     - name: Copy chromedriver for functional test
-      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.configuration }}/{{ env.dotNetVersion }}/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.configuration }}/{{ env.dotNetVersion }}/publish"
+      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.dotNetConfiguration }}/{{ env.dotNetVersion }}/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.dotNetConfiguration }}/{{ env.dotNetVersion }}/publish"
       shell: powershell
     
     #Publish build artifacts to GitHub
@@ -65,17 +65,17 @@ jobs:
       uses: actions/upload-artifact@master
       with:
         name: serviceapp
-        path: FeatureFlags/FeatureFlags.Service/bin/{{ env.configuration }}/{{ env.dotNetVersion }}/publish
+        path: FeatureFlags/FeatureFlags.Service/bin/{{ env.dotNetConfiguration }}/{{ env.dotNetVersion }}/publish
     - name: Upload website build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: webapp
-        path: FeatureFlags/FeatureFlags.Web/bin/{{ env.configuration }}/{{ env.dotNetVersion }}/publish
+        path: FeatureFlags/FeatureFlags.Web/bin/{{ env.dotNetConfiguration }}/{{ env.dotNetVersion }}/publish
     - name: Upload function test build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
         name: functionaltests
-        path: FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.configuration }}/{{ env.dotNetVersion }}/publish
+        path: FeatureFlags/FeatureFlags.FunctionalTests/bin/{{ env.dotNetConfiguration }}/{{ env.dotNetVersion }}/publish
 
   #Deploy the artifacts to Azure
   preDeploy:
