@@ -29,7 +29,7 @@
             <td>
                 @Html.CheckBoxFor(x => item.DevIsEnabled, new { id = item.Name + "_dev", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
                 <span>@item.DevViewCount views</span><br />
-                @if (item.DevViewCount > 0)
+                @if (item.DevViewCount > 0 && item.DevLastViewDate != null)
                 {
                     double totalDevDays = Math.Round((DateTime.Now - (DateTime)item.DevLastViewDate).TotalDays, 0);
                     if (totalDevDays == 0)
@@ -49,7 +49,7 @@
             <td>
                 @Html.CheckBoxFor(x => item.QAIsEnabled, new { id = item.Name + "_qa", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
                 <span>@item.QAViewCount views</span><br />
-                @if (item.QAViewCount > 0)
+                @if (item.QAViewCount > 0 && item.QALastViewDate != null)
                 {
                     double totalQADays = Math.Round((DateTime.Now - (DateTime)item.QALastViewDate).TotalDays, 0);
                     if (totalQADays == 0)
@@ -69,7 +69,7 @@
             <td>
                 @Html.CheckBoxFor(x => item.ProdIsEnabled, new { id = item.Name + "_prod", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
                 <span>@item.ProdViewCount views</span><br />
-                @if (item.ProdViewCount > 0)
+                @if (item.ProdViewCount > 0 && item.ProdLastViewDate != null)
                 {
                     double totalProdDays = Math.Round((DateTime.Now - (DateTime)item.ProdLastViewDate).TotalDays, 0);
                     if (totalProdDays == 0)

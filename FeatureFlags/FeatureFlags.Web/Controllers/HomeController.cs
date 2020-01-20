@@ -48,10 +48,12 @@ namespace FeatureFlags.Web.Controllers
 
             if (foundDuplicate == false)
             {
-                FeatureFlag featureFlag = new FeatureFlag(newName);
-                featureFlag.Name = newName;
-                featureFlag.Description = newDescription;
-                featureFlag.LastUpdated = DateTime.Now;
+                FeatureFlag featureFlag = new FeatureFlag(newName)
+                {
+                    Name = newName,
+                    Description = newDescription,
+                    LastUpdated = DateTime.Now
+                };
                 await _ServiceApiClient.AddFeatureFlag(featureFlag);
             }
 
@@ -66,7 +68,7 @@ namespace FeatureFlags.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel(requestId: Activity.Current?.Id ?? HttpContext.TraceIdentifier));
         }
     }
 }

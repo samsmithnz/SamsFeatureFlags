@@ -20,7 +20,7 @@ namespace FeatureFlags.Service.DataAccess
 
         private CloudTable CreateConnection()
         {
-            string name = _configuration["featureFlagsStorageName"]; 
+            string name = _configuration["featureFlagsStorageName"];
             string accessKey = _configuration["featureFlagsStorageAccessKey"];
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                     new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
@@ -76,7 +76,7 @@ namespace FeatureFlags.Service.DataAccess
 
             FeatureFlag featureFlag = (FeatureFlag)retrievedResult.Result;
 
-            bool result = false;
+            bool result;
             switch (environment.ToLower())
             {
                 case "dev":
@@ -136,6 +136,6 @@ namespace FeatureFlags.Service.DataAccess
             return true;
         }
 
-        
+
     }
 }
