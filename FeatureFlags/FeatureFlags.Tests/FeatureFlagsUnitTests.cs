@@ -71,7 +71,7 @@ namespace FeatureFlags.Tests
 
             //Assert
             Assert.IsTrue(result != null);
-            TestFeatureFlag(result);
+            TestFeatureFlag(result ?? new FeatureFlag());
         }
 
         [TestMethod]
