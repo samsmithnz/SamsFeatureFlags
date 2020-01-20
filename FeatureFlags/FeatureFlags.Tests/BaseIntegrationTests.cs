@@ -11,9 +11,9 @@ namespace FeatureFlags.Tests
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class BaseIntegrationTests
     {
-        private TestServer _server;
-        public HttpClient Client;
-        public IConfigurationRoot Configuration;
+        private TestServer? _server;
+        public HttpClient? Client;
+        public IConfigurationRoot? Configuration;
         // public IDatabase Database;
 
         [TestInitialize]

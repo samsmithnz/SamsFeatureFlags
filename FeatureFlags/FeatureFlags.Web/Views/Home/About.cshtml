@@ -7,19 +7,19 @@
     string osPlatform = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
 
     //.NET core version
-    string aspDotnetVersion = Assembly
+    string? aspDotnetVersion = Assembly
         .GetEntryAssembly()?
         .GetCustomAttribute<System.Runtime.Versioning.TargetFrameworkAttribute>()?
-        .FrameworkName;
+        .FrameworkName ?? "";
 
     //Application version
-    string appVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+    string? appVersion = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version ?? "";
 
     //Application last build time
     const int peHeaderOffset = 60;
     const int linkerTimestampOffset = 8;
     byte[] bytes = new byte[2048];
-    using (FileStream file = new FileStream(Assembly.GetEntryAssembly().Location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+    using (FileStream file = new FileStream(Assembly.GetEntryAssembly()?.Location ?? "", FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
     {
         file.Read(bytes, 0, bytes.Length);
     }
