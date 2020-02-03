@@ -11,17 +11,22 @@ namespace FeatureFlags.Service.DataAccess
 {
     public class FeatureFlagsStorageTable : IFeatureFlagsStorageTable
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration? _configuration;
 
-        public FeatureFlagsStorageTable(IConfiguration configuration)
+        public FeatureFlagsStorageTable(IConfiguration? configuration)
         {
             _configuration = configuration;
         }
 
         private CloudTable CreateConnection()
         {
-            string name = _configuration["featureFlagsStorageName"];
-            string accessKey = _configuration["featureFlagsStorageAccessKey"];
+            string name = "";
+            string accessKey = "";
+            if (_configuration != null)
+            {
+                name = _configuration["featureFlagsStorageName"];
+                accessKey = _configuration["featureFlagsStorageAccessKey"];
+            }
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                     new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
 
