@@ -47,6 +47,9 @@ namespace FeatureFlags.Service.Controllers
             {
                 switch (environment.ToLower())
                 {
+                    case "pr":
+                        featureFlag.PRIsEnabled = isEnabled;
+                        break;
                     case "dev":
                         featureFlag.DevIsEnabled = isEnabled;
                         break;

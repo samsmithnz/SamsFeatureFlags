@@ -17,6 +17,7 @@
     <tr>
         <th>Name</th>
         <th>Description</th>
+        <th>PR</th>
         <th>Dev</th>
         <th>QA</th>
         <th>Prod</th>
@@ -26,6 +27,26 @@
         <tr>
             <td>@item.Name</td>
             <td>@item.Description</td>
+            <td>
+                @Html.CheckBoxFor(x => item.PRIsEnabled, new { id = item.Name + "_pr", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
+                <span>@item.PRViewCount views</span><br />
+                @if (item.PRViewCount > 0 && item.PRLastViewDate != null)
+                {
+                    double totalPRDays = Math.Round((DateTime.Now - (DateTime)item.PRLastViewDate).TotalDays, 0);
+                    if (totalPRDays == 0)
+                    {
+                        <span>(last used today)</span>
+                    }
+                    else
+                    {
+                        <span>(last used @(totalPRDays.ToString("0")) days ago)</span>
+                    }
+                }
+                else
+                {
+                    <span>(never used)</span>
+                }
+            </td>
             <td>
                 @Html.CheckBoxFor(x => item.DevIsEnabled, new { id = item.Name + "_dev", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />
                 <span>@item.DevViewCount views</span><br />

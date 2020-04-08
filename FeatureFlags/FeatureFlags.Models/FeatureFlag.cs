@@ -18,6 +18,27 @@ namespace FeatureFlags.Models
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
 
+        //PR
+        public bool PRIsEnabled { get; set; }
+        private int prViewCount;
+        public int PRViewCount
+        {
+            get
+            {
+                return prViewCount;
+            }
+            set
+            {
+                if (value > prViewCount)
+                {
+                    PRLastViewDate = DateTime.Now;
+                }
+                prViewCount = value;
+            }
+        }
+        public DateTime? PRLastViewDate { get; set; }
+        
+        //Dev
         public bool DevIsEnabled { get; set; }
         private int devViewCount;
         public int DevViewCount
@@ -37,6 +58,7 @@ namespace FeatureFlags.Models
         }
         public DateTime? DevLastViewDate { get; set; }
 
+        //QA
         public bool QAIsEnabled { get; set; }
         private int qaViewCount;
         public int QAViewCount
@@ -56,6 +78,7 @@ namespace FeatureFlags.Models
         }
         public DateTime? QALastViewDate { get; set; }
 
+        //Prod
         public bool ProdIsEnabled { get; set; }
         private int prodViewCount;
         public int ProdViewCount

@@ -84,6 +84,10 @@ namespace FeatureFlags.Service.DataAccess
             bool result;
             switch (environment.ToLower())
             {
+                case "pr":
+                    result = featureFlag.PRIsEnabled;
+                    featureFlag.PRViewCount++;
+                    break;   
                 case "dev":
                     result = featureFlag.DevIsEnabled;
                     featureFlag.DevViewCount++;
