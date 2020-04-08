@@ -27,7 +27,7 @@ namespace FeatureFlags.Tests
             bool result = await da.CheckFeatureFlag(name, environment);
 
             //Assert
-            Assert.IsTrue(result == true);
+            Assert.IsTrue(result == false);
         }
 
         [TestMethod]
