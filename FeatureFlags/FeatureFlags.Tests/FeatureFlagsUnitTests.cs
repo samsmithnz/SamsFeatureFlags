@@ -93,6 +93,24 @@ namespace FeatureFlags.Tests
         }
 
         [TestMethod]
+        public async Task SaveFeatureFlagsStatePRUnitTest()
+        {
+            //Arrange
+            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
+            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
+            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            FeatureFlag featureFlag = GetTestRow();
+
+            //Act
+            bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "pr", true);
+
+            //Assert
+            Assert.IsTrue(result == true);
+        }
+
+        [TestMethod]
         public async Task SaveFeatureFlagsStateDevUnitTest()
         {
             //Arrange
@@ -192,6 +210,9 @@ namespace FeatureFlags.Tests
         {
             Assert.IsTrue(featureFlags.Name == "abc");
             Assert.IsTrue(featureFlags.Description == "def");
+            Assert.IsTrue(featureFlags.PRIsEnabled == true);
+            Assert.IsTrue(featureFlags.PRViewCount > 0);
+            Assert.IsTrue(featureFlags.PRLastViewDate > DateTime.MinValue);
             Assert.IsTrue(featureFlags.DevIsEnabled == true);
             Assert.IsTrue(featureFlags.DevViewCount > 0);
             Assert.IsTrue(featureFlags.DevLastViewDate > DateTime.MinValue);
@@ -219,6 +240,9 @@ namespace FeatureFlags.Tests
             {
                 Name = "abc",
                 Description = "def",
+                PRIsEnabled = true,
+                PRViewCount = 1,
+                PRLastViewDate = DateTime.Now.AddDays(-1),
                 DevIsEnabled = true,
                 DevViewCount = 1,
                 DevLastViewDate = DateTime.Now.AddDays(-1),
