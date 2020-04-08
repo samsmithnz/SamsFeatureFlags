@@ -16,6 +16,21 @@ namespace FeatureFlags.Tests
     public class FeatureFlagsIntegrationTests : BaseIntegrationTests
     {
         [TestMethod]
+        public async Task CheckFeatureFlagPRIntegrationTest()
+        {
+            //Arrange
+            FeatureFlagsStorageTable da = new FeatureFlagsStorageTable(Configuration);
+            string name = "UnitTestFeatureFlag01";
+            string environment = "pr";
+
+            //Act
+            bool result = await da.CheckFeatureFlag(name, environment);
+
+            //Assert
+            Assert.IsTrue(result == false);
+        }
+
+        [TestMethod]
         public async Task CheckFeatureFlagDevIntegrationTest()
         {
             //Arrange
@@ -121,6 +136,7 @@ namespace FeatureFlags.Tests
             {
                 Name = featureFlagName,
                 Description = "Feature Flag for unit tests",
+                PRIsEnabled = false,
                 DevIsEnabled = true,
                 DevViewCount = 1,
                 QAIsEnabled = false,
@@ -145,6 +161,7 @@ namespace FeatureFlags.Tests
             {
                 Name = featureFlagName,
                 Description = "Feature Flag #2",
+                PRIsEnabled = false,
                 DevIsEnabled = false,
                 QAIsEnabled = false,
                 ProdIsEnabled = false,
