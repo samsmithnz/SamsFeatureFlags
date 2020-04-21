@@ -42,6 +42,7 @@ namespace FeatureFlags.Service
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.CaptureStartupErrors(true);
                 });
     }
 }
