@@ -19,6 +19,7 @@ Currently the CI/CD process:
 4. runs Selenium smoke tests on the staging slot to ensure the project is working as expected
 5. swaps the staging and production slots
 
+Dependabot runs daily to check for dependency upgrades, and will automatically create a pull request, and approve/close it if all of the tests pass successfully 
 
 # Contribute
 Feel free to fork and/or add any relevant feature suggestions, bug reports, or features!  
