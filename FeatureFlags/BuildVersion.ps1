@@ -26,5 +26,6 @@ $revisionNumber = [math]::Round((New-TimeSpan -Start $StartDate -End $EndDate).T
 $finalBuildVersion = "$($splitVersion[0]).$($splitVersion[1]).$($buildNumber).$($revisionNumber)"
 #Write-Host "Major.Minor,patch,Build+Revision"
 Write-Host "Final build number: $finalBuildVersion" 
-#Writing final version number back to Github variable
-Write-Host "##vso[task.setvariable variable=buildNumber]$finalBuildVersion"
+#Writing final version number back to Github variable	
+Write-Host "Writing final version $finalBuildVersion back to Github variable"	
+echo "::set-env name=buildVersion::$finalBuildVersion"
