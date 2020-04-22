@@ -21,7 +21,7 @@ namespace FeatureFlags.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<FeatureFlag> featureFlags = await _ServiceApiClient.GetFeatureFlags();
+            Data<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
             return View(featureFlags);
         }
@@ -35,26 +35,29 @@ namespace FeatureFlags.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFeatureFlagPost(string newName, string newDescription)
         {
-            List<FeatureFlag> featureFlags = await _ServiceApiClient.GetFeatureFlags();
+            Data<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
             bool foundDuplicate = false;
-            foreach (FeatureFlag item in featureFlags)
+            if (featureFlags.Payload != null)
             {
-                if (item.Name == newName)
+                foreach (FeatureFlag item in featureFlags.Payload)
                 {
-                    foundDuplicate = true;
+                    if (item.Name == newName)
+                    {
+                        foundDuplicate = true;
+                    }
                 }
-            }
 
-            if (foundDuplicate == false)
-            {
-                FeatureFlag featureFlag = new FeatureFlag(newName)
+                if (foundDuplicate == false)
                 {
-                    Name = newName,
-                    Description = newDescription,
-                    LastUpdated = DateTime.Now
-                };
-                await _ServiceApiClient.AddFeatureFlag(featureFlag);
+                    FeatureFlag featureFlag = new FeatureFlag(newName)
+                    {
+                        Name = newName,
+                        Description = newDescription,
+                        LastUpdated = DateTime.Now
+                    };
+                    await _ServiceApiClient.AddFeatureFlag(featureFlag);
+                }
             }
 
             return RedirectToAction("Index");
