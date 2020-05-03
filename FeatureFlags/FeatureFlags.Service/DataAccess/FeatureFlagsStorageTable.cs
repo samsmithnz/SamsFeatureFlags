@@ -20,8 +20,8 @@ namespace FeatureFlags.Service.DataAccess
 
         private CloudTable CreateConnection()
         {
-            string name = "samsappdataeustorage";
-            string accessKey = "";
+            string name = _configuration["featureFlagsStorageName"];
+            string accessKey = _configuration["featureFlagsStorageAccessKey"];
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                     new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
 
