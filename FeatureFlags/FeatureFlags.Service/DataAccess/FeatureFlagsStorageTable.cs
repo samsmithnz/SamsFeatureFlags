@@ -20,13 +20,8 @@ namespace FeatureFlags.Service.DataAccess
 
         private CloudTable CreateConnection()
         {
-            string name = "";
-            string accessKey = "";
-            if (_configuration != null)
-            {
-                name = _configuration["featureFlagsStorageName"];
-                accessKey = _configuration["featureFlagsStorageAccessKey"];
-            }
+            string name = _configuration["featureFlagsStorageName"];
+            string accessKey = _configuration["featureFlagsStorageAccessKey"];
             CloudStorageAccount storageAccount = new CloudStorageAccount(
                     new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
 
@@ -87,7 +82,7 @@ namespace FeatureFlags.Service.DataAccess
                 case "pr":
                     result = featureFlag.PRIsEnabled;
                     featureFlag.PRViewCount++;
-                    break;   
+                    break;
                 case "dev":
                     result = featureFlag.DevIsEnabled;
                     featureFlag.DevViewCount++;
