@@ -25,7 +25,7 @@ namespace FeatureFlags.FunctionalTests.Service
         {
             //Arrange
             bool serviceLoaded;
-
+             
             //Act
             string serviceURL = _serviceUrl + "api/featureflags/getfeatureflags";
             Console.WriteLine(serviceURL);
