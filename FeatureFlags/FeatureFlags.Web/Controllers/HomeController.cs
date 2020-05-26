@@ -19,7 +19,7 @@ namespace FeatureFlags.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            Data<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
+            Payload<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
             return View(featureFlags);
         }
@@ -33,12 +33,12 @@ namespace FeatureFlags.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFeatureFlagPost(string newName, string newDescription)
         {
-            Data<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
+            Payload<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
             bool foundDuplicate = false;
-            if (featureFlags.Payload != null)
+            if (featureFlags.Data != null)
             {
-                foreach (FeatureFlag item in featureFlags.Payload)
+                foreach (FeatureFlag item in featureFlags.Data)
                 {
                     if (item.Name == newName)
                     {
