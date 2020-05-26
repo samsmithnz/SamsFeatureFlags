@@ -4,12 +4,12 @@
     {
         public Payload()
         {
-            Message = "";
-            Error = "";
+            ServiceMessage = "";
+            ServiceError = "";
         }
 
         public T Data { get; set; }
-        public string Message { get; set; }
-        public string Error { get; set; }
+        public string ServiceMessage { get; set; }
+        public string ServiceError { get; set; }
     }
 }

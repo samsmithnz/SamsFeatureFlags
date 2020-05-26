@@ -61,8 +61,8 @@ namespace FeatureFlags.Web.Controllers
             }
             else
             {
-                data.Message = _degradedStateMessage;
-                data.Error = response.ToString();
+                data.ServiceMessage = _degradedStateMessage;
+                data.ServiceError = response.ToString();
             }
             return data;
         }
@@ -77,8 +77,8 @@ namespace FeatureFlags.Web.Controllers
             }
             else
             {
-                data.Message = _degradedStateMessage;
-                data.Error = response.StatusCode + " " + response.ReasonPhrase;
+                data.ServiceMessage = _degradedStateMessage;
+                data.ServiceError = response.StatusCode + " " + response.ReasonPhrase;
             }
             return data;
         }
@@ -95,8 +95,8 @@ namespace FeatureFlags.Web.Controllers
             }
             else
             {
-                data.Message = _degradedStateMessage;
-                data.Error = response.StatusCode + " " + response.ReasonPhrase;
+                data.ServiceMessage = _degradedStateMessage;
+                data.ServiceError = response.StatusCode + " " + response.ReasonPhrase;
             }
             return data;
         }

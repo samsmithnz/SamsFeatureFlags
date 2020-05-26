@@ -8,11 +8,11 @@
     <h1 class="display-4">SamLearnsAzure Feature Flags management</h1>
 </div>
 
-@if (Model.Message != "")
+@if (Model.ServiceMessage != "")
 {
     <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        <b>@Model.Message</b><br /><br />
-        @Model.Error
+        <b>@Model.ServiceMessage</b><br /><br />
+        @Model.ServiceError
     </div>
 }
 else
