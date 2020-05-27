@@ -106,7 +106,7 @@ jobs:
         app-name: featureflags-data-eu-service
         package: serviceapp
         slot-name: staging   
-    - run: az webapp config appsettings set --name "featureflags-data-eu-service-staging" --resource-group "SamLearnsAzureFeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}"  
+    - run: az webapp config appsettings set --name "featureflags-data-eu-service" --resource-group "SamLearnsAzureFeatureFlags" --slot staging --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}"  
     - name: Deploy website to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
