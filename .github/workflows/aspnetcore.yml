@@ -31,7 +31,13 @@ jobs:
       run: FeatureFlags/BuildVersion.ps1 -ProjectFile "FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj"
       shell: powershell
     
-    #Build and test service   
+    #Build and test service
+    - name: Variable Substitution appsettings file for tests
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'DevOpsMetrics/DevOpsMetrics.Tests/appsettings.json'
+      env:
+        AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"    
     - name: Run automated unit and integration tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --logger trx --collect "Code coverage" --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
 
@@ -99,7 +105,8 @@ jobs:
       with:
         app-name: featureflags-data-eu-service
         package: serviceapp
-        slot-name: staging     
+        slot-name: staging   
+    - run: az webapp config appsettings set --name "featureflags-data-eu-service" --resource-group "SamLearnsAzureFeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}"  
     - name: Deploy website to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
