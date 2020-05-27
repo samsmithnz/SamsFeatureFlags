@@ -75,7 +75,6 @@ namespace FeatureFlags.FunctionalTests.Website
             else
             {
                 _webUrl = TestContext.Properties["WebsiteUrl"].ToString();
-                _keyVaultURL = TestContext.Properties["KeyVaultURL"].ToString();
                 _environment = TestContext.Properties["TestEnvironment"].ToString();
             }
         }
