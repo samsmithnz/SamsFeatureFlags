@@ -6,6 +6,7 @@
     <ApplicationInsightsResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsAnnotationResourceId>
     <nullable>enable</nullable>
+    <UserSecretsId>09283253-7681-438d-8438-0b2f3b3cdac1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

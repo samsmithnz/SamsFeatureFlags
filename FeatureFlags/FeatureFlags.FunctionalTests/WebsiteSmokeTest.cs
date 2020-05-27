@@ -1,18 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using OpenQA.Selenium.Chrome;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Reflection;
-using System.Linq;
-using OpenQA.Selenium;
-using System.Threading;
-using System.Collections;
-using System;
-using Microsoft.Azure.Services.AppAuthentication;
-using Microsoft.Azure.KeyVault;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace FeatureFlags.FunctionalTests.Website
 {
@@ -23,9 +13,6 @@ namespace FeatureFlags.FunctionalTests.Website
         private ChromeDriver _driver;
         private TestContext _testContextInstance;
         private string _webUrl = null;
-        private string _keyVaultURL = null;
-        private string _keyVaultClientId = null;
-        private string _keyVaultClientSecret = null;
         private string _environment = null;
 
         [TestMethod]
@@ -89,8 +76,6 @@ namespace FeatureFlags.FunctionalTests.Website
             {
                 _webUrl = TestContext.Properties["WebsiteUrl"].ToString();
                 _keyVaultURL = TestContext.Properties["KeyVaultURL"].ToString();
-                _keyVaultClientId = TestContext.Properties["KeyVaultClientId"].ToString();
-                _keyVaultClientSecret = TestContext.Properties["KeyVaultClientSecret"].ToString();
                 _environment = TestContext.Properties["TestEnvironment"].ToString();
             }
         }
