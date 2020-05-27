@@ -15,29 +15,29 @@ namespace FeatureFlags.FunctionalTests.Website
         private string _webUrl = null;
         private string _environment = null;
 
-        [TestMethod]
-        [TestCategory("SkipWhenLiveUnitTesting")]
-        [TestCategory("SmokeTest")]
-        public void GotoFeatureFlagsWebHomeIndexPageTest()
-        {
-            //Arrange
-            bool webLoaded;
+        //[TestMethod]
+        //[TestCategory("SkipWhenLiveUnitTesting")]
+        //[TestCategory("SmokeTest")]
+        //public void GotoFeatureFlagsWebHomeIndexPageTest()
+        //{
+        //    //Arrange
+        //    bool webLoaded;
 
-            //Act
-            string webURL = _webUrl + "home";
-            Console.WriteLine("webURL:" + webURL);
-            _driver.Navigate().GoToUrl(webURL);
-            webLoaded = (_driver.Url == webURL);
-            OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/div/main/div/h1");
-            Console.WriteLine("data:" + data.Text);
-            Console.WriteLine("environment:" + _environment);
+        //    //Act
+        //    string webURL = _webUrl + "home";
+        //    Console.WriteLine("webURL:" + webURL);
+        //    _driver.Navigate().GoToUrl(webURL);
+        //    webLoaded = (_driver.Url == webURL);
+        //    OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/div/main/div/h1");
+        //    Console.WriteLine("data:" + data.Text);
+        //    Console.WriteLine("environment:" + _environment);
 
-            //Assert
-            Assert.IsTrue(webLoaded);
-            Assert.IsTrue(data != null);
-            //Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management: " + _environment);
-            Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management");
-        }
+        //    //Assert
+        //    Assert.IsTrue(webLoaded);
+        //    Assert.IsTrue(data != null);
+        //    //Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management: " + _environment);
+        //    Assert.AreEqual(data.Text, "SamLearnsAzure Feature Flags management");
+        //}
 
         [TestMethod]
         [TestCategory("SkipWhenLiveUnitTesting")]
