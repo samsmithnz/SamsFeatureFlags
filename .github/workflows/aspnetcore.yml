@@ -35,7 +35,7 @@ jobs:
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
       with:
-        files: 'DevOpsMetrics/DevOpsMetrics.Tests/appsettings.json'
+        files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"    
     - name: Run automated unit and integration tests
