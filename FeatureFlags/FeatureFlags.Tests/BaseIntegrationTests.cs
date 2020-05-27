@@ -22,6 +22,7 @@ namespace FeatureFlags.Tests
             IConfigurationBuilder config = new ConfigurationBuilder()
                .SetBasePath(AppContext.BaseDirectory)
                .AddJsonFile("appsettings.json");
+            config.AddUserSecrets<BaseIntegrationTests>();
             Configuration = config.Build();
 
             string azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
