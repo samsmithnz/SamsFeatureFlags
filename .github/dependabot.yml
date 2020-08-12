@@ -7,6 +7,8 @@ updates:
     time: "06:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  assignees:
+    - "samsmithnz"
 - package-ecosystem: nuget
   directory: "/FeatureFlags/FeatureFlags.Tests"
   schedule:
@@ -14,6 +16,8 @@ updates:
     time: "06:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  assignees:
+    - "samsmithnz"
 - package-ecosystem: nuget
   directory: "/FeatureFlags/FeatureFlags.Web"
   schedule:
@@ -21,6 +25,8 @@ updates:
     time: "06:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  assignees:
+    - "samsmithnz"
 - package-ecosystem: nuget
   directory: "/FeatureFlags/FeatureFlags.Models"
   schedule:
@@ -28,6 +34,8 @@ updates:
     time: "06:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  assignees:
+    - "samsmithnz"
 - package-ecosystem: nuget
   directory: "/FeatureFlags/FeatureFlags.Service"
   schedule:
@@ -35,3 +43,5 @@ updates:
     time: "06:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  assignees:
+    - "samsmithnz"
