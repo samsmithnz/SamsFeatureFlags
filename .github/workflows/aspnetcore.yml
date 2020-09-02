@@ -126,6 +126,7 @@ jobs:
         Write-Host "$command"
         Invoke-Expression $command
       shell: powershell
+      if: "false == false"
   
   #Deploy the artifacts to Azure
   deploySwapSlots:
