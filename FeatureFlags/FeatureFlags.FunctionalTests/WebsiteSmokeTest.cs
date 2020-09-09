@@ -66,7 +66,8 @@ namespace FeatureFlags.FunctionalTests.Website
         {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-            _driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
+            //_driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
+            _driver = new ChromeDriver(chromeOptions);
 
             if (TestContext.Properties == null || TestContext.Properties.Count == 0)
             {
