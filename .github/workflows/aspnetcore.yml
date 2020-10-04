@@ -11,7 +11,7 @@ jobs:
     
     env:
       buildVersion: 1.0.0.0 #The initial build version, but this is updated below
-      dotNetVersion: netcoreapp3.1
+      dotNetVersion: net5.0
       dotNetConfiguration: Release
    
     steps:
@@ -27,6 +27,8 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1.0.0
+      with:
+        dotnet-version: '5.0.0-rc.1.x'
     - name: Custom script to create a unique application version number for this build
       run: FeatureFlags/BuildVersion.ps1 -ProjectFile "FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj"
       shell: powershell
