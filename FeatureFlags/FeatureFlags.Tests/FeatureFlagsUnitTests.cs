@@ -51,7 +51,7 @@ namespace FeatureFlags.Tests
 
             //Assert
             Assert.IsTrue(results != null);
-            Assert.IsTrue(results.Count() == 1);
+            Assert.IsTrue(results?.Count() == 1);
             TestFeatureFlag(results.FirstOrDefault());
         }
 
@@ -206,7 +206,7 @@ namespace FeatureFlags.Tests
             Assert.IsTrue(result == true);
         }
 
-        private void TestFeatureFlag(FeatureFlag featureFlags)
+        private static void TestFeatureFlag(FeatureFlag featureFlags)
         {
             Assert.IsTrue(featureFlags.Name == "abc");
             Assert.IsTrue(featureFlags.Description == "def");
@@ -234,7 +234,7 @@ namespace FeatureFlags.Tests
             return featureFlags;
         }
 
-        private FeatureFlag GetTestRow()
+        private static FeatureFlag GetTestRow()
         {
             return new FeatureFlag("abc")
             {
