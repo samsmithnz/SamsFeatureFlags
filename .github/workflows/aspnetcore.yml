@@ -34,7 +34,7 @@ jobs:
       run: FeatureFlags/BuildVersion.ps1 -ProjectFile "FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj"
       shell: powershell
     
-    #Build and test service
+    #Test service
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
       with:
