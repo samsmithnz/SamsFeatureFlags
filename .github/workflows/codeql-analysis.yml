@@ -65,7 +65,13 @@ jobs:
     #- run: |
     #   make bootstrap
     #   make release
-
+      
+    # install dependencies, build, and test
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.100'
+    # build projects with .NET 5
     - run: |
         dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
         dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} --self-contained true --runtime ${{env.runtimeTarget}}
