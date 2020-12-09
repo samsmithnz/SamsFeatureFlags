@@ -6,7 +6,7 @@ using FeatureFlags.Models;
 using FeatureFlags.Service.DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace FeatureFlags.Service.Controllers
 {
