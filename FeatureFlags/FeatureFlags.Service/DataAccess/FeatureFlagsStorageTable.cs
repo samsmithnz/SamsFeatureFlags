@@ -1,7 +1,6 @@
 ﻿using FeatureFlags.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +19,12 @@ namespace FeatureFlags.Service.DataAccess
 
         private CloudTable CreateConnection()
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             string name = _configuration["featureFlagsStorageName"];
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             string accessKey = _configuration["featureFlagsStorageAccessKey"];
             CloudStorageAccount storageAccount = new CloudStorageAccount(
-                    new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(name, accessKey), true);
+                    new Microsoft.Azure.Cosmos.Table.StorageCredentials(name, accessKey), true);
 
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();

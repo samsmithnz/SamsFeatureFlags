@@ -1,5 +1,5 @@
 ﻿using FeatureFlags.Models;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

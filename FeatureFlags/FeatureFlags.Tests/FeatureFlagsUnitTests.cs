@@ -3,7 +3,7 @@ using FeatureFlags.Service.Controllers;
 using FeatureFlags.Service.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -225,7 +225,7 @@ namespace FeatureFlags.Tests
             Assert.IsTrue(featureFlags.LastUpdated > DateTime.MinValue);
         }
 
-        private IEnumerable<FeatureFlag> GetFeatureFlagsTestData()
+        private static IEnumerable<FeatureFlag> GetFeatureFlagsTestData()
         {
             List<FeatureFlag> featureFlags = new List<FeatureFlag>
             {
