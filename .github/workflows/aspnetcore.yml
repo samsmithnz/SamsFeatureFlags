@@ -6,33 +6,38 @@ on:
 
 jobs:
   build:
-
-    runs-on: windows-latest
-    
+    runs-on: windows-latest    
     env:
-      buildVersion: 1.0.0.0 #The initial build version, but this is updated below
       dotNetVersion: net5.0
       dotNetConfiguration: Release
       runtimeTarget: win-x86
-   
+    outputs: # https://stackoverflow.com/questions/59175332/using-output-from-a-previous-job-in-a-new-one-in-a-github-action
+      version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}   
     steps:
     # checkout the repo
-    - uses: actions/checkout@v1
-     
-    - name: Check variables
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #fetch-depth is needed for GitVersion
+        
+    #Install and calculate the new version with GitVersion  
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      id: gitversion # step id used as reference for output values
+    - name: Display GitVersion outputs
       run: |
-        Write-Host "buildVersion: ${{ env.buildVersion }}"
-        Write-Host "dotNetVersion: ${{ env.dotNetVersion }}"
-        Write-Host "dotNetConfiguration: ${{ env.dotNetConfiguration }}"
+        echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
+        echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"     
+
      
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.100'
-    - name: Custom script to create a unique application version number for this build
-      run: FeatureFlags/BuildVersion.ps1 -ProjectFile "FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj"
-      shell: powershell
     
     #Test service
     - name: Variable Substitution appsettings file for tests
@@ -46,9 +51,9 @@ jobs:
 
     #Publish dotnet objects
     - name: DotNET Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{env.buildVersion}} --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNET Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{env.buildVersion}} --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNET Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Copy chromedriver for functional test
@@ -136,9 +141,21 @@ jobs:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
     needs: [build, preDeploy]
     #Only deploy if running off the master branch - we don't want to deploy off feature branches
-    #if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
         
     steps:
+    - name: Display GitVersion outputs
+      run: |
+        echo "version: ${{ needs.build.outputs.version }}" 
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ needs.build.outputs.version }}
+        release_name: Release ${{ needs.build.outputs.version }}        
+        
     # Login with the secret SP details
     - name: Log into Azure
       uses: azure/login@v1
