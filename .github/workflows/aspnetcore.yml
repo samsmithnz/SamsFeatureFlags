@@ -51,7 +51,7 @@ jobs:
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"    
     - name: Run automated unit and integration tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
     #Publish dotnet objects
     - name: DotNET Publish Web Service
