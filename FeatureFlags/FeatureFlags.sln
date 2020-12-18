@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.FunctionalTest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6D42B315-BE9A-44E2-8125-5A98F46CA1A7}"
 	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\aspnetcore.yml = ..\.github\workflows\aspnetcore.yml
 		BuildVersion.ps1 = BuildVersion.ps1
+		..\.github\workflows\codeql-analysis.yml = ..\.github\workflows\codeql-analysis.yml
 		..\.github\dependabot.yml = ..\.github\dependabot.yml
 	EndProjectSection
 EndProject
