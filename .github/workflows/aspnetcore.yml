@@ -72,7 +72,8 @@ jobs:
 
   test:
     runs-on: windows-latest   
-    steps:   
+    steps:  
+    - uses: actions/checkout@v2 
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
