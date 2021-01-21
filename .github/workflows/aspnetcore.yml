@@ -5,24 +5,24 @@ on:
     - cron:  '0 0/2 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  dotNetVersion: net5.0
+  dotNetConfiguration: Release
+  runtimeTarget: win-x86
   
 jobs:
   build:
     runs-on: windows-latest    
-    env:
-      dotNetVersion: net5.0
-      dotNetConfiguration: Release
-      runtimeTarget: win-x86
     outputs: # https://stackoverflow.com/questions/59175332/using-output-from-a-previous-job-in-a-new-one-in-a-github-action
       Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }} 
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}   
     steps:
-    # checkout the repo
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0 #fetch-depth is needed for GitVersion
         
-    #Install and calculate the new version with GitVersion  
+    # install and calculate the new version with GitVersion  
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v0.9.7
       with:
@@ -35,28 +35,12 @@ jobs:
         echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
         echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"   
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"    
-        
-     
+             
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.100'
-    
-    #Test service
-    - name: Variable Substitution appsettings file for tests
-      uses: microsoft/variable-substitution@v1
-      with:
-        files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
-      env:
-        AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"    
-    - name: Run automated unit and integration tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
-    - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
               
     #Publish dotnet objects
     - name: DotNET Publish Web Service
@@ -86,10 +70,34 @@ jobs:
         name: functionaltests
         path: FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/publish
 
+  test:
+    runs-on: windows-latest   
+    steps:  
+    - uses: actions/checkout@v2 
+      # install dependencies, build, and test
+    - name: Setup Dotnet for use with actions
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.100'
+      # Test service
+    - name: Variable Substitution appsettings file for tests
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
+      env:
+        AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"    
+    - name: Run automated unit and integration tests
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
+
   #Deploy the artifacts to Azure
   preDeploy:
     runs-on: windows-latest
-    needs: build        
+    needs: [build, test]        
     steps:        
     # Login with the secret SP details
     - name: Log into Azure
