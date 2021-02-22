@@ -86,8 +86,12 @@ jobs:
         files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"   
+    - name: Build automated tests project
+      run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
     - name: Create empty file to get around error in .NET 6
-      run: New-Item FeatureFlags/FeatureFlags.Tests/secrets.json
+      run: |
+        New-Item FeatureFlags/FeatureFlags.Tests/secrets.json
+        xcopy FeatureFlags/FeatureFlags.Tests/secrets.json FeatureFlags\FeatureFlags.Tests\bin\${{ env.dotNetConfiguration }}\{{ env.dotNetVersion }}\
       shell: powershell
     - name: Run automated unit and integration tests
       run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
