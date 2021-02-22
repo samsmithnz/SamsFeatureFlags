@@ -87,7 +87,7 @@ jobs:
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"   
     - name: Build automated tests project
-      run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
     - name: Create empty file to get around error in .NET 6
       run: |
         New-Item FeatureFlags/FeatureFlags.Tests/secrets.json
