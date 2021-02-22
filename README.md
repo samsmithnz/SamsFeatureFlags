@@ -12,7 +12,7 @@ Our main application will call our feature flags service, asking for the state o
 <kbd><img src="https://samlearnsazure.files.wordpress.com/2019/09/23samsappfeatureflags-2.png?w=1160" style="border: 1px solid black" /></kbd>
 
 # Build and Test
-Uses .Net CORE 3.1, MSTest, and Selenium. A GitHub action runs the CI/CD process. 
+Uses .NET 6, MSTest, and Selenium. A GitHub action runs the CI/CD process. 
 
 Currently the CI/CD process: 
 1. builds the code
