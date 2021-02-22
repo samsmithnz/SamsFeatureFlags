@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <ApplicationInsightsResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsAnnotationResourceId>
     <nullable>enable</nullable>
-    <UserSecretsId>09283253-7681-438d-8438-0b2f3b3cdac1</UserSecretsId>
+    <UserSecretsId>c876e859-1651-4fd9-8307-7e9c4accaff5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +15,6 @@
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
     <PackageReference Include="Microsoft.Azure.Services.AppAuthentication" Version="1.6.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.12" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-preview.1.21112.2" />
   </ItemGroup>
 
   <ItemGroup>
