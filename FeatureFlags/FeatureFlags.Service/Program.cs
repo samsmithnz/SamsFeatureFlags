@@ -11,8 +11,9 @@ namespace FeatureFlags.Service
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
                     //Load the appsettings.json configuration file
@@ -33,5 +34,6 @@ namespace FeatureFlags.Service
                     webBuilder.UseStartup<Startup>();
                     webBuilder.CaptureStartupErrors(true);
                 });
+        }
     }
 }
