@@ -40,7 +40,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.100-preview.1.21103.13'
+        dotnet-version: '5.0.100'
               
     #Publish dotnet objects
     - name: DotNET Publish Web Service
@@ -78,7 +78,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.100-preview.1.21103.13'
+        dotnet-version: '5.0.100'
       # Test service
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
