@@ -25,7 +25,7 @@ jobs:
     name: Analyze
     runs-on: windows-latest
     env:
-      dotNetVersion: net6.0
+      dotNetVersion: net5.0
       dotNetConfiguration: Release
       runtimeTarget: win-x86
     strategy:
