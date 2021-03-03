@@ -1,7 +1,7 @@
 # Sams Feature Flags
 
 [![Build](https://github.com/samsmithnz/FeatureFlags/workflows/Feature%20Flags%20CI%2FCD/badge.svg)](https://github.com/samsmithnz/SamsFeatureFlags/actions?query=workflow%3A%22Feature+Flags+CI%2FCD%22) 
-[![Coverage Status](https://coveralls.io/repos/github/samsmithnz/SamsFeatureFlags/badge.svg?branch=master)](https://coveralls.io/github/samsmithnz/SamsFeatureFlags?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/samsmithnz/SamsFeatureFlags/badge.svg?branch=main)](https://coveralls.io/github/samsmithnz/SamsFeatureFlags?branch=main)
 
 As part of a [series of blog posts about Feature Flags](https://samlearnsazure.blog/2019/09/13/implementing-feature-flags/), we needed to create our own custom Feature flags system. 
 Our main application will call our feature flags service, asking for the state of particular feature flags based on their environment – for example, if we were implementing a new menu and wanted to use the feature flag in dev, the dev website will ask if the dev version of the new menu feature flag is enabled. Current features include 
