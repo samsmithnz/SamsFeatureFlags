@@ -26,7 +26,7 @@ jobs:
     runs-on: windows-latest
     env:
       dotNetVersion: net6.0
-      dotNetSDKVersion: 6.0.100-preview.1.21103.13
+      dotNetSDKVersion: 6.0.100-preview.2.21155.3
       dotNetConfiguration: Release
       runtimeTarget: win-x86
     strategy:
