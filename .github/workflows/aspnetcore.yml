@@ -10,7 +10,7 @@ env:
   dotNetVersion: net6.0
   dotNetConfiguration: Release
   dotNetSDKVersion: 6.0.100-preview.2.21155.3
-  runtimeTarget: win-x86
+  runtimeTarget: win-x64
   
 jobs:
   build:
