@@ -44,13 +44,13 @@ jobs:
         dotnet-version: ${{ env.dotNetSDKVersion }}
               
     #Publish dotnet objects
-    - name: DotNET Publish Web Service
-      run: |
-        dotnet restore FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj 
-        dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
-    - name: DotNET Publish Web Site
+    - name: Restore packages
+      run: dotnet restore 
+    - name: Dotnet Publish Web Service
+      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
+    - name: Dotnet Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
-    - name: DotNET Publish functional tests
+    - name: Dotnet Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Copy chromedriver for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/publish"
@@ -89,6 +89,8 @@ jobs:
         files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"   
+    - name: Restore packages
+      run: dotnet restore 
     - name: Build automated tests project
       run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
     - name: Create empty file to get around error in .NET 6
