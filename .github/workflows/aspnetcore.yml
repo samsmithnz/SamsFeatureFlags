@@ -44,8 +44,8 @@ jobs:
         dotnet-version: ${{ env.dotNetSDKVersion }}
               
     #Publish dotnet objects
-    - name: Restore packages
-      run: dotnet restore FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj
+    - name: Clear packages #(https://github.com/NuGet/Home/issues/10586)
+      run: dotnet nuget locals all --clear
     - name: Dotnet Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Dotnet Publish Web Site
@@ -89,8 +89,8 @@ jobs:
         files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"   
-    - name: Restore packages
-      run: dotnet restore FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj
+    - name: Clear packages #(https://github.com/NuGet/Home/issues/10586)
+      run: dotnet nuget locals all --clear
     - name: Build automated tests project
       run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
     - name: Create empty file to get around error in .NET 6
