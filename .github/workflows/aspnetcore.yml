@@ -153,7 +153,7 @@ jobs:
 
     # Run functional tests on staging slots     
     - name: Functional Tests
-      if: 0 == 1
+      if: 1 == 1
       run: |
         $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
         $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests.dll"
