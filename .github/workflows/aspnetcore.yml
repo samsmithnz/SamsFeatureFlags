@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  dotNetVersion: net6.0
+  dotNetVersion: net5.0
   dotNetConfiguration: Release
+  dotNetSDKVersion: "5.0.201"
   runtimeTarget: win-x86
   
 jobs:
@@ -40,7 +41,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100-preview.1.21103.13
+        dotnet-version: ${{ env.dotNetSDKVersion }}
               
     #Publish dotnet objects
     - name: DotNET Publish Web Service
@@ -78,7 +79,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100-preview.1.21103.13
+        dotnet-version: ${{ env.dotNetSDKVersion }}
       # Test service
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
