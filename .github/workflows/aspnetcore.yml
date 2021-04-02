@@ -10,7 +10,7 @@ env:
   dotNetVersion: net5.0
   dotNetConfiguration: Release
   dotNetSDKVersion: "5.0.201"
-  runtimeTarget: win-x86
+  runtimeTarget: win-x64
   
 jobs:
   build:
