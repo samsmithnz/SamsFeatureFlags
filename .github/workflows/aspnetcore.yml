@@ -7,8 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  dotNetVersion: net6.0
+  dotNetVersion: net5.0
   dotNetConfiguration: Release
+  dotNetSDKVersion: "5.0.201"
   runtimeTarget: win-x86
   
 jobs:
@@ -40,14 +41,14 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100-preview.1.21103.13
+        dotnet-version: ${{ env.dotNetSDKVersion }}
               
     #Publish dotnet objects
-    - name: DotNET Publish Web Service
+    - name: DotNet Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
-    - name: DotNET Publish Web Site
+    - name: DotNet Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --self-contained true --runtime ${{env.runtimeTarget}}
-    - name: DotNET Publish functional tests
+    - name: DotNet Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Copy chromedriver for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/publish"
@@ -78,7 +79,7 @@ jobs:
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.100-preview.1.21103.13
+        dotnet-version: ${{ env.dotNetSDKVersion }}
       # Test service
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
@@ -168,8 +169,8 @@ jobs:
   deploySwapSlots:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
     needs: [build, preDeploy]
-    #Only deploy if running off the master branch - we don't want to deploy off feature branches
-    if: github.ref == 'refs/heads/master'
+    #Only deploy if running off the main branch - we don't want to deploy off feature branches
+    if: github.ref == 'refs/heads/main'
         
     steps:
     - name: Display GitVersion outputs
