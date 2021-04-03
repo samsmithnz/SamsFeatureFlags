@@ -8,6 +8,7 @@
     <Version>1.1.2.4</Version>
     <Deterministic>false</Deterministic>
     <nullable>enable</nullable>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
 

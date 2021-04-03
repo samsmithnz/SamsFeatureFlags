@@ -6,6 +6,7 @@
     <ApplicationInsightsAnnotationResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsAnnotationResourceId>
     <nullable>enable</nullable>
     <UserSecretsId>c876e859-1651-4fd9-8307-7e9c4accaff5</UserSecretsId>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
