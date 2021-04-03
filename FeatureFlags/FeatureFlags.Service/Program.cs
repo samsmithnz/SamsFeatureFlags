@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace FeatureFlags.Service
 {
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)
