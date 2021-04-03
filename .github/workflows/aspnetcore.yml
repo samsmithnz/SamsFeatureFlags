@@ -49,7 +49,7 @@ jobs:
     - name: DotNet Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet build functional tests
-      run: dotnet build FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}} --runtime ${{env.runtimeTarget}} #--self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet build FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}} #--self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish functional tests
       run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --output ${{ github.workspace }}/functionalTests --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Copy chromedriver for functional test
