@@ -43,11 +43,13 @@ jobs:
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
               
-    #Publish dotnet objects
+    #Publish web and web service projects
     - name: DotNet Publish Web Service
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+
+    #Publish functional tests
     - name: DotNet build functional tests
       run: dotnet build FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}} #--self-contained false #--self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish functional tests
@@ -55,6 +57,12 @@ jobs:
     - name: Copy chromedriver for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "${{ github.workspace }}/functionalTests"
       shell: powershell
+    - name: DotNet restore functional tests
+      run: dotnet restore FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj 
+    - name: Copy NewtonSoft version for functional test
+      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/Newtonsoft.Json.dll" "${{ github.workspace }}/functionalTests"
+      shell: powershell
+
     
     #Publish build artifacts to GitHub
     - name: Upload web service build artifacts back to GitHub
