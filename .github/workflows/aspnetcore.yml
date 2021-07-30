@@ -118,7 +118,7 @@ jobs:
         path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
 
   #Deploy the artifacts to Azure
-  preDeploy:
+  deploy:
     runs-on: windows-latest
     needs: [build, test]        
     steps:        
@@ -151,17 +151,17 @@ jobs:
     - name: Deploy web service to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
-        app-name: featureflags-data-eu-service
+        app-name: featureflags-prod-eu-service
         package: serviceapp
-        slot-name: staging   
+        #slot-name: staging   
     - name: Set service secrets
-      run: az webapp config appsettings set --name "featureflags-data-eu-service" --resource-group "SamLearnsAzureFeatureFlags" --slot staging --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}"  
+      run: az webapp config appsettings set --name "featureflags-prod-eu-service" --resource-group "FeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}" #--slot staging   
     - name: Deploy website to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
-        app-name: featureflags-data-eu-web
+        app-name: featureflags-prod-eu-web
         package: webapp
-        slot-name: staging 
+        #slot-name: staging 
 
     # Run functional tests on staging slots     
     - name: Functional Tests
@@ -170,7 +170,7 @@ jobs:
         $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
         $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests.dll"
         $testRunSettings = "/Settings:`"functionaltests\test.runsettings`" "
-        $parameters = " -- ServiceUrl=""https://featureflags-data-eu-service-staging.azurewebsites.net/"" WebsiteUrl=""https://featureflags-data-eu-web-staging.azurewebsites.net/"" "
+        $parameters = " -- ServiceUrl=""https://featureflags-prod-eu-service.azurewebsites.net/"" WebsiteUrl=""https://featureflags-prod-eu-web.azurewebsites.net/"" "
         #Note that the `" is an escape character to quote strings, and the `& is needed to start the command
         $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings $parameters " 
         Write-Host "$command"
@@ -218,9 +218,9 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   
   #Deploy the artifacts to Azure
-  deploySwapSlots:
+  swapSlots:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
-    needs: [build, preDeploy]
+    #needs: [build, deploy]
     #Only deploy if running off the main branch - we don't want to deploy off feature branches
     if: github.ref == 'refs/heads/main'
         
@@ -241,16 +241,19 @@ jobs:
         
     # Login with the secret SP details
     - name: Log into Azure
+      if: 0==1
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }}     
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
+      if: 0==1
       uses: Azure/cli@v1.0.0
       with:
-        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-service --slot staging --target-slot production
+        inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
+      if: 0==1
       uses: Azure/cli@v1.0.0
       with:
-        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-data-eu-web --slot staging --target-slot production
+        inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 

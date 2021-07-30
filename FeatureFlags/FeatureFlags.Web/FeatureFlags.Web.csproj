@@ -3,9 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ApplicationInsightsResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/07db7d0b-a6cb-4e58-b07e-e1d541c39f5b/resourcegroups/SamLearnsAzureData/providers/microsoft.insights/components/featureflags-data-eu-appinsights</ApplicationInsightsAnnotationResourceId>
-    <Version>1.1.2.4</Version>
+    <Version>1.5</Version>
     <Deterministic>false</Deterministic>
     <nullable>enable</nullable>
   </PropertyGroup>
