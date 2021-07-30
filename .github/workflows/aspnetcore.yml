@@ -155,7 +155,7 @@ jobs:
         package: serviceapp
         #slot-name: staging   
     - name: Set service secrets
-      run: az webapp config appsettings set --name "featureflags-prod-eu-service" --resource-group "SamLearnsAzureFeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}" #--slot staging   
+      run: az webapp config appsettings set --name "featureflags-prod-eu-service" --resource-group "FeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}" #--slot staging   
     - name: Deploy website to Azure WebApp
       uses: Azure/webapps-deploy@v1
       with:
@@ -250,10 +250,10 @@ jobs:
       if: 0==1
       uses: Azure/cli@v1.0.0
       with:
-        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
+        inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
       if: 0==1
       uses: Azure/cli@v1.0.0
       with:
-        inlineScript: az webapp deployment slot swap --resource-group SamLearnsAzureFeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
+        inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 
