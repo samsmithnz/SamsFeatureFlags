@@ -118,7 +118,7 @@ jobs:
         path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
 
   #Deploy the artifacts to Azure
-  preDeploy:
+  deploy:
     runs-on: windows-latest
     needs: [build, test]        
     steps:        
@@ -218,9 +218,9 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   
   #Deploy the artifacts to Azure
-  deploySwapSlots:
+  swapSlots:
     runs-on: ubuntu-latest # Note, Azure CLI requires a Linux runner...
-    needs: [build, preDeploy]
+    #needs: [build, deploy]
     #Only deploy if running off the main branch - we don't want to deploy off feature branches
     if: github.ref == 'refs/heads/main'
         
