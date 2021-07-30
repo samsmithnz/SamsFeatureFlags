@@ -20,11 +20,11 @@ namespace FeatureFlags.Service.DataAccess
         private CloudTable CreateConnection()
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            string name = _configuration["featureFlagsStorageName"];
+            string name = _configuration["FeatureFlagsStorageName"];
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
-            string accessKey = _configuration["featureFlagsStorageAccessKey"];
-            CloudStorageAccount storageAccount = new CloudStorageAccount(
-                    new Microsoft.Azure.Cosmos.Table.StorageCredentials(name, accessKey), true);
+            string accessKey = _configuration["FeatureFlagsStorageAccessKey"];
+            CloudStorageAccount storageAccount = new(
+                    new StorageCredentials(name, accessKey), true);
 
             // Create the table client.
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
