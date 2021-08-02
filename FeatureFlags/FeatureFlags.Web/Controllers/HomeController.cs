@@ -21,6 +21,8 @@ namespace FeatureFlags.Web.Controllers
         {
             Payload<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
+
+
             return View(featureFlags);
         }
 
