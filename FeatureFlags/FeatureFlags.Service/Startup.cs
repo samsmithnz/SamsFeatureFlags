@@ -46,11 +46,7 @@ namespace FeatureFlags.Service
 
             app.UseRouting();
 
-            // global cors policy
-            app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowAnyOrigin());
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
