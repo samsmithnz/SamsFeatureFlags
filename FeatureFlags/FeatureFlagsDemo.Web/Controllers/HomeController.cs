@@ -33,8 +33,8 @@ namespace FeatureFlagsDemo.Web.Controllers
             //Divide by zero feature flag
             if (_featureFlagsServiceApiClient != null)
             {
-                indexPageData.DivideByZeroFeatureFlag = await _featureFlagsServiceApiClient.CheckFeatureFlag("DivideByZero", _configuration["AppSettings:Environment"].ToString());
-                indexPageData.VerticalProductsFeatureFlag = await _featureFlagsServiceApiClient.CheckFeatureFlag("VerticalProducts", _configuration["AppSettings:Environment"].ToString());
+                indexPageData.DivideByZeroFeatureFlag = await _featureFlagsServiceApiClient.CheckFeatureFlag("DivideByZero", "Prod");
+                indexPageData.VerticalProductsFeatureFlag = await _featureFlagsServiceApiClient.CheckFeatureFlag("VerticalProducts", "Prod");
             }
             if (indexPageData.DivideByZeroFeatureFlag == true)
             {
