@@ -1,3 +1,4 @@
+using FeatureFlagsDemo.Web.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,9 @@ namespace FeatureFlagsDemo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //Add DI for the feature flags service api client 
+            services.AddScoped<IFeatureFlagsServiceApiClient, FeatureFlagsServiceApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
