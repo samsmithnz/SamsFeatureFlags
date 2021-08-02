@@ -50,7 +50,7 @@ namespace FeatureFlags.Service
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true)); // allow any origin
+                .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
