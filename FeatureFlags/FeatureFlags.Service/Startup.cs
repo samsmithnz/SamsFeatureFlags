@@ -1,7 +1,6 @@
 using FeatureFlags.Service.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -46,7 +45,12 @@ namespace FeatureFlags.Service
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {

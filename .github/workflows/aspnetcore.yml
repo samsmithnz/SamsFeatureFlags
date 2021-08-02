@@ -48,6 +48,8 @@ jobs:
       run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Web Site
       run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+    - name: DotNet Publish Demo Web Site
+      run: dotnet publish FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
 
     #Publish functional tests
     - name: DotNet build functional tests
@@ -57,7 +59,7 @@ jobs:
     - name: Copy chromedriver for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "${{ github.workspace }}/functionalTests"
       shell: powershell
-    - name: DotNet restore functional tests to get correct NewtonSoft version
+    - name: DotNet restore functional tests to get correct Newtonsoft version
       run: dotnet restore FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj 
     - name: Copy new NewtonSoft version for functional test
       run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/Newtonsoft.Json.dll" "${{ github.workspace }}/functionalTests"
@@ -75,6 +77,11 @@ jobs:
       with:
         name: webapp
         path: ${{ github.workspace }}/web
+    - name: Upload website build artifacts back to GitHub
+      uses: actions/upload-artifact@master
+      with:
+        name: webappDemo
+        path: ${{ github.workspace }}/webDemo
     - name: Upload function test build artifacts back to GitHub
       uses: actions/upload-artifact@master
       with:
@@ -142,6 +149,10 @@ jobs:
       uses: actions/download-artifact@v1.0.0
       with:
         name: webapp
+    - name: Download webappDemo artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: webappDemo
     - name: Download functionaltests artifact
       uses: actions/download-artifact@v1.0.0
       with:
@@ -161,6 +172,12 @@ jobs:
       with:
         app-name: featureflags-prod-eu-web
         package: webapp
+        #slot-name: staging 
+    - name: Deploy website demo to Azure WebApp
+      uses: Azure/webapps-deploy@v1
+      with:
+        app-name: featureflagsdemo-prod-eu-web
+        package: webappDemo
         #slot-name: staging 
 
     # Run functional tests on staging slots     

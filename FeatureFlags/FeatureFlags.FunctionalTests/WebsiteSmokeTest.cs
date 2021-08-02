@@ -63,7 +63,7 @@ namespace FeatureFlags.FunctionalTests.Website
         [TestInitialize]
         public void SetupTests()
         {
-            ChromeOptions chromeOptions = new ChromeOptions();
+            ChromeOptions chromeOptions = new();
             chromeOptions.AddArguments("headless");
             //_driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
             _driver = new ChromeDriver(chromeOptions);

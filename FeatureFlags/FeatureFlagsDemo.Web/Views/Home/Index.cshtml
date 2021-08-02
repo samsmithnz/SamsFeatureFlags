@@ -1,0 +1,172 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">My favorite DevOps books</h1>
+    @if (Model.VerticalProductsFeatureFlag == true)
+    {
+        <div class="container" style="padding-top: 0px; margin-top: 0px;">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>The DevOps Handbook</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002/ref=sr_1_3?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-3">$18.69 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002/ref=sr_1_3?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-3">
+                                    <img src="~/images/devops1.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>DevOps for dummies</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/DevOps-Dummies-Computer-Tech/dp/1119552222/ref=sr_1_4?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-4">$27.49 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/DevOps-Dummies-Computer-Tech/dp/1119552222/ref=sr_1_4?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-4">
+                                    <img src="~/images/devops2.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>The Phoenix Project</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/1942788290/ref=sr_1_11?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-11">$19.99 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/1942788290/ref=sr_1_11?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-11">
+                                    <img src="~/images/devops3.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>Accelerate: The Science of Lean Software and DevOps</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339/ref=sr_1_13?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-13">$17.49 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339/ref=sr_1_13?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-13">
+                                    <img src="~/images/devops4.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>The Unicorn Project</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/Unicorn-Project-Developers-Disruption-Thriving/dp/1942788762/ref=sr_1_21?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-21">$15.89 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Unicorn-Project-Developers-Disruption-Thriving/dp/1942788762/ref=sr_1_21?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-21">
+                                    <img src="~/images/devops5.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12 desc" style="padding-top:20px; height: 250px;">
+                    <hr />
+                    <h4><b>The Goal: A Process of Ongoing Improvement</b></h4>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><a href="https://www.amazon.com/The-Goal-audiobook/dp/B00IFGGDA2/ref=sr_1_1?dchild=1&keywords=the+goal&qid=1627910341&s=audible&sr=1-1">$16.95 &raquo;</a></h4>
+                            </td>
+                            <td>
+                                <a class="b-link-fade b-animate-go" href="https://www.amazon.com/The-Goal-audiobook/dp/B00IFGGDA2/ref=sr_1_1?dchild=1&keywords=the+goal&qid=1627910341&s=audible&sr=1-1">
+                                    <img src="~/images/devops6.jpg" alt="" style="width: 100px;">
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container" style="padding-top: 0px; margin-top: 0px;">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>The DevOps Handbook</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002/ref=sr_1_3?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-3">
+                        <img src="~/images/devops1.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002/ref=sr_1_3?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-3">The DevOps Handbook $18.69 &raquo;</a></p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>DevOps for dummies</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/DevOps-Dummies-Computer-Tech/dp/1119552222/ref=sr_1_4?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-4">
+                        <img src="~/images/devops2.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/DevOps-Dummies-Computer-Tech/dp/1119552222/ref=sr_1_4?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-4">DevOps for dummies $27.49 &raquo;</a></p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>The Phoenix Project</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/1942788290/ref=sr_1_11?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-11">
+                        <img src="~/images/devops3.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/Phoenix-Project-DevOps-Helping-Business/dp/1942788290/ref=sr_1_11?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-11">The Phoenix Project $19.99 &raquo;</a></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>Accelerate: The Science of Lean Software and DevOps</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339/ref=sr_1_13?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-13">
+                        <img src="~/images/devops4.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/Accelerate-Software-Performing-Technology-Organizations/dp/1942788339/ref=sr_1_13?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-13">Accelerate: The Science of Lean Software and DevOps $17.49 &raquo;</a></p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>The Unicorn Project</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/Unicorn-Project-Developers-Disruption-Thriving/dp/1942788762/ref=sr_1_21?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-21">
+                        <img src="~/images/devops5.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/Unicorn-Project-Developers-Disruption-Thriving/dp/1942788762/ref=sr_1_21?dchild=1&keywords=devops&qid=1627909867&rnid=2941120011&s=books&sr=1-21">The Unicorn Project $15.89 &raquo;</a></p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xs-12 desc" style="padding-top:20px; height: 300px;">
+                    <h5><b>The Goal: A Process of Ongoing Improvement</b></h5>
+                    <a class="b-link-fade b-animate-go" href="https://www.amazon.com/The-Goal-audiobook/dp/B00IFGGDA2/ref=sr_1_1?dchild=1&keywords=the+goal&qid=1627910341&s=audible&sr=1-1">
+                        <img src="~/images/devops6.jpg" alt="" style="width: 100px;">
+                    </a>
+                    <p><a href="https://www.amazon.com/The-Goal-audiobook/dp/B00IFGGDA2/ref=sr_1_1?dchild=1&keywords=the+goal&qid=1627910341&s=audible&sr=1-1">The Goal: A Process of Ongoing Improvement $16.95 &raquo;</a></p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
