@@ -177,7 +177,7 @@ jobs:
       uses: Azure/webapps-deploy@v1
       with:
         app-name: featureflagsdemo-prod-eu-web
-        package: webapp
+        package: webappDemo
         #slot-name: staging 
 
     # Run functional tests on staging slots     
