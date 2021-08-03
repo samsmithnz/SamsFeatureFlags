@@ -1,6 +1,7 @@
 ﻿using FeatureFlags.Models;
 using FeatureFlags.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,15 +12,21 @@ namespace FeatureFlags.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IServiceAPIClient _ServiceApiClient;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(IServiceAPIClient ServiceApiClient)
+        public HomeController(IServiceAPIClient ServiceApiClient, IConfiguration configuration)
         {
             _ServiceApiClient = ServiceApiClient;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
         {
             Payload<List<FeatureFlag>> featureFlags = await _ServiceApiClient.GetFeatureFlags();
+            if (featureFlags != null)
+            {
+                featureFlags.ServiceURL = _configuration["AppSettings:WebServiceURL"];
+            }
 
             return View(featureFlags);
         }
@@ -28,7 +35,6 @@ namespace FeatureFlags.Web.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> AddFeatureFlagPost(string newName, string newDescription)
