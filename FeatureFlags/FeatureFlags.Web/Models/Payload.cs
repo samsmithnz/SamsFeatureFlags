@@ -9,6 +9,7 @@
         }
 
         public T Data { get; set; }
+        public string ServiceURL { get; set; }
         public string ServiceMessage { get; set; }
         public string ServiceError { get; set; }
     }

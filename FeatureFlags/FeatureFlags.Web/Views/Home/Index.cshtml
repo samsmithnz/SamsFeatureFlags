@@ -3,6 +3,9 @@
     ViewData["Title"] = "Home Page";
 }
 @model Payload<List<FeatureFlag>>
+@{
+    var ServiceURL = Model.ServiceURL;
+}
 
 <div class="text-center">
     <h1 class="display-4">Sams Feature Flags management</h1>
@@ -134,8 +137,9 @@ else
         var name = featureDetails[0];
         var environment = featureDetails[1]
         var isEnabled = item.checked;
+        //console.log("@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled);
         $.ajax({
-            url: "https://featureflags-prod-eu-service.azurewebsites.net/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled,
+            url: "@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled,
             success: function (resultData) {
                 location.reload();
             }
