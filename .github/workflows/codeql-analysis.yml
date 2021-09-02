@@ -63,9 +63,7 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    #- run: |
-    #   make bootstrap
-    #   make release
+    - run: echo "Language- ${{ matrix.language }}"
       
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
