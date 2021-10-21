@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
@@ -27,7 +28,7 @@ namespace FeatureFlags.FunctionalTests.Website
             Console.WriteLine(serviceURL);
             _driver.Navigate().GoToUrl(serviceURL);
             serviceLoaded = (_driver.Url == serviceURL);
-            OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/pre");
+            OpenQA.Selenium.IWebElement data = _driver.FindElement(By.XPath(@"/html/body/pre"));
 
             //Assert
             Assert.IsTrue(serviceLoaded);
