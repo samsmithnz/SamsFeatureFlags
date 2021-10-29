@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.IO;
@@ -28,7 +29,7 @@ namespace FeatureFlags.FunctionalTests.Website
             Console.WriteLine("webURL:" + webURL);
             _driver.Navigate().GoToUrl(webURL);
             webLoaded = (_driver.Url == webURL);
-            OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/div/main/div/h1");
+            OpenQA.Selenium.IWebElement data = _driver.FindElement(By.XPath(@"/html/body/div/main/div/h1"));
             Console.WriteLine("data:" + data.Text);
             Console.WriteLine("environment:" + _environment);
 
@@ -51,7 +52,7 @@ namespace FeatureFlags.FunctionalTests.Website
             Console.WriteLine("webURL:" + webURL);
             _driver.Navigate().GoToUrl(webURL);
             webLoaded = (_driver.Url == webURL);
-            OpenQA.Selenium.IWebElement data = _driver.FindElementByXPath(@"/html/body/div/main/h1");
+            OpenQA.Selenium.IWebElement data = _driver.FindElement(By.XPath(@"/html/body/div/main/h1"));
             Console.WriteLine("data:" + data.Text);
 
             //Assert
