@@ -187,7 +187,7 @@ jobs:
     - name: Functional Tests
       if: 1 == 1
       run: |
-        $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
+        $vsTestConsoleExe = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe"
         $targetTestDll = "functionaltests\FeatureFlags.FunctionalTests.dll"
         $testRunSettings = "/Settings:`"functionaltests\test.runsettings`" "
         $parameters = " -- ServiceUrl=""https://featureflags-prod-eu-service.azurewebsites.net/"" WebsiteUrl=""https://featureflags-prod-eu-web.azurewebsites.net/"" "
