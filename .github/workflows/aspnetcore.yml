@@ -10,7 +10,7 @@ env:
   dotNetVersion: net6.0
   dotNetConfiguration: Release
   dotNetSDKVersion: "6.0.x"
-  dotNetSDKIncludePrerelease: true
+  dotNetSDKIncludePrerelease: false
   runtimeTarget: win-x86
   
 jobs:
