@@ -27,7 +27,7 @@ jobs:
     env:
       dotNetVersion: net6.0
       dotNetSDKVersion: "6.0.x"
-      dotNetSDKIncludePrerelease: true
+      dotNetSDKIncludePrerelease: false
       dotNetConfiguration: Release
       runtimeTarget: win-x86
     strategy:
