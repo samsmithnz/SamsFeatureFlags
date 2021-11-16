@@ -1,0 +1,21 @@
+name: Create PR on push
+
+on:
+  push:
+
+  workflow_dispatch:
+
+jobs:
+  createPR:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3.10.1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: Auto Pull Request
+        title: ${{ github.event.commits[0].message }} # use the first commmit message
+        body: '' #no body
+        branch: ${{ github.ref }} # The branch where you commit
+        base: main
