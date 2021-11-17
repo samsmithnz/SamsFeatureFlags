@@ -1,17 +1,17 @@
 name: Create PR on push
 
 on:
-  push:
+  pull_request:
 
   workflow_dispatch:
 
 jobs:
   createPR:
-    runs-on: ubuntu-latest  
-    if: github.event.pull_request.title != ''
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Create Pull Request
+      if: github.event.number == null
       uses: peter-evans/create-pull-request@v3.10.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
