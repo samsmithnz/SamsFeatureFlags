@@ -7,7 +7,8 @@ on:
 
 jobs:
   createPR:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  
+    if: github.event.pull_request.title != ''
     steps:
     - uses: actions/checkout@v2
     - name: Create Pull Request
