@@ -1,22 +1,35 @@
 name: Create PR on push
+#Note: There is a limitation - it will always use the first commit message - and will overwrite changes to the PR title.
 
 on:
-  pull_request:
-
-  workflow_dispatch:
+  push:
 
 jobs:
   createPR:
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    env: 
+      commitMessage: ''
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true # https://github.blog/changelog/2020-10-01-github-actions-deprecating-set-env-and-add-path-commands/
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2 
+      with:
+        fetch-depth: 0
+    - name: Get first commit message
+      run: |
+        $commits = git log remotes/origin/main..HEAD --reverse --pretty=%s # get a list of commits for the current branch
+        $firstCommit = $commits[0] # extract the first commit message
+        echo "::set-env name=commitMessage::$firstCommit" # save the first commit into an environment variable for later
+      shell: pwsh
+    - run: |
+        echo ${{ github.event.pull_request.number }}
     - name: Create Pull Request
-      if: github.event.number == null
       uses: peter-evans/create-pull-request@v3.10.1
+      #if: github.event.pull_request.number == null
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: Auto Pull Request
-        title: ${{ github.event.commits[0].message }} # use the first commmit message
+        title: ${{ env.commitMessage }} # ${{ github.event.commits[0].message }} # use the first commmit message
         body: '' #no body
         branch: ${{ github.ref }} # The branch where you commit
         base: main
