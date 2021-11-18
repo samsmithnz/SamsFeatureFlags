@@ -3,8 +3,6 @@ name: Create PR on push
 
 on:
   push:
-    branches-ignore: [main]
-  workflow_dispatch:
 
 jobs:
   createPR:
