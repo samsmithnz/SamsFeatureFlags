@@ -109,7 +109,7 @@ namespace FeatureFlags.Tests
 
             //Assert
             Assert.IsTrue(featureFlags != null);
-            Assert.IsTrue(featureFlags.Count() >= 0);
+            Assert.IsTrue(featureFlags.Count() >= 0); 
         }
 
         [TestMethod]
