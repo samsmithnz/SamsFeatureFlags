@@ -21,7 +21,8 @@
 	"extensions": [
 		"ms-dotnettools.csharp",
 		"ms-vscode.test-adapter-converter",
-		"formulahendry.dotnet-test-explorer"
+		"formulahendry.dotnet-test-explorer",
+		"GitHub.copilot"
 	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
