@@ -26,11 +26,11 @@ jobs:
         
     # install and calculate the new version with GitVersion  
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.7
+      uses: gittools/actions/gitversion/setup@v0.9.11
       with:
         versionSpec: '5.x'
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v0.9.7
+      uses: gittools/actions/gitversion/execute@v0.9.11
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -91,7 +91,9 @@ jobs:
         path: ${{ github.workspace }}/functionalTests
 
   test:
-    runs-on: windows-latest   
+    runs-on: windows-latest
+    permissions:
+      actions: read 
     steps:  
     - uses: actions/checkout@v2 
       # install dependencies, build, and test
@@ -276,12 +278,12 @@ jobs:
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.0
+      uses: Azure/cli@v1.0.6
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.0
+      uses: Azure/cli@v1.0.6
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 
