@@ -91,7 +91,9 @@ jobs:
         path: ${{ github.workspace }}/functionalTests
 
   test:
-    runs-on: windows-latest   
+    runs-on: windows-latest
+    permissions:
+      actions: read 
     steps:  
     - uses: actions/checkout@v2 
       # install dependencies, build, and test
