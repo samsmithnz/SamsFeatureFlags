@@ -152,19 +152,19 @@ jobs:
     
     #Download the artifacts from GitHub
     - name: Download serviceapp artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: serviceapp
     - name: Download webapp artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: webapp
     - name: Download webappDemo artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: webappDemo
     - name: Download functionaltests artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: functionaltests
     
