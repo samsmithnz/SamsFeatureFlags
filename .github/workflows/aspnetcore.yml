@@ -2,7 +2,7 @@ name: "Feature Flags CI/CD"
 on:
   push:
   schedule:
-    - cron:  '0 0/2 * * *'
+    - cron:  '0 5 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -120,9 +120,10 @@ jobs:
         xcopy "${{ github.workspace }}\FeatureFlags\FeatureFlags.Tests\secrets.json" "${{ github.workspace }}\FeatureFlags\FeatureFlags.Tests\bin\${{ env.dotNetConfiguration }}\${{ env.dotNetVersion }}\"  /f /y
       shell: powershell
     - name: Run automated unit and integration tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings #/p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
+      if: 0 == 1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
