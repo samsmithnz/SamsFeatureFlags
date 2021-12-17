@@ -154,21 +154,25 @@ jobs:
     
     #Download the artifacts from GitHub
     - name: Download serviceapp artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: serviceapp
+        path: serviceapp
     - name: Download webapp artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: webapp
+        path: webapp
     - name: Download webappDemo artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: webappDemo
+        path: webappDemo
     - name: Download functionaltests artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v2.1.0
       with:
         name: functionaltests
+        path: functionaltests
     
     #Deploy service and website to Azure staging slots
     - name: Deploy web service to Azure WebApp
