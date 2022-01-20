@@ -68,13 +68,13 @@ jobs:
       
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      if: ${{ matrix.language }} == 'csharp'
+      if: ${{ matrix.language }} == 'csharp' && 0 == 1
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
     - name: build projects with .NET 6
-      if: ${{ matrix.language }} == 'csharp'
+      if: ${{ matrix.language }} == 'csharp' && 0 == 1
       run: |
         dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
         dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
