@@ -20,7 +20,7 @@ jobs:
       Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }} 
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}   
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0 #fetch-depth is needed for GitVersion
         
@@ -95,7 +95,7 @@ jobs:
     permissions:
       actions: read 
     steps:  
-    - uses: actions/checkout@v2 
+    - uses: actions/checkout@v3 
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v2
@@ -219,7 +219,7 @@ jobs:
         uses: actions/setup-java@v3.0.0
         with:
           java-version: 1.11
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Cache SonarCloud packages
