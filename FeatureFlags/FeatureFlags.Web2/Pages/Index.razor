@@ -1,9 +1,148 @@
 ﻿@page "/"
+@using FeatureFlags.Models
+@using FeatureFlags.Web2.Data
+@using FeatureFlags.Web2.Data.Models
+@inject IServiceAPIClient _ServiceApiClient;
+@inject IConfiguration _configuration;
+@code
+{
+    Payload<List<FeatureFlag>> Model = null;
 
-<PageTitle>Index</PageTitle>
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await _ServiceApiClient.GetFeatureFlags();
+        if (Model != null)
+        {
+            Model.ServiceURL = _configuration["AppSettings:WebServiceURL"];
+        }
+    }
+}
 
-<h1>Hello, world!</h1>
+<PageTitle>Home page</PageTitle>
 
-Welcome to your new app.
+<div class="text-center">
+    <h1 class="display-4">Sams Feature Flags management</h1>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if (Model?.ServiceMessage != "")
+{
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+        <b>@Model?.ServiceMessage</b><br /><br />
+        @Model?.ServiceError
+    </div>
+}
+else
+{
+    <br />
+    @*@Html.ActionLink("Add feature flag", "AddFeatureFlag", "Home", null, new { @class = "btn btn-info" })*@
+}
+<br />
+<br />
+
+<table class="table table-bordered">
+    <tr>
+        <th width="13%">Name</th>
+        <th width="15%">Description</th>
+        <th width="18%">PR</th>
+        <th width="18%">Dev</th>
+        <th width="18%">QA</th>
+        <th width="18%">Prod</th>
+    </tr>
+    @if (Model == null)
+    {
+        <p>Loading feature flags...</p>
+    }
+    else
+    {
+        foreach (FeatureFlag item in Model.Data)
+        {
+            if (item.Name != "UnitTestFeatureFlag01")
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="checkbox" name="@(item.Name)_pr" @bind-value="@item.PRIsEnabled" checked="@(item.PRIsEnabled?"checked":null)"><br />
+                        <span>@item.PRViewCount views</span><br />
+                        @if (item.PRViewCount > 0 && item.PRLastViewDate != null)
+                        {
+                            double totalPRDays = Math.Round((DateTime.Now - (DateTime)item.PRLastViewDate).TotalDays, 0);
+                            if (totalPRDays == 0)
+                            {
+                                <span>(last used today)</span>
+                            }
+                            else
+                            {
+                                <span>(last used @(totalPRDays.ToString("0")) days ago)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>(never used)</span>
+                        }
+                    </td>
+                    <td>
+                        @*@Html.CheckBoxFor(x => item.DevIsEnabled, new { id = item.Name + "_dev", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <span>@item.DevViewCount views</span><br />
+                        @if (item.DevViewCount > 0 && item.DevLastViewDate != null)
+                        {
+                            double totalDevDays = Math.Round((DateTime.Now - (DateTime)item.DevLastViewDate).TotalDays, 0);
+                            if (totalDevDays == 0)
+                            {
+                                <span>(last used today)</span>
+                            }
+                            else
+                            {
+                                <span>(last used @(totalDevDays.ToString("0")) days ago)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>(never used)</span>
+                        }
+                    </td>
+                    <td>
+                        @*@Html.CheckBoxFor(x => item.QAIsEnabled, new { id = item.Name + "_qa", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <span>@item.QAViewCount views</span><br />
+                        @if (item.QAViewCount > 0 && item.QALastViewDate != null)
+                        {
+                            double totalQADays = Math.Round((DateTime.Now - (DateTime)item.QALastViewDate).TotalDays, 0);
+                            if (totalQADays == 0)
+                            {
+                                <span>(last used today)</span>
+                            }
+                            else
+                            {
+                                <span>(last used @(totalQADays.ToString("0")) days ago)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>(never used)</span>
+                        }
+                    </td>
+                    <td>
+                        @*@Html.CheckBoxFor(x => item.ProdIsEnabled, new { id = item.Name + "_prod", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <span>@item.ProdViewCount views</span><br />
+                        @if (item.ProdViewCount > 0 && item.ProdLastViewDate != null)
+                        {
+                            double totalProdDays = Math.Round((DateTime.Now - (DateTime)item.ProdLastViewDate).TotalDays, 0);
+                            if (totalProdDays == 0)
+                            {
+                                <span>(last used today)</span>
+                            }
+                            else
+                            {
+                                <span>(last used @(totalProdDays.ToString("0")) days ago)</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>(never used)</span>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    }
+</table>

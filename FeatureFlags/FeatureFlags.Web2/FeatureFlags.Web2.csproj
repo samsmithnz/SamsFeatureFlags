@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FeatureFlags.Models\FeatureFlags.Models.csproj" />
+  </ItemGroup>
+
 </Project>
