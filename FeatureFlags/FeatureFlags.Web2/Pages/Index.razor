@@ -2,6 +2,7 @@
 @using FeatureFlags.Models
 @using FeatureFlags.Web2.Data
 @using FeatureFlags.Web2.Data.Models
+@using Radzen.Blazor
 @inject IServiceAPIClient _ServiceApiClient;
 @inject IConfiguration _configuration;
 @code
@@ -15,6 +16,11 @@
         {
             Model.ServiceURL = _configuration["AppSettings:WebServiceURL"];
         }
+    }
+
+    void OnChange(bool? value, string name)
+    {
+        Console.WriteLine($"{name} value changed to {value}");
     }
 }
 
@@ -62,7 +68,7 @@ else
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>
-                        <input type="checkbox" name="@(item.Name)_pr" @bind-value="@item.PRIsEnabled" checked="@(item.PRIsEnabled?"checked":null)"><br />
+                        <RadzenSwitch @bind-Value="@item.PRIsEnabled" Change=@(args => OnChange(args, item.Name + "_pr")) /><br>
                         <span>@item.PRViewCount views</span><br />
                         @if (item.PRViewCount > 0 && item.PRLastViewDate != null)
                         {
@@ -82,7 +88,7 @@ else
                         }
                     </td>
                     <td>
-                        @*@Html.CheckBoxFor(x => item.DevIsEnabled, new { id = item.Name + "_dev", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <RadzenSwitch @bind-Value="@item.DevIsEnabled" Change=@(args => OnChange(args, item.Name + "_dev")) /><br>
                         <span>@item.DevViewCount views</span><br />
                         @if (item.DevViewCount > 0 && item.DevLastViewDate != null)
                         {
@@ -102,7 +108,7 @@ else
                         }
                     </td>
                     <td>
-                        @*@Html.CheckBoxFor(x => item.QAIsEnabled, new { id = item.Name + "_qa", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <RadzenSwitch @bind-Value="@item.QAIsEnabled" Change=@(args => OnChange(args, item.Name + "_qa")) /><br>
                         <span>@item.QAViewCount views</span><br />
                         @if (item.QAViewCount > 0 && item.QALastViewDate != null)
                         {
@@ -122,7 +128,7 @@ else
                         }
                     </td>
                     <td>
-                        @*@Html.CheckBoxFor(x => item.ProdIsEnabled, new { id = item.Name + "_prod", data_toggle = "toggle", data_onstyle = "success", onchange = "updateToggle(this)" })<br />*@
+                        <RadzenSwitch @bind-Value="@item.ProdIsEnabled" Change=@(args => OnChange(args, item.Name + "_prod")) /><br>
                         <span>@item.ProdViewCount views</span><br />
                         @if (item.ProdViewCount > 0 && item.ProdLastViewDate != null)
                         {
