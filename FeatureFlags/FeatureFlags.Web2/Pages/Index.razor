@@ -7,7 +7,7 @@
 @inject IConfiguration _configuration;
 @code
 {
-    Payload<List<FeatureFlag>> Model = null;
+    Payload<List<FeatureFlag>>? Model = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,7 +56,11 @@ else
     </tr>
     @if (Model == null)
     {
-        <p>Loading feature flags...</p>
+        <tr>
+            <td colspan="6">
+                <span>Loading feature flags...</span>
+            </td>
+        </tr>
     }
     else
     {
