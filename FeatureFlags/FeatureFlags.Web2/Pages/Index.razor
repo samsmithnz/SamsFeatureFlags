@@ -25,23 +25,19 @@
     {
         Console.WriteLine($"{toggleName} value changed to {isEnabled}");
 
-        bool result;
+        bool? result = null;
         string[] featureDetails = toggleName.Split('_');
         string name = featureDetails[0];
         string environment = featureDetails[1];
         string url = _configuration["AppSettings:WebServiceURL"] + "/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled;
 
         HttpRequestMessage request = new(HttpMethod.Get, url);
-        //request.Headers.Add("Accept", "application/vnd.github.v3+json");
-        //request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
-
         HttpClient client = ClientFactory.CreateClient();
         HttpResponseMessage response = await client.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
             Stream responseStream = await response.Content.ReadAsStreamAsync();
             result = await JsonSerializer.DeserializeAsync<bool>(responseStream);
-
             Console.WriteLine($"{toggleName} value changed to {isEnabled} successfully");
         }
         else
