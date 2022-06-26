@@ -9,6 +9,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IServiceAPIClient, ServiceAPIClient>();
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

@@ -3,8 +3,11 @@
 @using FeatureFlags.Web2.Data
 @using FeatureFlags.Web2.Data.Models
 @using Radzen.Blazor
+@using System.Text.Json
+@using System.Text.Json.Serialization;
 @inject IServiceAPIClient _ServiceApiClient;
 @inject IConfiguration _configuration;
+@inject IHttpClientFactory ClientFactory
 @code
 {
     Payload<List<FeatureFlag>>? Model = null;
@@ -18,9 +21,34 @@
         }
     }
 
-    void OnChange(bool? value, string name)
+    async Task OnChange(bool? isEnabled, string toggleName)
     {
-        Console.WriteLine($"{name} value changed to {value}");
+        Console.WriteLine($"{toggleName} value changed to {isEnabled}");
+
+        bool result;
+        string[] featureDetails = toggleName.Split('_');
+        string name = featureDetails[0];
+        string environment = featureDetails[1];
+        string url = _configuration["AppSettings:WebServiceURL"] + "/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled;
+
+        HttpRequestMessage request = new(HttpMethod.Get, url);
+        //request.Headers.Add("Accept", "application/vnd.github.v3+json");
+        //request.Headers.Add("User-Agent", "HttpClientFactory-Sample");
+
+        HttpClient client = ClientFactory.CreateClient();
+        HttpResponseMessage response = await client.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            Stream responseStream = await response.Content.ReadAsStreamAsync();
+            result = await JsonSerializer.DeserializeAsync<bool>(responseStream);
+
+            Console.WriteLine($"{toggleName} value changed to {isEnabled} successfully");
+        }
+        else
+        {
+            Console.WriteLine($"{toggleName} value failed");
+        }
+
     }
 }
 
