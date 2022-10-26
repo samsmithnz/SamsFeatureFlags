@@ -282,12 +282,12 @@ jobs:
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.6
+      uses: Azure/cli@v1.0.7
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.6
+      uses: Azure/cli@v1.0.7
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 
