@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <nullable>enable</nullable>
     <UserSecretsId>9ec82211-94eb-4d21-a912-d63a06207214</UserSecretsId>

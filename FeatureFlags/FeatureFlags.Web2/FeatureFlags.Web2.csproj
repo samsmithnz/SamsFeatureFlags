@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationInsightsResourceId>/subscriptions/65b8d298-e5bd-4735-912e-8b9c510c4e00/resourceGroups/FeatureFlags/providers/microsoft.insights/components/featureflags-prod-eu-appinsights</ApplicationInsightsResourceId>
