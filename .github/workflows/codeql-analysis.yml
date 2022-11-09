@@ -25,8 +25,8 @@ jobs:
     name: Analyze
     runs-on: windows-2019
     env:
-      dotNetVersion: net6.0
-      dotNetSDKVersion: "6.0.x"
+      dotNetVersion: net7.0
+      dotNetSDKVersion: "7.0.x"
       dotNetSDKIncludePrerelease: false
       dotNetConfiguration: Release
       runtimeTarget: win-x86
@@ -73,7 +73,7 @@ jobs:
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
-    - name: build projects with .NET 6
+    - name: build projects
       if: ${{ matrix.language }} == 'csharp'
       run: |
         dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
