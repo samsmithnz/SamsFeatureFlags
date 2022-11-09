@@ -9,7 +9,7 @@ on:
 env:
   dotNetVersion: net7.0
   dotNetConfiguration: Release
-  dotNetSDKVersion: "7.0.x"
+  dotNetSDKVersion: 7.0.x
   dotNetSDKIncludePrerelease: false
   runtimeTarget: win-x86
   
