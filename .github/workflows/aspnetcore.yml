@@ -203,7 +203,7 @@ jobs:
   SonarCloud:
     name: SonarCloud
     runs-on: windows-latest
-    #if: github.ref == 'refs/heads/main' && false
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
         with:
