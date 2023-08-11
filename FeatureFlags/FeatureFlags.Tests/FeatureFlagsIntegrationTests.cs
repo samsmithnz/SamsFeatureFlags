@@ -1,9 +1,6 @@
 using FeatureFlags.Models;
-using FeatureFlags.Service.Controllers;
 using FeatureFlags.Service.DataAccess;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;

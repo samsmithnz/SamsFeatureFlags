@@ -3,8 +3,7 @@ using FeatureFlags.Service.Controllers;
 using FeatureFlags.Service.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Azure.Cosmos.Table;
-using Moq;
+using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +20,11 @@ namespace FeatureFlags.Tests
         public async Task CheckFeatureFlagUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.CheckFeatureFlag(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(true));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new(mockConfiguration);
+            var mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.CheckFeatureFlag(Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(true));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             string featureFlagName = "abc";
             string environment = "def";
 
@@ -40,11 +39,11 @@ namespace FeatureFlags.Tests
         public async Task GetFeatureFlagsUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlags()).Returns(Task.FromResult(GetFeatureFlagsTestData()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlags().Returns(Task.FromResult(GetFeatureFlagsTestData()));
+            FeatureFlagsController controller = new(mock);
 
             //Act
             IEnumerable<FeatureFlag> results = await controller.GetFeatureFlags();
@@ -59,11 +58,11 @@ namespace FeatureFlags.Tests
         public async Task GetFeatureFlagUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new(mock);
             string featureFlagName = "abc";
 
             //Act
@@ -78,11 +77,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.SaveFeatureFlag(It.IsAny<FeatureFlag>())).Returns(Task.FromResult(true));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.SaveFeatureFlag(Arg.Any<FeatureFlag>()).Returns(Task.FromResult(true));
+            FeatureFlagsController controller = new(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -96,11 +95,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsStatePRUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -114,11 +113,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsStateDevUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -132,11 +131,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsStateQAUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -150,11 +149,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsStateProdUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -168,11 +167,11 @@ namespace FeatureFlags.Tests
         public async Task SaveFeatureFlagsStateExceptionUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.GetFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(GetTestRow()));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
@@ -192,11 +191,11 @@ namespace FeatureFlags.Tests
         public async Task DeleteFeatureFlagsUnitTest()
         {
             //Arrange
-            Mock<IConfiguration> mockConfiguration = new Mock<IConfiguration>();
-            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration.Object);
-            Mock<IFeatureFlagsStorageTable> mock = new Mock<IFeatureFlagsStorageTable>();
-            mock.Setup(repo => repo.DeleteFeatureFlag(It.IsAny<string>())).Returns(Task.FromResult(true));
-            FeatureFlagsController controller = new FeatureFlagsController(mock.Object);
+            IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
+            FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
+            IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
+            mock.DeleteFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(true));
+            FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
