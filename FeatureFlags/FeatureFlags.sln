@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Service", "Fea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlagsDemo.Web", "FeatureFlagsDemo.Web\FeatureFlagsDemo.Web.csproj", "{681EF0A2-9CF3-4435-898F-510AE0720060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureFlags.Web2", "FeatureFlags.Web2\FeatureFlags.Web2.csproj", "{92E022D4-49E9-41C4-BF5D-D199A5C1D04E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureFlags.Web2", "FeatureFlags.Web2\FeatureFlags.Web2.csproj", "{92E022D4-49E9-41C4-BF5D-D199A5C1D04E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
