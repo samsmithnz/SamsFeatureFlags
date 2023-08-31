@@ -207,7 +207,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@1.2.0
+        uses: samsmithnz/SamsDotNetSonarCloudAction@v1.3.1
         with:
           projects: 'FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj,FeatureFlags/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,FeatureFlags/FeatureFlags.Models/FeatureFlags.Models.csproj,FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj,FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj,FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '7.0.x'
