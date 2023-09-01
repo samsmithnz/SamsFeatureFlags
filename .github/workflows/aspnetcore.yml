@@ -166,7 +166,7 @@ jobs:
     
     #Deploy service and website to Azure staging slots
     - name: Deploy web service to Azure WebApp
-      uses: Azure/webapps-deploy@v2.2.10
+      uses: Azure/webapps-deploy@v2.2.11
       with:
         app-name: featureflags-prod-eu-service
         package: serviceapp
@@ -174,13 +174,13 @@ jobs:
     - name: Set service secrets
       run: az webapp config appsettings set --name "featureflags-prod-eu-service" --resource-group "FeatureFlags" --settings "AppSettings:ClientSecret=${{ secrets.ClientSecret }}" #--slot staging   
     - name: Deploy website to Azure WebApp
-      uses: Azure/webapps-deploy@v2.2.10
+      uses: Azure/webapps-deploy@v2.2.11
       with:
         app-name: featureflags-prod-eu-web
         package: webapp
         #slot-name: staging 
     - name: Deploy website demo to Azure WebApp
-      uses: Azure/webapps-deploy@v2.2.10
+      uses: Azure/webapps-deploy@v2.2.11
       with:
         app-name: featureflagsdemo-prod-eu-web
         package: webappDemo
@@ -207,7 +207,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@1.2.0
+        uses: samsmithnz/SamsDotNetSonarCloudAction@v2.0.0
         with:
           projects: 'FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj,FeatureFlags/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,FeatureFlags/FeatureFlags.Models/FeatureFlags.Models.csproj,FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj,FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj,FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '7.0.x'
