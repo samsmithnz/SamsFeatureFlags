@@ -95,7 +95,7 @@ jobs:
     permissions:
       actions: read 
     steps:  
-    - uses: actions/checkout@v3 
+    - uses: actions/checkout@v4
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v3.2.0
