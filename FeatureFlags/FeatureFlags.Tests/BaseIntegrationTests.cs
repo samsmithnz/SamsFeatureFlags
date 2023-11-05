@@ -27,21 +27,21 @@ namespace FeatureFlags.Tests
             config.AddUserSecrets<BaseIntegrationTests>(true);
             Configuration = config.Build();
 
-       //Load a connection to our Azure key vault instance
-                    string? azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
-                    string? clientId = Configuration["AppSettings:ClientId"];
-                    string? clientSecret = Configuration["AppSettings:ClientSecret"];
-                    string? tenantId = Configuration["AppSettings:AzureTenantId"];
+            //Load a connection to our Azure key vault instance
+            string? azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
+            string? clientId = Configuration["AppSettings:ClientId"];
+            string? clientSecret = Configuration["AppSettings:ClientSecret"];
+            string? tenantId = Configuration["AppSettings:AzureTenantId"];
 
-                    if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
-                    {
-                        TokenCredential tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-                        config.AddAzureKeyVault(new(azureKeyVaultURL), tokenCredential);
-                    }
-                    else
-                    {
-                        throw new System.Exception("Missing configuration for Azure Key Vault");
-                    }
+            if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
+            {
+                TokenCredential tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+                config.AddAzureKeyVault(new(azureKeyVaultURL), tokenCredential);
+            }
+            else
+            {
+                throw new System.Exception("Missing configuration for Azure Key Vault");
+            }
             Configuration = config.Build();
 
             //ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(Configuration["RedisCacheConnectionString:CacheConnection"]);
