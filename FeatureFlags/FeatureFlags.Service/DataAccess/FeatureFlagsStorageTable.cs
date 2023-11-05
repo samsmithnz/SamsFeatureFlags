@@ -25,7 +25,7 @@ namespace FeatureFlags.Service.DataAccess
             {
                 throw new Exception("Configuration details missing");
             }
-            string? url = _configuration["TableStorageURL"];
+            string? url = _configuration["AppSettings:TableStorageURL"];
             string? name = _configuration["FeatureFlagsStorageName"];
             string? accessKey = _configuration["FeatureFlagsStorageAccessKey"];
             string tableName = "FeatureFlags";

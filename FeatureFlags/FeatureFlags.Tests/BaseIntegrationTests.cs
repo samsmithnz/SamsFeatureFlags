@@ -28,15 +28,14 @@ namespace FeatureFlags.Tests
             Configuration = config.Build();
 
             //Load a connection to our Azure key vault instance
-            string? azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
+            string? url = Configuration["AppSettings:KeyVaultURL"];
             string? clientId = Configuration["AppSettings:ClientId"];
             string? clientSecret = Configuration["AppSettings:ClientSecret"];
             string? tenantId = Configuration["AppSettings:TenantId"];
-
-            if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
+            if (url != null && clientId != null && clientSecret != null && tenantId != null)
             {
                 TokenCredential tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-                config.AddAzureKeyVault(new(azureKeyVaultURL), tokenCredential);
+                config.AddAzureKeyVault(new(url), tokenCredential);
             }
             else
             {
