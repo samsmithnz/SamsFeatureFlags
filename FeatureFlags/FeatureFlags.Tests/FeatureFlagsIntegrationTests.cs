@@ -13,7 +13,7 @@ namespace FeatureFlags.Tests
     public class FeatureFlagsIntegrationTests : BaseIntegrationTests
     {
         [TestMethod]
-        public async Task CheckFeatureFlagPRIntegrationTest()
+        public void CheckFeatureFlagPRIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -21,14 +21,14 @@ namespace FeatureFlags.Tests
             string environment = "pr";
 
             //Act
-            bool result = await da.CheckFeatureFlag(name, environment);
+            bool result = da.CheckFeatureFlag(name, environment);
 
             //Assert
             Assert.IsTrue(result == false);
         }
 
         [TestMethod]
-        public async Task CheckFeatureFlagDevIntegrationTest()
+        public void CheckFeatureFlagDevIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -36,14 +36,14 @@ namespace FeatureFlags.Tests
             string environment = "dev";
 
             //Act
-            bool result = await da.CheckFeatureFlag(name, environment);
+            bool result = da.CheckFeatureFlag(name, environment);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task CheckFeatureFlagQAIntegrationTest()
+        public void CheckFeatureFlagQAIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -51,14 +51,14 @@ namespace FeatureFlags.Tests
             string environment = "qa";
 
             //Act
-            bool result = await da.CheckFeatureFlag(name, environment);
+            bool result = da.CheckFeatureFlag(name, environment);
 
             //Assert
             Assert.IsTrue(result == false);
         }
 
         [TestMethod]
-        public async Task CheckFeatureFlagProdIntegrationTest()
+        public void CheckFeatureFlagProdIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -66,14 +66,14 @@ namespace FeatureFlags.Tests
             string environment = "prod";
 
             //Act
-            bool result = await da.CheckFeatureFlag(name, environment);
+            bool result = da.CheckFeatureFlag(name, environment);
 
             //Assert
             Assert.IsTrue(result == false);
         }
 
         [TestMethod]
-        public async Task CheckFeatureFlagExceptionIntegrationTest()
+        public void CheckFeatureFlagExceptionIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -84,7 +84,7 @@ namespace FeatureFlags.Tests
             string exceptionGenerated = "";
             try
             {
-                await da.CheckFeatureFlag(name, environment);
+                da.CheckFeatureFlag(name, environment);
             }
             catch (Exception ex)
             {
@@ -96,35 +96,35 @@ namespace FeatureFlags.Tests
         }
 
         [TestMethod]
-        public async Task GetFeatureFlagsIntegrationTest()
+        public void GetFeatureFlagsIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
 
             //Act
-            IEnumerable<FeatureFlag> featureFlags = await da.GetFeatureFlags();
+            IEnumerable<FeatureFlag> featureFlags = da.GetFeatureFlags();
 
             //Assert
             Assert.IsTrue(featureFlags != null);
-            Assert.IsTrue(featureFlags.Count() >= 0); 
+            Assert.IsTrue(featureFlags.Count() >= 0);
         }
 
         [TestMethod]
-        public async Task GetFeatureFlagIntegrationTest()
+        public void GetFeatureFlagIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
             string name = "UnitTestFeatureFlag01";
 
             //Act
-            FeatureFlag featureFlag = await da.GetFeatureFlag(name);
+            FeatureFlag featureFlag = da.GetFeatureFlag(name);
 
             //Assert
             Assert.IsTrue(featureFlag != null);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagIntegrationTest()
+        public void SaveFeatureFlagIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -142,14 +142,14 @@ namespace FeatureFlags.Tests
             };
 
             //Act
-            bool result = await da.SaveFeatureFlag(featureFlag);
+            bool result = da.SaveFeatureFlag(featureFlag);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task DeleteFeatureFlagIntegrationTest()
+        public void DeleteFeatureFlagIntegrationTest()
         {
             //Arrange
             FeatureFlagsStorageTable da = new(Configuration);
@@ -166,8 +166,8 @@ namespace FeatureFlags.Tests
             };
 
             //Act
-            await da.SaveFeatureFlag(featureFlag);
-            bool result = await da.DeleteFeatureFlag(featureFlagName);
+            da.SaveFeatureFlag(featureFlag);
+            bool result = da.DeleteFeatureFlag(featureFlagName);
 
             //Assert
             Assert.IsTrue(result == true);
