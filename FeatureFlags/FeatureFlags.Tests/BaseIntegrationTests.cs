@@ -31,7 +31,7 @@ namespace FeatureFlags.Tests
             string? azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
             string? clientId = Configuration["AppSettings:ClientId"];
             string? clientSecret = Configuration["AppSettings:ClientSecret"];
-            string? tenantId = Configuration["AppSettings:AzureTenantId"];
+            string? tenantId = Configuration["AppSettings:TenantId"];
 
             if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
             {

@@ -27,7 +27,7 @@ namespace FeatureFlags.Service
                     string? azureKeyVaultURL = buildConfig["AppSettings:KeyVaultURL"];
                     string? clientId = buildConfig["AppSettings:ClientId"];
                     string? clientSecret = buildConfig["AppSettings:ClientSecret"];
-                    string? tenantId = buildConfig["AppSettings:AzureTenantId"];
+                    string? tenantId = buildConfig["AppSettings:TenantId"];
 
                     if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
                     {
