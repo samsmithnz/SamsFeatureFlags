@@ -1,9 +1,10 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using Azure;
+using Azure.Data.Tables;
 using System;
 
 namespace FeatureFlags.Models
 {
-    public class FeatureFlag : TableEntity
+    public class FeatureFlag : ITableEntity
     {
         public FeatureFlag(string name)
         {
@@ -99,5 +100,9 @@ namespace FeatureFlags.Models
         public DateTime? ProdLastViewDate { get; set; }
 
         public DateTime LastUpdated { get; set; }
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
     }
 }

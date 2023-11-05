@@ -1,6 +1,6 @@
 ﻿using FeatureFlags.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Azure.Cosmos.Table;
+using Azure.Data.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +17,28 @@ namespace FeatureFlags.Service.DataAccess
             _configuration = configuration;
         }
 
-        private CloudTable CreateConnection()
+        private TableServiceClient CreateConnection()
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            string name = _configuration["FeatureFlagsStorageName"];
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-            string accessKey = _configuration["FeatureFlagsStorageAccessKey"];
-            CloudStorageAccount storageAccount = new(
-                    new StorageCredentials(name, accessKey), true);
+            TableServiceClient storageAccount;
+            if (_configuration == null)
+            {
+                throw new Exception("Configuration details missing");
+            }
+            string? url = _configuration["TableStorageURL"];
+            string? name = _configuration["FeatureFlagsStorageName"];
+            string? accessKey = _configuration["FeatureFlagsStorageAccessKey"];
+            if (url != null && name != null && accessKey != null)
+            {
+                storageAccount = new(
+                    new Uri(url),
+                    new TableSharedKeyCredential(name, accessKey));
+            }
+            else
+            {
+                throw new Exception("Table storage connection details missing");
+            }
 
-            // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-            // Get a reference to a table named "FeatureFlags"
-            CloudTable featureFlagsTable = tableClient.GetTableReference("FeatureFlags");
-
-            return featureFlagsTable;
+            return storageAccount;
         }
 
         public async Task<IEnumerable<FeatureFlag>> GetFeatureFlags()
