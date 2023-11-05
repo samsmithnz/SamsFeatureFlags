@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using Azure.Core;
+using Azure.Identity;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -25,14 +27,21 @@ namespace FeatureFlags.Tests
             config.AddUserSecrets<BaseIntegrationTests>(true);
             Configuration = config.Build();
 
-            string azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
-            string clientId = Configuration["AppSettings:ClientId"];
-            string clientSecret = Configuration["AppSettings:ClientSecret"];
-            //AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-            //KeyVaultClient keyVaultClient = new KeyVaultClient(
-            //    new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-            //config.AddAzureKeyVault(azureKeyVaultURL, keyVaultClient, new DefaultKeyVaultSecretManager());
-            config.AddAzureKeyVault(azureKeyVaultURL, clientId, clientSecret);
+       //Load a connection to our Azure key vault instance
+                    string? azureKeyVaultURL = Configuration["AppSettings:KeyVaultURL"];
+                    string? clientId = Configuration["AppSettings:ClientId"];
+                    string? clientSecret = Configuration["AppSettings:ClientSecret"];
+                    string? tenantId = Configuration["AppSettings:AzureTenantId"];
+
+                    if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
+                    {
+                        TokenCredential tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+                        config.AddAzureKeyVault(new(azureKeyVaultURL), tokenCredential);
+                    }
+                    else
+                    {
+                        throw new System.Exception("Missing configuration for Azure Key Vault");
+                    }
             Configuration = config.Build();
 
             //ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(Configuration["RedisCacheConnectionString:CacheConnection"]);
