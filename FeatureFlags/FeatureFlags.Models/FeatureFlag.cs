@@ -1,9 +1,10 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using Azure;
+using Azure.Data.Tables;
 using System;
 
 namespace FeatureFlags.Models
 {
-    public class FeatureFlag : TableEntity
+    public class FeatureFlag : ITableEntity
     {
         public FeatureFlag(string name)
         {
@@ -31,7 +32,7 @@ namespace FeatureFlags.Models
             {
                 if (value > prViewCount)
                 {
-                    PRLastViewDate = DateTime.Now;
+                    PRLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 prViewCount = value;
             }
@@ -51,7 +52,7 @@ namespace FeatureFlags.Models
             {
                 if (value > devViewCount)
                 {
-                    DevLastViewDate = DateTime.Now;
+                    DevLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 devViewCount = value;
             }
@@ -71,7 +72,7 @@ namespace FeatureFlags.Models
             {
                 if (value > qaViewCount)
                 {
-                    QALastViewDate = DateTime.Now;
+                    QALastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 qaViewCount = value;
             }
@@ -91,7 +92,7 @@ namespace FeatureFlags.Models
             {
                 if (value > prodViewCount)
                 {
-                    ProdLastViewDate = DateTime.Now;
+                    ProdLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 prodViewCount = value;
             }
@@ -99,5 +100,9 @@ namespace FeatureFlags.Models
         public DateTime? ProdLastViewDate { get; set; }
 
         public DateTime LastUpdated { get; set; }
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
     }
 }

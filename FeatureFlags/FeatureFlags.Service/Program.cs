@@ -1,3 +1,5 @@
+using Azure.Core;
+using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -21,14 +23,21 @@ namespace FeatureFlags.Service
                     config.AddUserSecrets<Program>(true);
                     IConfigurationRoot buildConfig = config.Build();
 
-                    ////Load a connection to our Azure key vault instance
-                    string azureKeyVaultURL = buildConfig["AppSettings:KeyVaultURL"];
-                    string clientId = buildConfig["AppSettings:ClientId"];
-                    string clientSecret = buildConfig["AppSettings:ClientSecret"];
-                    //AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
-                    //KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                    //config.AddAzureKeyVault(buildConfig["AppSettings:KeyVaultURL"], keyVaultClient, new DefaultKeyVaultSecretManager());
-                    config.AddAzureKeyVault(azureKeyVaultURL, clientId, clientSecret);
+                    //Load a connection to our Azure key vault instance
+                    string? azureKeyVaultURL = buildConfig["AppSettings:KeyVaultURL"];
+                    string? clientId = buildConfig["AppSettings:ClientId"];
+                    string? clientSecret = buildConfig["AppSettings:ClientSecret"];
+                    string? tenantId = buildConfig["AppSettings:TenantId"];
+
+                    if (azureKeyVaultURL != null && clientId != null && clientSecret != null && tenantId != null)
+                    {
+                        TokenCredential tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
+                        config.AddAzureKeyVault(new(azureKeyVaultURL), tokenCredential);
+                    }
+                    else
+                    {
+                        throw new System.Exception("Missing configuration for Azure Key Vault");
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
