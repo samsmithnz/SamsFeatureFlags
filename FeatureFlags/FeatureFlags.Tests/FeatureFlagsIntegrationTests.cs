@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeatureFlags.Tests
 {
@@ -138,7 +137,7 @@ namespace FeatureFlags.Tests
                 DevViewCount = 1,
                 QAIsEnabled = false,
                 ProdIsEnabled = false,
-                LastUpdated = DateTime.Now
+                LastUpdated = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             };
 
             //Act
@@ -162,7 +161,7 @@ namespace FeatureFlags.Tests
                 DevIsEnabled = false,
                 QAIsEnabled = false,
                 ProdIsEnabled = false,
-                LastUpdated = DateTime.Now
+                LastUpdated = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
             };
 
             //Act

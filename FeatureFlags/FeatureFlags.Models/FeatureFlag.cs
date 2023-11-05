@@ -32,7 +32,7 @@ namespace FeatureFlags.Models
             {
                 if (value > prViewCount)
                 {
-                    PRLastViewDate = DateTime.Now;
+                    PRLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 prViewCount = value;
             }
@@ -52,7 +52,7 @@ namespace FeatureFlags.Models
             {
                 if (value > devViewCount)
                 {
-                    DevLastViewDate = DateTime.Now;
+                    DevLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 devViewCount = value;
             }
@@ -72,7 +72,7 @@ namespace FeatureFlags.Models
             {
                 if (value > qaViewCount)
                 {
-                    QALastViewDate = DateTime.Now;
+                    QALastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 qaViewCount = value;
             }
@@ -92,7 +92,7 @@ namespace FeatureFlags.Models
             {
                 if (value > prodViewCount)
                 {
-                    ProdLastViewDate = DateTime.Now;
+                    ProdLastViewDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                 }
                 prodViewCount = value;
             }
