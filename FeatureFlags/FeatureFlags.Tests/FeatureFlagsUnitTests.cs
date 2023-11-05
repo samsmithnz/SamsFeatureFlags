@@ -17,36 +17,36 @@ namespace FeatureFlags.Tests
     {
 
         [TestMethod]
-        public async Task CheckFeatureFlagUnitTest()
+        public void CheckFeatureFlagUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new(mockConfiguration);
             var mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.CheckFeatureFlag(Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult(true));
+            mock.CheckFeatureFlag(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             string featureFlagName = "abc";
             string environment = "def";
 
             //Act
-            bool result = await controller.CheckFeatureFlag(featureFlagName, environment);
+            bool result = controller.CheckFeatureFlag(featureFlagName, environment);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task GetFeatureFlagsUnitTest()
+        public void GetFeatureFlagsUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlags().Returns(Task.FromResult(GetFeatureFlagsTestData()));
+            mock.GetFeatureFlags().Returns(GetFeatureFlagsTestData());
             FeatureFlagsController controller = new(mock);
 
             //Act
-            IEnumerable<FeatureFlag> results = await controller.GetFeatureFlags();
+            IEnumerable<FeatureFlag> results = controller.GetFeatureFlags();
 
             //Assert
             Assert.IsTrue(results != null);
@@ -55,18 +55,18 @@ namespace FeatureFlags.Tests
         }
 
         [TestMethod]
-        public async Task GetFeatureFlagUnitTest()
+        public void GetFeatureFlagUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new(mock);
             string featureFlagName = "abc";
 
             //Act
-            FeatureFlag result = await controller.GetFeatureFlag(featureFlagName);
+            FeatureFlag result = controller.GetFeatureFlag(featureFlagName);
 
             //Assert
             Assert.IsTrue(result != null);
@@ -74,110 +74,110 @@ namespace FeatureFlags.Tests
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsUnitTest()
+        public void SaveFeatureFlagsUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.SaveFeatureFlag(Arg.Any<FeatureFlag>()).Returns(Task.FromResult(true));
+            mock.SaveFeatureFlag(Arg.Any<FeatureFlag>()).Returns(true);
             FeatureFlagsController controller = new(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.SaveFeatureFlag(featureFlag);
+            bool result = controller.SaveFeatureFlag(featureFlag);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsStatePRUnitTest()
+        public void SaveFeatureFlagsStatePRUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "pr", true);
+            bool result = controller.SaveFeatureFlagState(featureFlag.Name, "pr", true);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsStateDevUnitTest()
+        public void SaveFeatureFlagsStateDevUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "dev", true);
+            bool result = controller.SaveFeatureFlagState(featureFlag.Name, "dev", true);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsStateQAUnitTest()
+        public void SaveFeatureFlagsStateQAUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "qa", true);
+            bool result = controller.SaveFeatureFlagState(featureFlag.Name, "qa", true);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsStateProdUnitTest()
+        public void SaveFeatureFlagsStateProdUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "prod", true);
+            bool result = controller.SaveFeatureFlagState(featureFlag.Name, "prod", true);
 
             //Assert
             Assert.IsTrue(result == true);
         }
 
         [TestMethod]
-        public async Task SaveFeatureFlagsStateExceptionUnitTest()
+        public void SaveFeatureFlagsStateExceptionUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.GetFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(GetTestRow()));
+            mock.GetFeatureFlag(Arg.Any<string>()).Returns(GetTestRow());
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
             try
             {
-                bool result = await controller.SaveFeatureFlagState(featureFlag.Name, "exception", true);
+                bool result = controller.SaveFeatureFlagState(featureFlag.Name, "exception", true);
             }
             catch (Exception)
             {
@@ -188,18 +188,18 @@ namespace FeatureFlags.Tests
 
 
         [TestMethod]
-        public async Task DeleteFeatureFlagsUnitTest()
+        public void DeleteFeatureFlagsUnitTest()
         {
             //Arrange
             IConfiguration mockConfiguration = Substitute.For<IConfiguration>();
             FeatureFlagsStorageTable context = new FeatureFlagsStorageTable(mockConfiguration);
             IFeatureFlagsStorageTable mock = Substitute.For<IFeatureFlagsStorageTable>();
-            mock.DeleteFeatureFlag(Arg.Any<string>()).Returns(Task.FromResult(true));
+            mock.DeleteFeatureFlag(Arg.Any<string>()).Returns(true);
             FeatureFlagsController controller = new FeatureFlagsController(mock);
             FeatureFlag featureFlag = GetTestRow();
 
             //Act
-            bool result = await controller.DeleteFeatureFlag(featureFlag.Name);
+            bool result = controller.DeleteFeatureFlag(featureFlag.Name);
 
             //Assert
             Assert.IsTrue(result == true);
