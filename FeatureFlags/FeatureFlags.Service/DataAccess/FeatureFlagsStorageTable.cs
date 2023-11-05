@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 
 namespace FeatureFlags.Service.DataAccess
 {
@@ -17,9 +18,9 @@ namespace FeatureFlags.Service.DataAccess
             _configuration = configuration;
         }
 
-        private TableServiceClient CreateConnection()
+        private TableClient CreateConnection()
         {
-            TableServiceClient storageAccount;
+            TableClient tableClient;
             if (_configuration == null)
             {
                 throw new Exception("Configuration details missing");
@@ -27,61 +28,50 @@ namespace FeatureFlags.Service.DataAccess
             string? url = _configuration["TableStorageURL"];
             string? name = _configuration["FeatureFlagsStorageName"];
             string? accessKey = _configuration["FeatureFlagsStorageAccessKey"];
+            string tableName = "FeatureFlags";
             if (url != null && name != null && accessKey != null)
             {
-                storageAccount = new(
-                    new Uri(url),
-                    new TableSharedKeyCredential(name, accessKey));
+                TableServiceClient storageAccount = new(
+                      new Uri(url),
+                      new TableSharedKeyCredential(name, accessKey));
+
+                tableClient = storageAccount.GetTableClient(tableName);
             }
             else
             {
                 throw new Exception("Table storage connection details missing");
             }
 
-            return storageAccount;
+            return tableClient;
         }
 
-        public async Task<IEnumerable<FeatureFlag>> GetFeatureFlags()
+        public IEnumerable<FeatureFlag> GetFeatureFlags()
         {
-            CloudTable featureFlagsTable = CreateConnection();
+            TableClient featureFlagsTable = CreateConnection();
 
             // Construct the query operation for all customer entities where PartitionKey="Smith".
-            TableQuery<FeatureFlag> query = new TableQuery<FeatureFlag>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "FeatureFlag"));
-
-            // Print the fields for each customer.
-            TableQuerySegment<FeatureFlag> resultSegment = await featureFlagsTable.ExecuteQuerySegmentedAsync(query, null);
+            Pageable<FeatureFlag> queryResults = featureFlagsTable.Query<FeatureFlag>(e => e.PartitionKey == "FeatureFlag");
 
             //Convert the array into a list and sort by Name
-            List<FeatureFlag> results = resultSegment.Results.ToList<FeatureFlag>();
+            List<FeatureFlag> results = queryResults.ToList<FeatureFlag>();
             results.Sort((x, y) => x.Name.CompareTo(y.Name));
 
             return results;
         }
 
-        public async Task<FeatureFlag> GetFeatureFlag(string name)
+        public FeatureFlag GetFeatureFlag(string name)
         {
-            CloudTable featureFlagsTable = CreateConnection();
+            TableClient featureFlagsTable = CreateConnection();
 
             // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<FeatureFlag>("FeatureFlag", name);
+            FeatureFlag queryResult = featureFlagsTable.GetEntity<FeatureFlag>("FeatureFlag", name);
 
-            // Execute the retrieve operation.
-            TableResult retrievedResult = await featureFlagsTable.ExecuteAsync(retrieveOperation);
-
-            return (FeatureFlag)retrievedResult.Result;
+            return queryResult;
         }
 
-        public async Task<bool> CheckFeatureFlag(string name, string environment)
+        public bool CheckFeatureFlag(string name, string environment)
         {
-            CloudTable featureFlagsTable = CreateConnection();
-
-            // Create a retrieve operation that takes a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<FeatureFlag>("FeatureFlag", name);
-
-            // Execute the retrieve operation.
-            TableResult retrievedResult = await featureFlagsTable.ExecuteAsync(retrieveOperation);
-
-            FeatureFlag featureFlag = (FeatureFlag)retrievedResult.Result;
+            FeatureFlag featureFlag = GetFeatureFlag(name);
 
             bool result;
             switch (environment.ToLower())
@@ -106,44 +96,24 @@ namespace FeatureFlags.Service.DataAccess
                     throw new Exception("Unknown environment: " + environment + " for feature flag " + name);
             }
 
-            await SaveFeatureFlag(featureFlag);
+            SaveFeatureFlag(featureFlag);
 
             return result;
         }
 
-        public async Task<bool> SaveFeatureFlag(FeatureFlag featureFlag)
+        public bool SaveFeatureFlag(FeatureFlag featureFlag)
         {
-            CloudTable featureFlagsTable = CreateConnection();
+            TableClient featureFlagsTable = CreateConnection();
+            featureFlagsTable.UpsertEntity(featureFlag);
 
-            // Create the TableOperation that inserts the customer entity.
-            TableOperation insertOperation = TableOperation.InsertOrMerge(featureFlag);
-
-            // Execute the insert operation.
-            await featureFlagsTable.ExecuteAsync(insertOperation);
             return true;
         }
 
-        public async Task<bool> DeleteFeatureFlag(string name)
+        public bool DeleteFeatureFlag(string name)
         {
-            CloudTable featureFlagsTable = CreateConnection();
+            TableClient featureFlagsTable = CreateConnection();
+            featureFlagsTable.DeleteEntity("FeatureFlag", name);
 
-            // Create a retrieve operation that expects a customer entity.
-            TableOperation retrieveOperation = TableOperation.Retrieve<FeatureFlag>("FeatureFlag", name);
-
-            // Execute the operation.
-            TableResult retrievedResult = await featureFlagsTable.ExecuteAsync(retrieveOperation);
-
-            // Assign the result to a CustomerEntity object.
-            FeatureFlag deleteEntity = (FeatureFlag)retrievedResult.Result;
-
-            if (deleteEntity != null)
-            {
-                // Create the TableOperation that inserts the customer entity.
-                TableOperation deleteOperation = TableOperation.Delete(deleteEntity);
-
-                // Execute the delete operation.
-                await featureFlagsTable.ExecuteAsync(deleteOperation);
-            }
             return true;
         }
 

@@ -1,17 +1,14 @@
 ﻿using FeatureFlags.Models;
-using Microsoft.Azure.Cosmos.Table;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FeatureFlags.Service.DataAccess
 {
     public interface IFeatureFlagsStorageTable
     {
-        Task<IEnumerable<FeatureFlag>> GetFeatureFlags();
-        Task<FeatureFlag> GetFeatureFlag(string name);
-        Task<bool> CheckFeatureFlag(string name, string environment);
-        Task<bool> SaveFeatureFlag(FeatureFlag featureFlag);
-        Task<bool> DeleteFeatureFlag(string name);
-
+        IEnumerable<FeatureFlag> GetFeatureFlags();
+        FeatureFlag GetFeatureFlag(string name);
+        bool CheckFeatureFlag(string name, string environment);
+        bool SaveFeatureFlag(FeatureFlag featureFlag);
+        bool DeleteFeatureFlag(string name);
     }
 }
