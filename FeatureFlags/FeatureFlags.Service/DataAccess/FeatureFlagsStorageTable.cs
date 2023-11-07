@@ -1,11 +1,10 @@
-﻿using FeatureFlags.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Azure;
 using Azure.Data.Tables;
+using FeatureFlags.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Azure;
 
 namespace FeatureFlags.Service.DataAccess
 {
@@ -104,6 +103,7 @@ namespace FeatureFlags.Service.DataAccess
         public bool SaveFeatureFlag(FeatureFlag featureFlag)
         {
             TableClient featureFlagsTable = CreateConnection();
+            featureFlag.ETag = new Azure.ETag("*");
             featureFlagsTable.UpsertEntity(featureFlag);
 
             return true;

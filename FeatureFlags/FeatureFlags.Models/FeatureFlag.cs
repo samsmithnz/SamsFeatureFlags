@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.Data.Tables;
 using System;
+using System.Text.Json.Serialization;
 
 namespace FeatureFlags.Models
 {
@@ -103,6 +104,7 @@ namespace FeatureFlags.Models
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
+        [JsonIgnore]
         public ETag ETag { get; set; }
     }
 }
