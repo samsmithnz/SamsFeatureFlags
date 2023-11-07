@@ -2,27 +2,16 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@model Payload<List<FeatureFlag>>
+@model Tuple<List<FeatureFlag>, string>
 @{
-    var ServiceURL = Model.ServiceURL;
+    var ServiceURL = Model.Item2;
 }
 
 <div class="text-center">
     <h1 class="display-4">Sams Feature Flags management</h1>
 </div>
-
-@if (Model.ServiceMessage != "")
-{
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        <b>@Model.ServiceMessage</b><br /><br />
-        @Model.ServiceError
-    </div>
-}
-else
-{
-    <br />
-    @Html.ActionLink("Add feature flag", "AddFeatureFlag", "Home", null, new { @class = "btn btn-info" })
-}
+<br />
+@Html.ActionLink("Add feature flag", "AddFeatureFlag", "Home", null, new { @class = "btn btn-info" })
 <br />
 <br />
 
@@ -35,9 +24,9 @@ else
         <th width="18%">QA</th>
         <th width="18%">Prod</th>
     </tr>
-    @if (Model.Data != null)
+    @if (Model != null)
     {
-        foreach (FeatureFlag item in Model.Data)
+        foreach (FeatureFlag item in Model.Item1)
         {
             if (item.Name != "UnitTestFeatureFlag01")
             {

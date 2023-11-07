@@ -28,8 +28,8 @@ namespace FeatureFlags.Service.DataAccess
             string? url = _configuration["AppSettings:TableStorageURL"];
             string? name = _configuration["FeatureFlagsStorageName"];
             string? accessKey = _configuration["FeatureFlagsStorageAccessKey"];
-            string tableName = "FeatureFlags";
-            if (url != null && name != null && accessKey != null)
+            string? tableName = _configuration["AppSettings:TableName"];
+            if (url != null && name != null && accessKey != null && tableName != null)
             {
                 TableServiceClient storageAccount = new(
                       new Uri(url),
