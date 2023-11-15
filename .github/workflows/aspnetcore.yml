@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  dotNetVersion: net7.0
+  dotNetVersion: net8.0
   dotNetConfiguration: Release
-  dotNetSDKVersion: 7.0.x
+  dotNetSDKVersion: 8.0.x
   dotNetSDKIncludePrerelease: false
   runtimeTarget: win-x86
   
@@ -210,7 +210,7 @@ jobs:
         uses: samsmithnz/SamsDotNetSonarCloudAction@v2.0.1
         with:
           projects: 'FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj,FeatureFlags/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,FeatureFlags/FeatureFlags.Models/FeatureFlags.Models.csproj,FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj,FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj,FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
-          dotnet-version: '7.0.x'
+          dotnet-version: '8.0.x'
           sonarcloud-organization: samsmithnz-github
           sonarcloud-project: samsmithnz_SamsFeatureFlags
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
