@@ -104,6 +104,7 @@ namespace FeatureFlags.Service.DataAccess
         {
             TableClient featureFlagsTable = CreateConnection();
             featureFlag.ETag = new Azure.ETag("*");
+            featureFlag.LastUpdated = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
             featureFlagsTable.UpsertEntity(featureFlag);
 
             return true;
