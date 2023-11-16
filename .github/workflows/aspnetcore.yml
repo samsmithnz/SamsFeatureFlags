@@ -51,7 +51,7 @@ jobs:
     - name: DotNet Publish Web Site
       run: dotnet publish src/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Demo Web Site
-      run: dotnet publish FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
 
     #Publish functional tests
     - name: DotNet build functional tests
@@ -209,7 +209,7 @@ jobs:
       - name: Run Sonarcloud test
         uses: samsmithnz/SamsDotNetSonarCloudAction@v2.0.1
         with:
-          projects: 'src/FeatureFlags.Service/FeatureFlags.Service.csproj,src/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,src/FeatureFlags.Models/FeatureFlags.Models.csproj,src/FeatureFlags.Tests/FeatureFlags.Tests.csproj,src/FeatureFlags.Web/FeatureFlags.Web.csproj,FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
+          projects: 'src/FeatureFlags.Service/FeatureFlags.Service.csproj,src/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,src/FeatureFlags.Models/FeatureFlags.Models.csproj,src/FeatureFlags.Tests/FeatureFlags.Tests.csproj,src/FeatureFlags.Web/FeatureFlags.Web.csproj,src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '8.0.x'
           sonarcloud-organization: samsmithnz-github
           sonarcloud-project: samsmithnz_SamsFeatureFlags
