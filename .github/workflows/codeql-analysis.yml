@@ -76,10 +76,10 @@ jobs:
     - name: build projects
       if: ${{ matrix.language }} == 'csharp'
       run: |
-        dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
-        dotnet build FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
-        dotnet build FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
-        dotnet build FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
+        dotnet build src/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
+        dotnet build src/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
+        dotnet build src/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
+        dotnet build src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
