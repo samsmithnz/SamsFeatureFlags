@@ -47,24 +47,24 @@ jobs:
               
     #Publish web and web service projects
     - name: DotNet Publish Web Service
-      run: dotnet publish FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Web Site
-      run: dotnet publish FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Demo Web Site
-      run: dotnet publish FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
 
     #Publish functional tests
     - name: DotNet build functional tests
-      run: dotnet build FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}} #--self-contained false #--self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet build src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --runtime ${{env.runtimeTarget}} #--self-contained false #--self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish functional tests
-      run: dotnet publish FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --output ${{ github.workspace }}/functionalTests --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj --configuration ${{ env.dotNetConfiguration }} --output ${{ github.workspace }}/functionalTests --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: Copy chromedriver for functional test
-      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "${{ github.workspace }}/functionalTests"
+      run: copy "src/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/chromedriver.exe" "${{ github.workspace }}/functionalTests"
       shell: powershell
     - name: DotNet restore functional tests to get correct Newtonsoft version
-      run: dotnet restore FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj 
+      run: dotnet restore src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj 
     - name: Copy new NewtonSoft version for functional test
-      run: copy "FeatureFlags/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/Newtonsoft.Json.dll" "${{ github.workspace }}/functionalTests"
+      run: copy "src/FeatureFlags.FunctionalTests/bin/${{ env.dotNetConfiguration }}/${{ env.dotNetVersion }}/${{env.runtimeTarget}}/Newtonsoft.Json.dll" "${{ github.workspace }}/functionalTests"
       shell: powershell
 
     
@@ -106,19 +106,19 @@ jobs:
     - name: Variable Substitution appsettings file for tests
       uses: microsoft/variable-substitution@v1
       with:
-        files: 'FeatureFlags/FeatureFlags.Tests/appsettings.json'
+        files: 'src/FeatureFlags.Tests/appsettings.json'
       env:
         AppSettings.ClientSecret: "${{ secrets.ClientSecret }}"   
     - name: Build automated tests project
-      run: dotnet build FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
+      run: dotnet build src/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }}
     - name: Run automated unit and integration tests
-      run: dotnet test FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./FeatureFlags/FeatureFlags.Tests/CodeCoverage.runsettings #/p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test src/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./src/FeatureFlags.Tests/CodeCoverage.runsettings #/p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       if: 0 == 1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: FeatureFlags/FeatureFlags.Tests/TestResults/coverage.info 
+        path-to-lcov: src/FeatureFlags.Tests/TestResults/coverage.info 
 
   #Deploy the artifacts to Azure
   deploy:
@@ -209,7 +209,7 @@ jobs:
       - name: Run Sonarcloud test
         uses: samsmithnz/SamsDotNetSonarCloudAction@v2.0.1
         with:
-          projects: 'FeatureFlags/FeatureFlags.Service/FeatureFlags.Service.csproj,FeatureFlags/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,FeatureFlags/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,FeatureFlags/FeatureFlags.Models/FeatureFlags.Models.csproj,FeatureFlags/FeatureFlags.Tests/FeatureFlags.Tests.csproj,FeatureFlags/FeatureFlags.Web/FeatureFlags.Web.csproj,FeatureFlags/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
+          projects: 'src/FeatureFlags.Service/FeatureFlags.Service.csproj,src/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,src/FeatureFlags.Models/FeatureFlags.Models.csproj,src/FeatureFlags.Tests/FeatureFlags.Tests.csproj,src/FeatureFlags.Web/FeatureFlags.Web.csproj,src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '8.0.x'
           sonarcloud-organization: samsmithnz-github
           sonarcloud-project: samsmithnz_SamsFeatureFlags

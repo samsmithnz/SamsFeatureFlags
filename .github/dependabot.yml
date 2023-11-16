@@ -1,7 +1,7 @@
 version: 2
 updates:
 - package-ecosystem: nuget
-  directory: "/FeatureFlags/FeatureFlags.FunctionalTests"
+  directory: "/src/FeatureFlags.FunctionalTests"
   schedule:
     interval: daily
     time: "06:00"
@@ -14,7 +14,7 @@ updates:
       patterns: ["*"]
       update-types: ["minor", "patch"]
 - package-ecosystem: nuget
-  directory: "/FeatureFlags/FeatureFlags.Tests"
+  directory: "/src/FeatureFlags.Tests"
   schedule:
     interval: daily
     time: "06:00"
@@ -27,7 +27,7 @@ updates:
       patterns: ["*"]
       update-types: ["minor", "patch"]
 - package-ecosystem: nuget
-  directory: "/FeatureFlags/FeatureFlags.Web"
+  directory: "/src/FeatureFlags.Web"
   schedule:
     interval: daily
     time: "06:00"
@@ -40,7 +40,7 @@ updates:
       patterns: ["*"]
       update-types: ["minor", "patch"]
 - package-ecosystem: nuget
-  directory: "/FeatureFlags/FeatureFlags.Models"
+  directory: "/src/FeatureFlags.Models"
   schedule:
     interval: daily
     time: "06:00"
@@ -53,7 +53,7 @@ updates:
       patterns: ["*"]
       update-types: ["minor", "patch"]
 - package-ecosystem: nuget
-  directory: "/FeatureFlags/FeatureFlags.Service"
+  directory: "/src/FeatureFlags.Service"
   schedule:
     interval: daily
     time: "06:00"
