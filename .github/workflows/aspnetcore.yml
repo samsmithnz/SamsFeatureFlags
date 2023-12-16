@@ -70,22 +70,22 @@ jobs:
     
     #Publish build artifacts to GitHub
     - name: Upload web service build artifacts back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: serviceapp
         path: ${{ github.workspace }}/webservice
     - name: Upload website build artifacts back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: webapp
         path: ${{ github.workspace }}/web
     - name: Upload website build artifacts back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: webappDemo
         path: ${{ github.workspace }}/webDemo
     - name: Upload function test build artifacts back to GitHub
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: functionaltests
         path: ${{ github.workspace }}/functionalTests
@@ -144,22 +144,22 @@ jobs:
     
     #Download the artifacts from GitHub
     - name: Download serviceapp artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         name: serviceapp
         path: serviceapp
     - name: Download webapp artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         name: webapp
         path: webapp
     - name: Download webappDemo artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         name: webappDemo
         path: webappDemo
     - name: Download functionaltests artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         name: functionaltests.zip
         path: functionaltests
