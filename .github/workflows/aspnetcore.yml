@@ -161,7 +161,7 @@ jobs:
     - name: Download functionaltests artifact
       uses: actions/download-artifact@v3
       with:
-        name: functionaltests.zip
+        name: functionaltests
         path: functionaltests
     
     #Deploy service and website to Azure staging slots
