@@ -146,17 +146,17 @@ jobs:
     - name: Download serviceapp artifact
       uses: actions/download-artifact@v4
       with:
-        name: serviceapp.zip
+        name: serviceapp
         path: serviceapp
     - name: Download webapp artifact
       uses: actions/download-artifact@v4
       with:
-        name: webapp.zip
+        name: webapp
         path: webapp
     - name: Download webappDemo artifact
       uses: actions/download-artifact@v4
       with:
-        name: webappDemo.zip
+        name: webappDemo
         path: webappDemo
     - name: Download functionaltests artifact
       uses: actions/download-artifact@v4
