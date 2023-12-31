@@ -69,7 +69,7 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       if: ${{ matrix.language }} == 'csharp'
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 

@@ -40,7 +40,7 @@ jobs:
              
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
@@ -98,7 +98,7 @@ jobs:
     - uses: actions/checkout@v4
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
@@ -127,7 +127,7 @@ jobs:
     steps:      
     # Install SDK for Selenium/Functional tests
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4.0.0
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }}   
@@ -207,7 +207,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@v2.0.1
+        uses: samsmithnz/SamsDotNetSonarCloudAction@v2.1.0
         with:
           projects: 'src/FeatureFlags.Service/FeatureFlags.Service.csproj,src/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,src/FeatureFlags.Models/FeatureFlags.Models.csproj,src/FeatureFlags.Tests/FeatureFlags.Tests.csproj,src/FeatureFlags.Web/FeatureFlags.Web.csproj,src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '8.0.x'
