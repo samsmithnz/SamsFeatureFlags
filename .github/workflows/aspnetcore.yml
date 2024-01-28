@@ -207,7 +207,7 @@ jobs:
     if: github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
-        uses: samsmithnz/SamsDotNetSonarCloudAction@v2.1.0
+        uses: samsmithnz/SamsDotNetSonarCloudAction@v2.1.1
         with:
           projects: 'src/FeatureFlags.Service/FeatureFlags.Service.csproj,src/FeatureFlags.ConsoleApp/FeatureFlags.ConsoleApp.csproj,src/FeatureFlags.FunctionalTests/FeatureFlags.FunctionalTests.csproj,src/FeatureFlags.Models/FeatureFlags.Models.csproj,src/FeatureFlags.Tests/FeatureFlags.Tests.csproj,src/FeatureFlags.Web/FeatureFlags.Web.csproj,src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj'
           dotnet-version: '8.0.x'
@@ -250,12 +250,12 @@ jobs:
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.8
+      uses: Azure/cli@v1.0.9
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.8
+      uses: Azure/cli@v1.0.9
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 
