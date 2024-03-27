@@ -26,11 +26,11 @@ jobs:
         
     # install and calculate the new version with GitVersion  
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.12.1
+      uses: gittools/actions/gitversion/setup@v1.1.1
       with:
         versionSpec: '5.x'
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v0.12.1
+      uses: gittools/actions/gitversion/execute@v1.1.1
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -133,7 +133,7 @@ jobs:
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }}   
     # Login with the secret SP details
     - name: Log into Azure
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_SP }}  
     - name: Deployment setup PowerShell script
@@ -244,18 +244,18 @@ jobs:
     # Login with the secret SP details
     - name: Log into Azure
       if: 0==1
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_SP }}     
       #Swap staging slots with prod
     - name: Swap web service staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.9
+      uses: Azure/cli@v2.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-service --slot staging --target-slot production
     - name: Swap web site staging slot to production
       if: 0==1
-      uses: Azure/cli@v1.0.9
+      uses: Azure/cli@v2.0.0
       with:
         inlineScript: az webapp deployment slot swap --resource-group FeatureFlags --name featureflags-prod-eu-web --slot staging --target-slot production
 
