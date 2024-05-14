@@ -1,4 +1,6 @@
 ﻿using FeatureFlags.Web.Controllers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
+using System.Security.Claims;
 
 namespace FeatureFlags.Web
 {
@@ -37,6 +40,34 @@ namespace FeatureFlags.Web
             //Add DI for the service api client 
             services.AddScoped<IServiceAPIClient, ServiceAPIClient>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddGitHub(options =>
+            {
+                options.ClientId = Configuration["GitHubOAuth:ClientId"];
+                options.ClientSecret = Configuration["GitHubOAuth:ClientSecret"];
+                options.Scope.Add("read:user");
+                options.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = async context =>
+                    {
+                        var accessToken = context.AccessToken;
+                        var githubUser = /* Call GitHub API to get user info using accessToken */;
+                        var identifier = githubUser.Id.ToString();
+                        var claims = new[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, identifier),
+                            new Claim(ClaimTypes.Name, githubUser.Name)
+                        };
+                        var identity = new ClaimsIdentity(claims, context.Scheme.Name);
+                        context.Principal = new ClaimsPrincipal(identity);
+                    }
+                };
+            });
+
             services.AddApplicationInsightsTelemetry();
         }
 
@@ -59,6 +90,9 @@ namespace FeatureFlags.Web
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(routes =>
             {
