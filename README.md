@@ -11,6 +11,29 @@ Our main application will call our feature flags service, asking for the state o
 - Tracking to record the total number of uses and last date/time the feature flag was used
 <kbd><img src="https://samlearnsazure.files.wordpress.com/2019/09/23samsappfeatureflags-2.png?w=1160" style="border: 1px solid black" /></kbd>
 
+## GitHub OAuth Setup
+
+To enable login with GitHub account, you need to set up GitHub OAuth credentials. Follow these steps:
+
+1. Go to your GitHub account settings.
+2. Navigate to Developer settings > OAuth Apps.
+3. Click on the "New OAuth App" button.
+4. Fill in the application name, homepage URL, and the authorization callback URL as specified by your application requirements.
+5. Once the application is registered, GitHub will provide a `Client ID` and a `Client Secret`. Keep these credentials secure.
+
+### Configuring the credentials in your project
+
+Add the following settings to your `appsettings.json` file in the `FeatureFlags.Web` project:
+
+```json
+"GitHubOAuth": {
+  "ClientId": "YourClientIdHere",
+  "ClientSecret": "YourClientSecretHere"
+}
+```
+
+Replace `YourClientIdHere` and `YourClientSecretHere` with the credentials provided by GitHub.
+
 # Build and Test
 Uses .NET 6, MSTest, and Selenium. A GitHub action runs the CI/CD process. 
 
