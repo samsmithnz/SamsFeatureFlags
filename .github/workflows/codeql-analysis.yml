@@ -23,7 +23,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       dotNetVersion: net8.0
       dotNetSDKVersion: "8.0.x"
@@ -69,7 +69,7 @@ jobs:
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       if: ${{ matrix.language }} == 'csharp'
-      uses: actions/setup-dotnet@v4.0.0
+      uses: actions/setup-dotnet@v4.0.1
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 

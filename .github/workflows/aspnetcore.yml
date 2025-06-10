@@ -1,8 +1,8 @@
 name: "Feature Flags CI/CD"
 on:
   push:
-  schedule:
-    - cron:  '0 5 * * *'
+  #schedule:
+  #  - cron:  '0 5 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -26,11 +26,11 @@ jobs:
         
     # install and calculate the new version with GitVersion  
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v1.1.1
+      uses: gittools/actions/gitversion/setup@v1.2.0
       with:
         versionSpec: '5.x'
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v1.1.1
+      uses: gittools/actions/gitversion/execute@v1.2.0
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -40,7 +40,7 @@ jobs:
              
     # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v4.0.0
+      uses: actions/setup-dotnet@v4.0.1
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
@@ -98,7 +98,7 @@ jobs:
     - uses: actions/checkout@v4
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v4.0.0
+      uses: actions/setup-dotnet@v4.0.1
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }} 
@@ -122,12 +122,12 @@ jobs:
 
   #Deploy the artifacts to Azure
   deploy:
-    runs-on: windows-2022
+    runs-on: windows-latest
     needs: [build, test]        
     steps:      
     # Install SDK for Selenium/Functional tests
     - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v4.0.0
+      uses: actions/setup-dotnet@v4.0.1
       with:
         dotnet-version: ${{ env.dotNetSDKVersion }}
         include-prerelease: ${{ env.dotNetSDKIncludePrerelease }}   
