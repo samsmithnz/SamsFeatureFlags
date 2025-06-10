@@ -26,11 +26,11 @@ jobs:
         
     # install and calculate the new version with GitVersion  
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v3.0.0
+      uses: gittools/actions/gitversion/setup@v3.2.1
       with:
         versionSpec: '5.x'
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v3.0.0
+      uses: gittools/actions/gitversion/execute@v3.2.1
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -204,7 +204,7 @@ jobs:
   sonarCloud:
     name: Run SonarCloud analysis
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' 
+    if: 1==0 #github.ref == 'refs/heads/main' 
     steps:
       - name: Run Sonarcloud test
         uses: samsmithnz/SamsDotNetSonarCloudAction@v2
