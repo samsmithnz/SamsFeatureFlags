@@ -222,7 +222,7 @@ jobs:
     needs: 
     - build
     - deploy
-    - sonarCloud
+    #- sonarCloud
     #Only deploy if running off the main branch - we don't want to deploy off feature branches
     if: github.ref == 'refs/heads/main'
         
