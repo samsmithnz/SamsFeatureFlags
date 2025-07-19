@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: windows-latest
     outputs: # https://stackoverflow.com/questions/59175332/using-output-from-a-previous-job-in-a-new-one-in-a-github-action
-      Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }} 
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }} 
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}   
     steps:
     - uses: actions/checkout@v4
@@ -28,14 +28,13 @@ jobs:
     - name: Install GitVersion
       uses: gittools/actions/gitversion/setup@v4.0.1
       with:
-        versionSpec: '5.x'
+        versionSpec: '6.x'
     - name: Determine Version
       uses: gittools/actions/gitversion/execute@v4.0.1
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
-        echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
-        echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"   
+        echo "MajorMinorPatch: ${{ steps.gitversion.outputs.MajorMinorPatch }}"
         echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"    
              
     # install dependencies, build, and test
@@ -47,11 +46,11 @@ jobs:
               
     #Publish web and web service projects
     - name: DotNet Publish Web Service
-      run: dotnet publish src/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlags.Service/FeatureFlags.Service.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }} --output ${{ github.workspace }}/webservice --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Web Site
-      run: dotnet publish src/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlags.Web/FeatureFlags.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }} --output ${{ github.workspace }}/web --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
     - name: DotNet Publish Demo Web Site
-      run: dotnet publish src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
+      run: dotnet publish src/FeatureFlagsDemo.Web/FeatureFlagsDemo.Web.csproj --configuration ${{ env.dotNetConfiguration }} -p:Version=${{ steps.gitversion.outputs.MajorMinorPatch }} --output ${{ github.workspace }}/webDemo --runtime ${{env.runtimeTarget}} --self-contained false # --self-contained true --runtime ${{env.runtimeTarget}}
 
     #Publish functional tests
     - name: DotNet build functional tests
