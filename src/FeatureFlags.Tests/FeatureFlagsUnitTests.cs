@@ -17,6 +17,29 @@ namespace FeatureFlags.Tests
     {
 
         [TestMethod]
+        public void UrlEncodingUnitTest()
+        {
+            //Arrange
+            string baseUrl = "https://example.com/api/FeatureFlags/SaveFeatureFlagState";
+            string specialCharName = "test & < > flag"; // Contains URL special characters
+            string specialCharEnvironment = "dev+test"; // Contains URL special characters
+            bool isEnabled = true;
+
+            //Act
+            string encodedName = Uri.EscapeDataString(specialCharName);
+            string encodedEnvironment = Uri.EscapeDataString(specialCharEnvironment);
+            string url = $"{baseUrl}?name={encodedName}&environment={encodedEnvironment}&isEnabled={isEnabled}";
+
+            //Assert
+            Assert.IsFalse(encodedName.Contains("&"), "Encoded name should not contain unencoded ampersands");
+            Assert.IsFalse(encodedName.Contains("<"), "Encoded name should not contain unencoded less-than characters");
+            Assert.IsFalse(encodedName.Contains(">"), "Encoded name should not contain unencoded greater-than characters");
+            Assert.IsFalse(encodedEnvironment.Contains("+"), "Encoded environment should not contain unencoded plus characters");
+            Assert.IsTrue(url.Contains("test%20%26%20%3C%20%3E%20flag"), "Name should be properly URL encoded");
+            Assert.IsTrue(url.Contains("dev%2Btest"), "Environment should be properly URL encoded");
+        }
+
+        [TestMethod]
         public void CheckFeatureFlagUnitTest()
         {
             //Arrange

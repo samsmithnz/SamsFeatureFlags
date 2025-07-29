@@ -29,7 +29,7 @@
         string[] featureDetails = toggleName.Split('_');
         string name = featureDetails[0];
         string environment = featureDetails[1];
-        string url = _configuration["AppSettings:WebServiceURL"] + "/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled;
+        string url = _configuration["AppSettings:WebServiceURL"] + "/api/FeatureFlags/SaveFeatureFlagState?name=" + Uri.EscapeDataString(name) + "&environment=" + Uri.EscapeDataString(environment) + "&isEnabled=" + isEnabled;
 
         HttpRequestMessage request = new(HttpMethod.Get, url);
         HttpClient client = ClientFactory.CreateClient();
