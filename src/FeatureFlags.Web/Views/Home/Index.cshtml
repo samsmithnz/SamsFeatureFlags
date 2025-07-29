@@ -126,9 +126,9 @@
         var name = featureDetails[0];
         var environment = featureDetails[1]
         var isEnabled = item.checked;
-        //console.log("@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled);
+        //console.log("@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + encodeURIComponent(name) + "&environment=" + encodeURIComponent(environment) + "&isEnabled=" + isEnabled);
         $.ajax({
-            url: "@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + name + "&environment=" + environment + "&isEnabled=" + isEnabled,
+            url: "@ServiceURL/api/FeatureFlags/SaveFeatureFlagState?name=" + encodeURIComponent(name) + "&environment=" + encodeURIComponent(environment) + "&isEnabled=" + isEnabled,
             success: function (resultData) {
                 location.reload();
             }
