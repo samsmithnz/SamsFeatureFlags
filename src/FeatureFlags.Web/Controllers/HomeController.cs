@@ -35,6 +35,14 @@ namespace FeatureFlags.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFeatureFlagPost(string newName, string newDescription)
         {
+            if (!ModelState.IsValid)
+            {
+                // Optionally, you can pass the current values back to the view
+                ViewBag.NewName = newName;
+                ViewBag.NewDescription = newDescription;
+                return View("AddFeatureFlag");
+            }
+
             List<FeatureFlag> featureFlags = await _ServiceApiClient.GetFeatureFlags();
 
             bool foundDuplicate = false;
