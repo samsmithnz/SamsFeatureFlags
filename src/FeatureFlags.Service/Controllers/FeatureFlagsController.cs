@@ -32,6 +32,10 @@ namespace FeatureFlags.Service.Controllers
         [HttpPost("SaveFeatureFlag")]
         public bool SaveFeatureFlag(FeatureFlag featureFlag)
         {
+            if (!ModelState.IsValid)
+            {
+                return false;
+            }
             return _featureFlagsDA.SaveFeatureFlag(featureFlag);
         }
 
@@ -74,6 +78,10 @@ namespace FeatureFlags.Service.Controllers
         [HttpPost("DeleteFeatureFlag")]
         public bool DeleteFeatureFlag(string name)
         {
+            if (!ModelState.IsValid)
+            {
+                return false;
+            }
             return _featureFlagsDA.DeleteFeatureFlag(name);
         }
 
