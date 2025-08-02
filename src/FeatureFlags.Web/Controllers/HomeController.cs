@@ -58,7 +58,7 @@ namespace FeatureFlags.Web.Controllers
                     FeatureFlag featureFlag = new FeatureFlag(model.NewName)
                     {
                         Name = model.NewName,
-                        Description = model.NewDescription ?? string.Empty,
+                        Description = model.NewDescription,
                         LastUpdated = DateTime.Now
                     };
                     await _ServiceApiClient.AddFeatureFlag(featureFlag);
