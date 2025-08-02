@@ -29,18 +29,15 @@ namespace FeatureFlags.Web.Controllers
 
         public IActionResult AddFeatureFlag()
         {
-            return View();
+            return View(new AddFeatureFlagViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddFeatureFlagPost(string newName, string newDescription)
+        public async Task<IActionResult> AddFeatureFlagPost(AddFeatureFlagViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                // Optionally, you can pass the current values back to the view
-                ViewBag.NewName = newName;
-                ViewBag.NewDescription = newDescription;
-                return View("AddFeatureFlag");
+                return View("AddFeatureFlag", model);
             }
 
             List<FeatureFlag> featureFlags = await _ServiceApiClient.GetFeatureFlags();
@@ -50,7 +47,7 @@ namespace FeatureFlags.Web.Controllers
             {
                 foreach (FeatureFlag item in featureFlags)
                 {
-                    if (item.Name == newName)
+                    if (item.Name == model.NewName)
                     {
                         foundDuplicate = true;
                     }
@@ -58,10 +55,10 @@ namespace FeatureFlags.Web.Controllers
 
                 if (foundDuplicate == false)
                 {
-                    FeatureFlag featureFlag = new FeatureFlag(newName)
+                    FeatureFlag featureFlag = new FeatureFlag(model.NewName)
                     {
-                        Name = newName,
-                        Description = newDescription,
+                        Name = model.NewName,
+                        Description = model.NewDescription,
                         LastUpdated = DateTime.Now
                     };
                     await _ServiceApiClient.AddFeatureFlag(featureFlag);

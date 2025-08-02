@@ -1,15 +1,33 @@
 ﻿@using FeatureFlags.Models;
+@using FeatureFlags.Web.Models;
 @{
     ViewData["Title"] = "Home Page";
 }
-@model List<FeatureFlag>
+@model AddFeatureFlagViewModel
 
 <div class="text-center">
     <h1 class="display-4">Create new Feature Flag</h1>
 </div>
 
 <form asp-controller="Home" asp-action="AddFeatureFlagPost" method="post">
-    Name: @Html.TextBox("newName", "", null)<br />
-    Description: @Html.TextBox("newDescription", "", null)<br /><br />
-    <input type="submit" value="Create new feature flag" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="form-group">
+        <label asp-for="NewName"></label>
+        <input asp-for="NewName" class="form-control" />
+        <span asp-validation-for="NewName" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="NewDescription"></label>
+        <input asp-for="NewDescription" class="form-control" />
+        <span asp-validation-for="NewDescription" class="text-danger"></span>
+    </div>
+    
+    <br />
+    <input type="submit" value="Create new feature flag" class="btn btn-primary" />
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
