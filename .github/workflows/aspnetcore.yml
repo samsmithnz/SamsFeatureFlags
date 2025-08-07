@@ -26,11 +26,11 @@ jobs:
         
     # install and calculate the new version with GitVersion  
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v4.0.1
+      uses: gittools/actions/gitversion/setup@v4.1.0
       with:
         versionSpec: '6.x'
     - name: Determine Version
-      uses: gittools/actions/gitversion/execute@v4.0.1
+      uses: gittools/actions/gitversion/execute@v4.1.0
       id: gitversion # step id used as reference for output values
     - name: Display GitVersion outputs
       run: |
@@ -113,7 +113,7 @@ jobs:
     - name: Run automated unit and integration tests
       run: dotnet test src/FeatureFlags.Tests/FeatureFlags.Tests.csproj --configuration ${{ env.dotNetConfiguration }} --settings:./src/FeatureFlags.Tests/CodeCoverage.runsettings #/p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
     - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@v2.3.6
       if: 0 == 1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
