@@ -20,7 +20,7 @@ jobs:
       Version: ${{ steps.gitversion.outputs.MajorMinorPatch }} 
       CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}   
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0 #fetch-depth is needed for GitVersion
         
@@ -94,7 +94,7 @@ jobs:
     permissions:
       actions: read 
     steps:  
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       # install dependencies, build, and test
     - name: Setup Dotnet for use with actions
       uses: actions/setup-dotnet@v4.3.1
