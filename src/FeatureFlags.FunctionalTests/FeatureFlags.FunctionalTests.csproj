@@ -16,7 +16,7 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Selenium.WebDriver" Version="4.35.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="139.0.7258.15400" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="158.0.8127.8800" />
   </ItemGroup>
 
   <ItemGroup>
